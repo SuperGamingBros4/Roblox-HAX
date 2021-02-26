@@ -1,4 +1,4 @@
-Script for Roblox
+Totally Original Script Hub for Roblox
 
 _____________________________________
 Just Copy
