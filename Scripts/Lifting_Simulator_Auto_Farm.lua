@@ -61,7 +61,11 @@ end)
 coroutine.resume(AutoSell); coroutine.resume(AutoStrength)
 
 -- Instances:
-loadstring(game:HttpGet(('https://pastebin.com/raw/zQ9zFW0f'),true))()
+if not game.CoreGui:FindFirstChild("ScreenGui") then
+    loadstring(game:HttpGet(('https://pastebin.com/raw/zQ9zFW0f'),true))()
+else warn("AutoBuy Script already loaded") end
+
+if not game.Players.LocalPlayer.PlayerGui:FindFirstChild("MaGiXxWG") then
 
 local MaGiXxWG = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
@@ -83,7 +87,7 @@ Main.Parent = MaGiXxWG
 Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Main.BorderSizePixel = 0
-Main.Position = UDim2.new(0.362974942, 0, 0.35117057, 0)
+Main.Position = UDim2.new(0.02, 0, 0.75, 0)
 Main.Size = UDim2.new(0, 257, 0, 103)
 Main.Active = true
 Main.Draggable = true
@@ -187,6 +191,8 @@ MaGiXxAutoFarmOFF.MouseButton1Down:connect(function()
     _G.Lift = true
 
 end)
+
+else warn("MaGiXx Gui Already loaded") end
 
 --[[Scripter:MaGiXx Gui:MaGiXx
           pleas sub           ]]--
