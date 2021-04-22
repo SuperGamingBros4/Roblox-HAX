@@ -1,7 +1,6 @@
 -- Variables:
-
-local GameIds = {5709572883, "Lifting_Legends_Simulator.lua", 5817322596, "Speed_Legends_Simulator.lua", 3652625463, "Lifting_Simulator_Auto_Farm.lua", 6531005851, "Lifting_Titans.lua"}
---Structure is {GameId, LuaFile}
+-- Grab Game List
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))()
 
 
 local GameFound = false
@@ -12,10 +11,10 @@ local TweenService = game:GetService("TweenService")
 local Market = game:GetService("MarketplaceService")
 
 -- Logic:
-for i,v in pairs(GameIds) do
+for i,v in pairs(_G.GameIds) do
 	if game.PlaceId == v then
 		GameFound = true
-		GameScript = GameIds[i+1]
+		GameScript = _G.GameIds[i+1]
 		print(Market:GetProductInfo(v).Name.." Detected")
 	end
 end
@@ -39,12 +38,13 @@ local DetectedGame = Instance.new("TextLabel")
 
 -- Functions:
 function Close()
-	Main:TweenSizeAndPosition(UDim2.new(0, 0,0, 0), UDim2.new(0, 0,1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-	DragIndicator:TweenSizeAndPosition(UDim2.new(0, 0, 0, 0), UDim2.new(0, 6,0.035, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-	Exit:TweenSizeAndPosition(UDim2.new(0, 0, 0, 0), UDim2.new(0.345, 0,0.756, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-	Load:TweenSizeAndPosition(UDim2.new(0, 0, 0, 0), UDim2.new(0.305, 0, 0.509, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-	DetectedGame:TweenSizeAndPosition(UDim2.new(0, 0, 0, 0), UDim2.new(0.059, 0, 0.238, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-	TopLabel:TweenSizeAndPosition(UDim2.new(0, 0, 0, 0), UDim2.new(0, 0, 0.059, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
+    Main:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+	Main:TweenPosition(UDim2.new(0, 0,1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
+	DragIndicator:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+	Exit:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+	Load:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+	DetectedGame:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+	TopLabel:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
 end
 
 --Properties:
@@ -155,9 +155,10 @@ else
 end
 
 -- Tweens:
-Main:TweenSizeAndPosition(UDim2.new(0, 592,0, 307), UDim2.new(0.284, 0,0.237, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-DragIndicator:TweenSizeAndPosition(UDim2.new(0, 578, 0, 10), UDim2.new(0, 6,0.035, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-Exit:TweenSizeAndPosition(UDim2.new(0, 184, 0, 50), UDim2.new(0.345, 0,0.756, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-Load:TweenSizeAndPosition(UDim2.new(0, 232, 0, 50), UDim2.new(0.305, 0, 0.509, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-DetectedGame:TweenSizeAndPosition(UDim2.new(0, 522, 0, 50), UDim2.new(0.059, 0, 0.238, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
-TopLabel:TweenSizeAndPosition(UDim2.new(0, 591, 0, 42), UDim2.new(0, 0, 0.059, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
+Main:TweenSize(UDim2.new(0, 592,0, 307), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+Main:TweenPosition(UDim2.new(0.284, 0,0.237, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 2, false)
+DragIndicator:TweenSize(UDim2.new(0, 578, 0, 10), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+Exit:TweenSize(UDim2.new(0, 184, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+Load:TweenSize(UDim2.new(0, 232, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+DetectedGame:TweenSize(UDim2.new(0, 522, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
+TopLabel:TweenSize(UDim2.new(0, 591, 0, 42), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 1, false)
