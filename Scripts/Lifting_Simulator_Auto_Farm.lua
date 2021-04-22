@@ -1,11 +1,11 @@
 -- Gui to Lua
 -- Version: 3.2
 
--- AutoLifting:       --Press L to use
+-- AutoLifting:       --Press Home to use
 getgenv().AutoLift = false
 if not HasLoaded then
     game:GetService("UserInputService").InputBegan:connect(function(inputObject, gameProcessedEvent)
-    if inputObject.KeyCode == Enum.KeyCode.L then
+    if inputObject.KeyCode == Enum.KeyCode.Home then
             if getgenv().AutoLift then getgenv().AutoLift = false
             else getgenv().AutoLift = true
             end
