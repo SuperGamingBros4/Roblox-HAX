@@ -11,7 +11,7 @@ function encrypt()
     print("Encrypted, Encrypted script copied to your clipboard.")
 end
 function returndecrypt()
-    return(input)
+   return(string.char(table.concat(string.split(input, "\\"), ", ")))
 end
 function decrypt()
     setclipboard(""..returndecrypt())
