@@ -1,13 +1,7 @@
 local input = _G.input
-local outputtable = {}
 function encrypt()
-    for i=1, input:len() do
-        table.insert(outputtable, string.byte(input, i))
-    end
-    local output = table.concat(outputtable, "\\")
-    _G.outputtable = outputtable
-    _G.output = output
-    setclipboard("\\"..output)
+    local output = input:gsub(".", function(String) return("\\") .. String:byte() end)
+    setclipboard(output)
     print("Encrypted, Encrypted script copied to your clipboard.")
 end
 function returndecrypt()
@@ -15,5 +9,5 @@ function returndecrypt()
 end
 function decrypt()
     setclipboard(""..returndecrypt())
-	print("Decrypted, Decrypted script copied to your clipboard.")
+    print("Decrypted, Decrypted script copied to your clipboard.")
 end
