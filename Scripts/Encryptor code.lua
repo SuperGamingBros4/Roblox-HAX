@@ -11,7 +11,7 @@ function encrypt()
     print("Encrypted, Encrypted script copied to your clipboard.")
 end
 function returndecrypt()
-   return(input)
+   return(_G.input)
 end
 function decrypt()
     setclipboard(""..returndecrypt())
