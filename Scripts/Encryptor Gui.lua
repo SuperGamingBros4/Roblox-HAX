@@ -36,16 +36,16 @@ if _G.cryptorLoaded == nil then
 	    print("Encrypted, Encrypted script copied to your clipboard.")
 	end
 	function returndecrypt()
-		local output = ""
+	    local input = _G.Input
+	    local output = ""
 	    for i, v in pairs(input:split("\\")) do
 		if v ~= "" and v ~= nil then
-			output = output..v:char()
+		     output = output..v:char()
 		end
 	    end
 	    return output
 	end
 	function decrypt()
-	    local input = _G.Input
 	    setclipboard(""..returndecrypt())
 	    print("Decrypted, Decrypted script copied to your clipboard.")
 	end
