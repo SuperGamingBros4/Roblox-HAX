@@ -11,7 +11,13 @@ function encrypt()
     print("Encrypted, Encrypted script copied to your clipboard.")
 end
 function returndecrypt()
-    return(input)
+	local output = ""
+    for i, v in pairs(input:split("\\")) do
+    	if v ~= "" and v ~= nil then
+    		output = output..v:char()
+    	end
+    end
+    return output
 end
 function decrypt()
     setclipboard(""..returndecrypt())
