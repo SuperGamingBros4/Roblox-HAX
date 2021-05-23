@@ -24,9 +24,10 @@ if _G.cryptorLoaded == nil then
     local OutputClear = Instance.new("TextButton")
 
     -- Functions:
-	local input = ""
+	_G.Input = ""
 	local outputtable = {}
 	function encrypt()
+	    local input = _G.Input
 	    for i=1, input:len() do
 		table.insert(outputtable, string.byte(input, i))
 	    end
@@ -44,6 +45,7 @@ if _G.cryptorLoaded == nil then
 	    return output
 	end
 	function decrypt()
+	    local input = _G.Input
 	    setclipboard(""..returndecrypt())
 	    print("Decrypted, Decrypted script copied to your clipboard.")
 	end
@@ -114,7 +116,7 @@ if _G.cryptorLoaded == nil then
     Encrypt.TextSize = 14.000
     Encrypt.TextWrapped = true
 	Encrypt.MouseButton1Down:Connect(function()
-        input = Input.Text
+        _G.Input = Input.Text
         encrypt()
         outputen()
     end)
