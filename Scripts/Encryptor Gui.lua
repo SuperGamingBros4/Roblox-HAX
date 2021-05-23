@@ -24,6 +24,30 @@ if _G.cryptorLoaded == nil then
     local OutputClear = Instance.new("TextButton")
 
     -- Functions:
+	local Input = ""
+	local outputtable = {}
+	function encrypt()
+	    for i=1, input:len() do
+		table.insert(outputtable, string.byte(input, i))
+	    end
+	    local output = table.concat(outputtable, "\\")
+	    setclipboard("\\"..output)
+	    print("Encrypted, Encrypted script copied to your clipboard.")
+	end
+	function returndecrypt()
+		local output = ""
+	    for i, v in pairs(input:split("\\")) do
+		if v ~= "" and v ~= nil then
+			output = output..v:char()
+		end
+	    end
+	    return output
+	end
+	function decrypt()
+	    setclipboard(""..returndecrypt())
+	    print("Decrypted, Decrypted script copied to your clipboard.")
+	end
+
 	
 	game:GetService("UserInputService").InputBegan:Connect(function(inputObject, gameProccessedEvent)
 		if inputObject.KeyCode == Enum.KeyCode.F5 then
@@ -90,11 +114,10 @@ if _G.cryptorLoaded == nil then
     Encrypt.TextSize = 14.000
     Encrypt.TextWrapped = true
 	Encrypt.MouseButton1Down:Connect(function()
-        _G.input = Input.Text
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Encryptor%20code.lua"))()
+        Input = Input.Text
         encrypt()
         outputen()
-	end)
+    end)
 
     UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = Main
@@ -113,10 +136,9 @@ if _G.cryptorLoaded == nil then
     Decrypt.TextWrapped = true
 	Decrypt.MouseButton1Down:Connect(function()
         _G.info = Input.Text
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Encryptor%20code.lua"))()
         decrypt()
         outputde()
-	end)
+    end)
 
     Background.Name = "Background"
     Background.Parent = cryptor
