@@ -5,5 +5,6 @@ _G.GameIds = { --Structure {GameId, LuaFile}
   3652625463, "Lifting_Simulator.lua",
   6531005851, "Lifting_Titans.lua",
   6273865312, "SuperNatural_Simulator.lua",
-  4225025295, "OP_Ninja_Simulator.lua"
+  4225025295, "OP_Ninja_Simulator.lua",
+  5159211152, "Minecraft.lua"
 }
