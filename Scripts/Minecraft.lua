@@ -1,22 +1,17 @@
-function kill() do
-	game:GetService("ReplicatedStorage").GameRemotes.Attack:InvokeServer(Target.Character)
-end
-
-_G.Killaura = true
-while _G.Killaura == true do
+game:GetService("RunService").RenderStepped:Connect(function()
 	for i, Target in pairs(game:GetService("Players"):GetChildren()) do
-		if Target ~= game:GetService("Players").localPlayer then
-			if Target.Name ~= "Wolfire67890"  then
-				kill()
-			elseif Target.Name == "SuperJumpMan63" then
-				kill()
+		local distance = (game:GetService("Players").LocalPlayer.Character.Torso.Position - Target.Character.Torso.Position).Magnitude
+		if distance <= 50 then
+			if Target ~= game:GetService("Players").localPlayer then
+				if Target.Name ~= "wolfire67890" and Target.Name ~= "SuperJumpMan63"then
+					game:GetService("ReplicatedStorage").GameRemotes.Attack:InvokeServer(Target.Character)
+				end
 			end
 		end
 	end
-	wait(.001)
-end
+end)
 
---no fall damage
+
 local BlockedRemotes = {
     "RequestDamage",
 }
