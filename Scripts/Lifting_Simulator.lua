@@ -200,7 +200,7 @@ if _G.LIFTINGLOADED == nil then
 		if inputObject.KeyCode == Enum.KeyCode.PageUp then
 			Autostrength()
 		end
-		if inputObject.KeyCode == Enum.KeyCode.End then
+		if inputObject.KeyCode == Enum.KeyCode.PaheDown then
 			Autosell()
 		end
 		if inputObject.KeyCode == Enum.KeyCode.Home then
@@ -348,7 +348,7 @@ if _G.LIFTINGLOADED == nil then
 	KeyBind_3.Position = UDim2.new(-0.00225434452, 0, 0.989259243, 0)
 	KeyBind_3.Size = UDim2.new(0, 0, 0, 0)
 	KeyBind_3.Font = Enum.Font.SourceSans
-	KeyBind_3.Text = "Keybind - End"
+	KeyBind_3.Text = "Keybind - PageDown"
 	KeyBind_3.TextColor3 = Color3.fromRGB(0, 0, 0)
 	KeyBind_3.TextScaled = true
 	KeyBind_3.TextSize = 14.000
