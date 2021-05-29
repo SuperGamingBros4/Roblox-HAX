@@ -200,7 +200,7 @@ if _G.LIFTINGLOADED == nil then
 		if inputObject.KeyCode == Enum.KeyCode.PageUp then
 			Autostrength()
 		end
-		if inputObject.KeyCode == Enum.KeyCode.PaheDown then
+		if inputObject.KeyCode == Enum.KeyCode.PageDown then
 			Autosell()
 		end
 		if inputObject.KeyCode == Enum.KeyCode.Home then
