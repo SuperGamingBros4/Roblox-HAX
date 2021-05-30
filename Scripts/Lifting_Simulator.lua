@@ -91,7 +91,7 @@ if _G.LIFTINGLOADED == nil then
 
 	-- Functions:
 
-	function Close()
+	function CloseGui()
 		Main:TweenSize(UDim2.new(0,0,0,0), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 1, true)
         Dragindicator:TweenSize(UDim2.new(0,0,0,0), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 1, true)
 		Credit:TweenSize(UDim2.new(0,0,0,0), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 1, true)
@@ -108,7 +108,7 @@ if _G.LIFTINGLOADED == nil then
 		delay(0.8, function() if _G.Opened == false then Main.Visible = false SpeedChanger.Visible = false end end)
 	end
 
-	function Open()
+	function OpenGui()
 		Main.Visible = true
 		SpeedChanger.Visible = true
 		Main:TweenSize(UDim2.new(0, 347, 0, 216), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 1, true)
@@ -131,11 +131,11 @@ if _G.LIFTINGLOADED == nil then
 		if _G.Opened == true then
 			_G.Opened = false
 			OpenClose_2.Text = "Open"
-			Close()
+			CloseGui()
 		else
 			_G.Opened = true
 			OpenClose_2.Text = "Close"
-			Open()
+			OpenGui()
 		end
 	end
 
