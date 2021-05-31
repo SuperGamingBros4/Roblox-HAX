@@ -23,7 +23,7 @@ local function Load(Obj, Url)
 		setfenv(Func, Fenv)
 		return Func
 	end
-local function LoadScripts(Script)
+	local function LoadScripts(Script)
 		if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
 			spawn(function()
 				GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
@@ -35,4 +35,4 @@ local function LoadScripts(Script)
 	end
 	LoadScripts(Obj)
 end
-load(Dex)
+Load(Dex)
