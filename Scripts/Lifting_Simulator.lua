@@ -362,7 +362,7 @@ if _G.LIFTINGLOADED == nil then
 	Credit.Position = UDim2.new(0.0864553303, 0, 0.0509259254, 0)
 	Credit.Size = UDim2.new(0, 0, 0, 0)
 	Credit.Font = Enum.Font.SourceSans
-	Credit.Text = "Made by SuperGamingBros4#0968"
+	Credit.Text = "Made by SuperJumpMan63#3843"
 	Credit.TextColor3 = Color3.fromRGB(18, 84, 0)
 	Credit.TextSize = 21.000
 	Credit.TextWrapped = true
