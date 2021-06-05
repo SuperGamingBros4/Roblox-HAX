@@ -5,7 +5,7 @@ GUILib.Name = "DROCSID LIB"
 GUILib.Parent = game:GetService("CoreGui")
 GUILib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-function MakeVisible(asd)
+local function MakeVisible(asd)
 	local GUI = game:GetService("CoreGui")["DROCSID LIB"].Frame
 	for i,Tab in pairs(GUI.Tabs:GetChildren()) do
 		for i,v in pairs(Tab:GetChildren()) do
