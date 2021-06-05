@@ -1,11 +1,20 @@
+--[[ if you wish to use this ui library just copy:
+	local Main = loadstring(game:HttpGet('https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/DROCSID%20UI%20library.lua'))()
 
+and using Main you can make the ui e.g.
+	local Window = Main:CreateWindow("Name Here") -- for some functions the name is used for the text, for example, the Button uses the name for the text
+	local Tab = Window:CreateTab("Name Here")
+	local Button = Tab:CreateButton("Name Here", callback) -- callback is a function that is called when you press the button
+	local ToggleButton = Tab:CreateToggle("Name Here", callback1, callback2) -- callback1 is called when turned on, and callback2 is called when you turn it off
+	local TextBox = Tab:CreateTextBox("Name Here", "Variable Name Here") -- the function indexes _G with the string "Variable Name Here", to set the global to the text of the TextBox when the text is changed. e.g "VarName" will use _G.VarName
+]] --
 local GUILib = Instance.new("ScreenGui")
 
 GUILib.Name = "DROCSID LIB"
 GUILib.Parent = game:GetService("CoreGui")
 GUILib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-local function MakeVisible(asd)
+function MakeVisible(asd)
 	local GUI = game:GetService("CoreGui")["DROCSID LIB"].Frame
 	for i,Tab in pairs(GUI.Tabs:GetChildren()) do
 		for i,v in pairs(Tab:GetChildren()) do
@@ -21,7 +30,7 @@ local library = {}
 
 function library:CreateWindow(Name)
 	local opened = true
-	
+
 	local Frame = Instance.new("Frame")
 	local OuterBars = Instance.new("Frame")
 	local LeftBar = Instance.new("Frame")
@@ -106,8 +115,8 @@ function library:CreateWindow(Name)
 	TabsList.Active = true
 	TabsList.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 	TabsList.BorderSizePixel = 0
-	TabsList.Position = UDim2.new(0.0245901644, 0, 0.0552283451, 0)
-	TabsList.Size = UDim2.new(0, 111, 0, 326)
+	TabsList.Position = UDim2.new(0.02, 0, 0.049, 0)
+	TabsList.Size = UDim2.new(0, 116, 0, 331)
 	TabsList.CanvasSize = UDim2.new(0, 0, 0, 0)
 	TabsList.ScrollBarThickness = 6
 	TabsList.ScrollBarImageColor3 = Color3.fromRGB(21, 23, 29)
@@ -117,16 +126,16 @@ function library:CreateWindow(Name)
 	UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIListLayout.Padding = UDim.new(0, 10)
-	
+
 	UIPadding_2.Parent = TabsList
 	UIPadding_2.PaddingTop = UDim.new(0, 10)
 
 	Tabs.Name = "Tabs"
 	Tabs.Parent = Frame
-	
-	
+
+
 	local epiclibrary = {}
-	
+
 	function epiclibrary:CreateTab(Name)
 		local Tab_2 = Instance.new("ScrollingFrame")
 		local UIListLayout_2 = Instance.new("UIListLayout")
@@ -135,8 +144,8 @@ function library:CreateWindow(Name)
 		local UICorner = Instance.new("UICorner")
 		local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 		local UIPadding = Instance.new("UIPadding")
-		
-		
+
+
 		Tab_2.Name = Name
 		Tab_2.Parent = Tabs
 		Tab_2.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -151,7 +160,7 @@ function library:CreateWindow(Name)
 		Tab_2.ScrollBarThickness = 6
 		Tab_2.ScrollBarImageColor3 = Color3.fromRGB(21, 23, 29)
 		Tab_2.VerticalScrollBarInset = Enum.ScrollBarInset.Always
-		
+
 		UIListLayout_2.Parent = Tab_2
 		UIListLayout_2.Padding = UDim.new(0, 5)
 		UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -159,7 +168,7 @@ function library:CreateWindow(Name)
 
 		UIPadding_3.Parent = Tab_2
 		UIPadding_3.PaddingTop = UDim.new(0, 5)
-		
+
 		Tab.Name = Name
 		Tab.Parent = TabsList
 		Tab.BackgroundColor3 = Color3.fromRGB(53, 59, 67)
@@ -177,7 +186,7 @@ function library:CreateWindow(Name)
 			end
 			Tab_2.Visible = true
 		end)
-		
+
 		UICorner.CornerRadius = UDim.new(0, 16)
 		UICorner.Parent = Tab
 
@@ -189,9 +198,9 @@ function library:CreateWindow(Name)
 		UIPadding.PaddingLeft = UDim.new(0, 5)
 		UIPadding.PaddingRight = UDim.new(0, 5)
 		UIPadding.PaddingTop = UDim.new(0, 5)
-		
+
 		local EpicLibrary1 = {}
-		
+
 		function EpicLibrary1:CreateToggle(Name, callback1, callback2)
 			local ToggleButton = Instance.new("TextButton")
 			local Switch = Instance.new("Frame")
@@ -199,7 +208,7 @@ function library:CreateWindow(Name)
 			local UICorner_2 = Instance.new("UICorner")
 			local UICorner_3 = Instance.new("UICorner")
 			local on = false
-			
+
 			ToggleButton.Name = Name
 			ToggleButton.Parent = Tab_2
 			ToggleButton.BackgroundColor3 = Color3.fromRGB(38, 43, 49)
@@ -230,7 +239,7 @@ function library:CreateWindow(Name)
 			UICorner_2.Parent = SwitchLever
 
 			UICorner_3.Parent = Switch
-			
+
 			ToggleButton.MouseButton1Down:Connect(function()
 				if on == false then
 					on = true
@@ -243,7 +252,7 @@ function library:CreateWindow(Name)
 				end
 			end)
 		end
-		
+
 		function EpicLibrary1:CreateButton(Name, callback)
 			local Button = Instance.new("TextButton")
 			local UICorner = Instance.new("UICorner")
@@ -269,11 +278,11 @@ function library:CreateWindow(Name)
 			UIPadding.Parent = Button
 			UIPadding.PaddingLeft = UDim.new(0, 5)
 		end
-		
+
 		function EpicLibrary1:CreateTextBox(Name, VarName)
 			local TextBox = Instance.new("TextBox")
 			local UICorner_2 = Instance.new("UICorner")
-			
+
 			TextBox.Name = Name
 			TextBox.Parent = Tab_2
 			TextBox.BackgroundColor3 = Color3.fromRGB(44, 49, 56)
@@ -289,12 +298,12 @@ function library:CreateWindow(Name)
 			TextBox.TextSize = 14.000
 			TextBox.TextWrapped = true
 			TextBox.Changed:Connect(function()
-				_G[VarName] = TextBox.Text -- my poor workaround for functions getting the value of the variable, and not the vriable name so I could edit it
+				pcall(function() _G[VarName] = TextBox.Text end) -- my poor workaround for functions getting the value of the variable, and not the vriable name so I could edit it
 			end)
 
 			UICorner_2.Parent = TextBox
 		end
-		
+
 		return EpicLibrary1
 	end
 	return epiclibrary
