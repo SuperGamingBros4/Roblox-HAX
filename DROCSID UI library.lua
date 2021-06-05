@@ -299,3 +299,4 @@ function library:CreateWindow(Name)
 	end
 	return epiclibrary
 end
+return library
