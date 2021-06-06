@@ -244,7 +244,6 @@ function library:CreateWindow(Name)
 			UICorner_3.Parent = Switch
 
 			ToggleButton.MouseButton1Down:Connect(function()
-				pcall(function() callback(on) end)
 				if on == false then
 					on = true
 					SwitchLever:TweenPosition(UDim2.new(0.4, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
@@ -252,6 +251,7 @@ function library:CreateWindow(Name)
 					on = false
 					SwitchLever:TweenPosition(UDim2.new(-0.25, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
 				end
+				pcall(function() callback(on) end)
 			end)
 		end
 
