@@ -2,16 +2,18 @@
 	local Main = loadstring(game:HttpGet('https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/DROCSID%20UI%20library.lua'))()
 
 and using Main you can make the ui e.g.
-	local Window = Main:CreateWindow("Name Here") -- for some functions the name is used for the text, for example, the Button uses the name for the text
+	local Window = Main:CreateWindow("Name Here") -- NOTE: for most functions the name is used for the text, for example, the Button uses the name for the text.
 	local Tab = Window:CreateTab("Name Here")
-	local Button = Tab:CreateButton("Name Here", callback) -- callback is a function that is called when you press the button
-	local ToggleButton = Tab:CreateToggle("Name Here", callback1, callback2) -- callback1 is called when turned on, and callback2 is called when you turn it off
-	local TextBox = Tab:CreateTextBox("Name Here", "Variable Name Here", clear text on focus) -- the function indexes _G with the string "Variable Name Here", to set the global to the text of the TextBox when the text is changed. e.g "VarName" will use _G.VarName
+	local Button = Tab:CreateButton("Name Here", callback) -- callback is a function that is called when you press the button.
+	local ToggleButton = Tab:CreateToggle("Name Here", callback1) -- callback1 is a function called when turned on and passes through the state of the toggle.
+	local TextBox = Tab:CreateTextBox("Name Here", ClearTextOnFocus, Function) -- Function is a function that passes through the text of the textbox so you can asign the text to a variable.
+	local Label = Tab:CreateLabel("Name/Text Here")
+	local Slider = Tab:CreateSlider("Name Here", Limit, Function) --Limit is how high the value can go. Function is a function Obviously, that passes the value set by the slider so you can set a variable to the output.
 ]] --
 local GUILib = Instance.new("ScreenGui")
 
 GUILib.Name = "DROCSID LIB"
-GUILib.Parent = game:GetService("CoreGui")
+GUILib.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 GUILib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 function MakeVisible(asd)
@@ -134,9 +136,9 @@ function library:CreateWindow(Name)
 	Tabs.Parent = Frame
 
 
-	local epiclibrary = {}
+	local Windows = {}
 
-	function epiclibrary:CreateTab(Name)
+	function Windows:CreateTab(Name)
 		local Tab_2 = Instance.new("ScrollingFrame")
 		local UIListLayout_2 = Instance.new("UIListLayout")
 		local UIPadding_3 = Instance.new("UIPadding")
@@ -199,15 +201,16 @@ function library:CreateWindow(Name)
 		UIPadding.PaddingRight = UDim.new(0, 5)
 		UIPadding.PaddingTop = UDim.new(0, 5)
 
-		local EpicLibrary1 = {}
+		local TabsTable = {}
 
-		function EpicLibrary1:CreateToggle(Name, callback1, callback2)
+		function TabsTable:CreateToggle(Name, callback)
 			local ToggleButton = Instance.new("TextButton")
 			local Switch = Instance.new("Frame")
 			local SwitchLever = Instance.new("Frame")
 			local UICorner_2 = Instance.new("UICorner")
 			local UICorner_3 = Instance.new("UICorner")
 			local on = false
+			local callback = callback or function()end
 
 			ToggleButton.Name = Name
 			ToggleButton.Parent = Tab_2
@@ -241,22 +244,23 @@ function library:CreateWindow(Name)
 			UICorner_3.Parent = Switch
 
 			ToggleButton.MouseButton1Down:Connect(function()
+				pcall(function() callback(on) end)
 				if on == false then
 					on = true
-					pcall(callback1)
 					SwitchLever:TweenPosition(UDim2.new(0.4, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
 				else
 					on = false
-					pcall(callback2)
 					SwitchLever:TweenPosition(UDim2.new(-0.25, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
 				end
 			end)
 		end
 
-		function EpicLibrary1:CreateButton(Name, callback)
+		function TabsTable:CreateButton(Name, callback)
 			local Button = Instance.new("TextButton")
 			local UICorner = Instance.new("UICorner")
 			local UIPadding = Instance.new("UIPadding")
+			local callback = callback or function()end
+			
 			Button.Name = Name
 			Button.Parent = Tab_2
 			Button.BackgroundColor3 = Color3.fromRGB(43, 49, 56)
@@ -279,7 +283,7 @@ function library:CreateWindow(Name)
 			UIPadding.PaddingLeft = UDim.new(0, 5)
 		end
 
-		function EpicLibrary1:CreateTextBox(Name, VarName, ClearText)
+		function TabsTable:CreateTextBox(Name, ClearText, Function)
 			local TextBox = Instance.new("TextBox")
 			local UICorner_2 = Instance.new("UICorner")
 
@@ -299,14 +303,113 @@ function library:CreateWindow(Name)
 			TextBox.TextSize = 14.000
 			TextBox.TextWrapped = true
 			TextBox.Changed:Connect(function()
-				pcall(function() _G[VarName] = TextBox.Text end) -- my poor workaround for functions getting the value of the variable, and not the vriable name so I could edit it
+				pcall(function() Function(TextBox.Text) end)
 			end)
 
 			UICorner_2.Parent = TextBox
 		end
+		
+		function TabsTable:CreateSlider(Name, Limit, SetOutput)
+			
+			local Slider = Instance.new("Frame")
+			local SliderBg = Instance.new("Frame")
+			local UICorner = Instance.new("UICorner")
+			local SliderButton = Instance.new("TextButton")
+			local UICorner_2 = Instance.new("UICorner")
+			local Output = Instance.new("TextLabel")
+			local SetOutput = SetOutput or function()end
 
-		return EpicLibrary1
+			Slider.Name = Name
+			Slider.Parent = Tab_2
+			Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Slider.BackgroundTransparency = 1.000
+			Slider.Position = UDim2.new(0.100622408, 0, 0.510835886, 0)
+			Slider.Size = UDim2.new(0, 379, 0, 67)
+
+			SliderBg.Name = "SliderBg"
+			SliderBg.Parent = Slider
+			SliderBg.Active = true
+			SliderBg.BackgroundColor3 = Color3.fromRGB(37, 41, 47)
+			SliderBg.BorderColor3 = Color3.fromRGB(27, 42, 53)
+			SliderBg.Position = UDim2.new(0.034, 0, 0.529, 0)
+			SliderBg.Selectable = true
+			SliderBg.Size = UDim2.new(0, 379, 0, 15)
+
+			UICorner.Parent = SliderBg
+
+			SliderButton.Name = "SliderButton"
+			SliderButton.Parent = Slider
+			SliderButton.BackgroundColor3 = Color3.fromRGB(98, 109, 125)
+			SliderButton.Position = UDim2.new(0, 0, 0.340845078, 0)
+			SliderButton.Selectable = false
+			SliderButton.Size = UDim2.new(0, 28, 0, 42)
+			SliderButton.Font = Enum.Font.SourceSans
+			SliderButton.Text = ""
+			SliderButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+			SliderButton.TextSize = 14.000
+
+			UICorner_2.CornerRadius = UDim.new(1, 0)
+			UICorner_2.Parent = SliderButton
+
+			Output.Name = "Output"
+			Output.Parent = Slider
+			Output.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Output.BackgroundTransparency = 1.000
+			Output.Size = UDim2.new(0, 379, 0, 24)
+			Output.Font = Enum.Font.SourceSans
+			Output.Text = "0"
+			Output.TextColor3 = Color3.fromRGB(221, 221, 221)
+			Output.TextSize = 30.000
+			Output.TextWrapped = true
+			
+			local script = Instance.new('LocalScript', Slider)
+			
+			local held = false
+			local percentage = 0
+
+			game:GetService("UserInputService").InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					held = false
+				end
+			end)
+
+			SliderButton.MouseButton1Down:Connect(function()
+				held = true
+			end)
+
+			game:GetService("RunService").RenderStepped:Connect(function()
+				if (held) then
+					local MousePos = game:GetService("UserInputService"):GetMouseLocation().X
+					local sliderSize = Slider.AbsoluteSize.X
+					local sliderPos = Slider.AbsolutePosition.X
+					percentage = math.clamp(((MousePos-sliderPos) - 11 )/sliderSize,0,1)
+					SliderButton.Position = UDim2.new(percentage, 0, SliderButton.Position.Y.Scale, SliderButton.Position.Y.Offset)
+					Output.Text = tostring(math.floor(percentage*Limit))
+					pcall(function()SetOutput(tonumber(Output.Text))end)
+				end
+			end)
+		end
+		
+		function TabsTable:CreateText(Name)
+			local Text = Instance.new("TextLabel")
+			
+			Text.Name = Name
+			Text.Parent = Tab_2
+			Text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Text.BackgroundTransparency = 1.000
+			Text.Position = UDim2.new(0.112033196, 0, 0.733746111, 0)
+			Text.Size = UDim2.new(0, 368, 0, 58)
+			Text.Font = Enum.Font.SourceSans
+			Text.Text = Name
+			Text.TextColor3 = Color3.fromRGB(221, 221, 221)
+			Text.TextScaled = true
+			Text.TextSize = 14.000
+			Text.TextWrapped = true
+		end
+		
+		return TabsTable
 	end
-	return epiclibrary
+	
+	return Windows
 end
 return library
