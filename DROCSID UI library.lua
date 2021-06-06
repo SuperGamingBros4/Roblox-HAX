@@ -13,7 +13,7 @@ and using Main you can make the ui e.g.
 local GUILib = Instance.new("ScreenGui")
 
 GUILib.Name = "DROCSID LIB"
-GUILib.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+GUILib.Parent = game:GetService("CoreGui")
 GUILib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 function MakeVisible(asd)
