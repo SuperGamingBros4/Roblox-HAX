@@ -6,7 +6,7 @@ and using Main you can make the ui e.g.
 	local Tab = Window:CreateTab("Name Here")
 	local Button = Tab:CreateButton("Name Here", callback) -- callback is a function that is called when you press the button
 	local ToggleButton = Tab:CreateToggle("Name Here", callback1, callback2) -- callback1 is called when turned on, and callback2 is called when you turn it off
-	local TextBox = Tab:CreateTextBox("Name Here", "Variable Name Here") -- the function indexes _G with the string "Variable Name Here", to set the global to the text of the TextBox when the text is changed. e.g "VarName" will use _G.VarName
+	local TextBox = Tab:CreateTextBox("Name Here", "Variable Name Here", clear text on focus) -- the function indexes _G with the string "Variable Name Here", to set the global to the text of the TextBox when the text is changed. e.g "VarName" will use _G.VarName
 ]] --
 local GUILib = Instance.new("ScreenGui")
 
@@ -279,7 +279,7 @@ function library:CreateWindow(Name)
 			UIPadding.PaddingLeft = UDim.new(0, 5)
 		end
 
-		function EpicLibrary1:CreateTextBox(Name, VarName)
+		function EpicLibrary1:CreateTextBox(Name, VarName, ClearText)
 			local TextBox = Instance.new("TextBox")
 			local UICorner_2 = Instance.new("UICorner")
 
@@ -291,6 +291,7 @@ function library:CreateWindow(Name)
 			TextBox.Size = UDim2.new(0, 335, 0, 50)
 			TextBox.Font = Enum.Font.SourceSans
 			TextBox.MultiLine = true
+			TextBox.ClearTextOnFocus = ClearText
 			TextBox.PlaceholderText = Name
 			TextBox.Text = ""
 			TextBox.TextColor3 = Color3.fromRGB(221, 221, 221)
