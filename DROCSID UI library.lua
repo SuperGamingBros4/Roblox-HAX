@@ -9,6 +9,7 @@ and using Main you can make the ui e.g.
 	local TextBox = Tab:CreateTextBox("Name Here", ClearTextOnFocus, Function) -- Function is a function that passes through the text of the textbox so you can asign the text to a variable.
 	local Label = Tab:CreateLabel("Name/Text Here")
 	local Slider = Tab:CreateSlider("Name Here", Limit, Function) --Limit is how high the value can go. Function is a function Obviously, that passes the value set by the slider so you can set a variable to the output.
+	local DropDown = Tab:CreateDropDown("Name", {List Of strings here} callback) -- list of strings is for the options e.g {"Player1", "Player2"} etc.. callback returns the option pressed so you can use different functions for that.
 ]]
 local GUILib = Instance.new("ScreenGui")
 
@@ -249,7 +250,6 @@ function library:CreateWindow(Name)
 			UICorner_3.Parent = Switch
 
 			ToggleButton.MouseButton1Down:Connect(function()
-				pcall(function() callback(on) end)
 				if on == false then
 					on = true
 					SwitchLever:TweenPosition(UDim2.new(0.4, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
@@ -257,6 +257,7 @@ function library:CreateWindow(Name)
 					on = false
 					SwitchLever:TweenPosition(UDim2.new(-0.25, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
 				end
+				pcall(function() callback(on) end)
 			end)
 		end
 
