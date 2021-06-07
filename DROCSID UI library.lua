@@ -9,15 +9,20 @@ and using Main you can make the ui e.g.
 	local TextBox = Tab:CreateTextBox("Name Here", ClearTextOnFocus, Function) -- Function is a function that passes through the text of the textbox so you can asign the text to a variable.
 	local Label = Tab:CreateLabel("Name/Text Here")
 	local Slider = Tab:CreateSlider("Name Here", Limit, Function) --Limit is how high the value can go. Function is a function Obviously, that passes the value set by the slider so you can set a variable to the output.
-]] --
+]]
 local GUILib = Instance.new("ScreenGui")
 
 GUILib.Name = "DROCSID LIB"
 GUILib.Parent = game:GetService("CoreGui")
 GUILib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+local function Resize(Value)
+	local YSize = Value+44
+	return YSize
+end
+
 function MakeVisible(asd)
-	local GUI = game:GetService("CoreGui")["DROCSID LIB"].Frame
+	local GUI = GUILib.Frame
 	for i,Tab in pairs(GUI.Tabs:GetChildren()) do
 		for i,v in pairs(Tab:GetChildren()) do
 			pcall(function() v.Visible = asd v.Active = asd end)
@@ -244,6 +249,7 @@ function library:CreateWindow(Name)
 			UICorner_3.Parent = Switch
 
 			ToggleButton.MouseButton1Down:Connect(function()
+				pcall(function() callback(on) end)
 				if on == false then
 					on = true
 					SwitchLever:TweenPosition(UDim2.new(0.4, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
@@ -251,7 +257,6 @@ function library:CreateWindow(Name)
 					on = false
 					SwitchLever:TweenPosition(UDim2.new(-0.25, 0, -0.411000013, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
 				end
-				pcall(function() callback(on) end)
 			end)
 		end
 
@@ -260,7 +265,7 @@ function library:CreateWindow(Name)
 			local UICorner = Instance.new("UICorner")
 			local UIPadding = Instance.new("UIPadding")
 			local callback = callback or function()end
-			
+
 			Button.Name = Name
 			Button.Parent = Tab_2
 			Button.BackgroundColor3 = Color3.fromRGB(43, 49, 56)
@@ -308,9 +313,9 @@ function library:CreateWindow(Name)
 
 			UICorner_2.Parent = TextBox
 		end
-		
+
 		function TabsTable:CreateSlider(Name, Limit, SetOutput)
-			
+
 			local Slider = Instance.new("Frame")
 			local SliderBg = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
@@ -361,9 +366,9 @@ function library:CreateWindow(Name)
 			Output.TextColor3 = Color3.fromRGB(221, 221, 221)
 			Output.TextSize = 30.000
 			Output.TextWrapped = true
-			
+
 			local script = Instance.new('LocalScript', Slider)
-			
+
 			local held = false
 			local percentage = 0
 
@@ -389,10 +394,10 @@ function library:CreateWindow(Name)
 				end
 			end)
 		end
-		
+
 		function TabsTable:CreateText(Name)
 			local Text = Instance.new("TextLabel")
-			
+
 			Text.Name = Name
 			Text.Parent = Tab_2
 			Text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -406,10 +411,127 @@ function library:CreateWindow(Name)
 			Text.TextSize = 14.000
 			Text.TextWrapped = true
 		end
-		
+
+		function TabsTable:CreateDropDown(Name, Options, OnPress)
+			local DropDown = Instance.new("Frame")
+			local DropDownActivator = Instance.new("Frame")
+			local DropDownOpener = Instance.new("TextButton")
+			local StateIndicator = Instance.new("TextLabel")
+			local DropDownPart = Instance.new("Frame")
+			local ScrollingFrame = Instance.new("ScrollingFrame")
+			local UIListLayout = Instance.new("UIListLayout")
+
+			local Size = 0
+			local SetSize = 0
+			local Name = Name or ""
+			local Options = Options or {}
+			local OnPress = OnPress or function()end
+			local IsDropped = false
+
+			DropDown.Name = Name
+			DropDown.Parent = Tab_2
+			DropDown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			DropDown.BackgroundTransparency = 1.000
+			DropDown.Position = UDim2.new(0.0985477194, 0, 0.517027855, 0)
+			DropDown.Size = UDim2.new(0, 381, 0, 193)
+
+			DropDownActivator.Name = "DropDownActivator"
+			DropDownActivator.Parent = DropDown
+			DropDownActivator.BackgroundColor3 = Color3.fromRGB(35, 38, 44)
+			DropDownActivator.BorderColor3 = Color3.fromRGB(31, 34, 40)
+			DropDownActivator.Position = UDim2.new(0.141278282, 0, 0.198985502, 0)
+			DropDownActivator.Size = UDim2.new(0, 274, 0, 44)
+
+			DropDownOpener.Name = "DropDownOpener"
+			DropDownOpener.Parent = DropDownActivator
+			DropDownOpener.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			DropDownOpener.BackgroundTransparency = 1.000
+			DropDownOpener.Position = UDim2.new(0.00364963501, 0, 0.0227272734, 0)
+			DropDownOpener.Size = UDim2.new(0, 273, 0, 42)
+			DropDownOpener.Font = Enum.Font.SourceSans
+			DropDownOpener.Text = ""
+			DropDownOpener.TextColor3 = Color3.fromRGB(221, 221, 221)
+			DropDownOpener.TextScaled = true
+			DropDownOpener.TextSize = 14.000
+			DropDownOpener.TextWrapped = true
+			DropDownOpener.TextXAlignment = Enum.TextXAlignment.Left
+			DropDownOpener.MouseButton1Down:Connect(function()
+				if (IsDropped) then
+					IsDropped = false
+					DropDownPart:TweenSize(UDim2.new(0, 274, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
+					StateIndicator.Text = "-"
+				else
+					IsDropped = true
+					DropDownPart:TweenSize(SetSize, Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.25, true)
+					StateIndicator.Text = "+"
+				end
+			end)
+
+			StateIndicator.Name = "StateIndicator"
+			StateIndicator.Parent = DropDownActivator
+			StateIndicator.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			StateIndicator.BackgroundTransparency = 1.000
+			StateIndicator.Position = UDim2.new(0.843065739, 0, 0.0227272734, 0)
+			StateIndicator.Size = UDim2.new(0, 42, 0, 42)
+			StateIndicator.Font = Enum.Font.SourceSans
+			StateIndicator.Text = "+"
+			StateIndicator.TextColor3 = Color3.fromRGB(221, 221, 221)
+			StateIndicator.TextScaled = true
+			StateIndicator.TextSize = 14.000
+			StateIndicator.TextWrapped = true
+
+			DropDownPart.Name = "DropDownPart"
+			DropDownPart.Parent = DropDown
+			DropDownPart.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			DropDownPart.BackgroundTransparency = 1.000
+			DropDownPart.ClipsDescendants = true
+			DropDownPart.Position = UDim2.new(0.141278282, 0, 0.424870461, 0)
+			DropDownPart.Size = UDim2.new(0, 274, 0, 0)
+
+			ScrollingFrame.Parent = DropDownPart
+			ScrollingFrame.Active = true
+			ScrollingFrame.BackgroundColor3 = Color3.fromRGB(35, 38, 44)
+			ScrollingFrame.BorderColor3 = Color3.fromRGB(31, 34, 40)
+			ScrollingFrame.BorderSizePixel = 0
+			ScrollingFrame.Size = UDim2.new(0, 274, 0, 44)
+			ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+			ScrollingFrame.ScrollBarThickness = 6
+
+			UIListLayout.Parent = ScrollingFrame
+			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+			for i,v in pairs(Options) do
+				ScrollingFrame.Size = UDim2.new(0, 274, 0, 0)
+				Size = Resize(Size)
+				SetSize = UDim2.new(0, 274, 0, math.clamp(Size, 0, 88))
+				ScrollingFrame.Size = SetSize
+				local DropDownButton = Instance.new("TextButton")
+
+				DropDownButton.Name = "DropDownButton " .. v
+				DropDownButton.Parent = ScrollingFrame
+				DropDownButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropDownButton.BackgroundTransparency = 1.000
+				DropDownButton.Position = UDim2.new(0.00363636366, 0, 0, 0)
+				DropDownButton.Size = UDim2.new(0, 274, 0, 44)
+				DropDownButton.Font = Enum.Font.SourceSans
+				DropDownButton.Text = "  " .. v
+				DropDownButton.TextColor3 = Color3.fromRGB(221, 221, 221)
+				DropDownButton.TextScaled = true
+				DropDownButton.TextSize = 14.000
+				DropDownButton.TextWrapped = true
+				DropDownButton.TextXAlignment = Enum.TextXAlignment.Left
+				DropDownButton.MouseButton1Down:Connect(function()
+					DropDownOpener.Text = "  " .. v
+					pcall(function() OnPress(v) end)
+				end)
+			end
+		end
+
 		return TabsTable
 	end
-	
+
 	return Windows
 end
 return library
