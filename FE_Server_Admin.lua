@@ -2463,7 +2463,7 @@ local function Bot()
                 end
                 
                 --Resetting
-                if key.KeyCode == Enum.KeyCode.LeftShift and not chatting then
+                if key.KeyCode == Enum.KeyCode.LeftControl and not chatting then
                     pressingShift = true
                 end
                 
@@ -2500,7 +2500,7 @@ local function Bot()
                 end
                 
                 --Resetting
-                if key.KeyCode == Enum.KeyCode.LeftShift and not chatting then
+                if key.KeyCode == Enum.KeyCode.LeftControl and not chatting then
                     pressingShift = false
                 end
             end
