@@ -22,7 +22,7 @@ local function Resize(Value)
 	return YSize
 end
 
-function MakeVisible(asd)
+local function MakeVisible(asd)
 	local GUI = GUILib.Frame
 	for i,Tab in pairs(GUI.Tabs:GetChildren()) do
 		for i,v in pairs(Tab:GetChildren()) do
@@ -32,6 +32,11 @@ function MakeVisible(asd)
 	for i, v in pairs(GUI["Tabs List"]:GetChildren()) do
 		pcall(function() v.Visible = asd v.Active = asd end)
 	end
+end
+
+local function setsize(asd)
+    local size = asd.UIListLayout.AbsoluteContentSize
+	asd.CanvasSize = UDim2.new(0,0, 0,size.Y)
 end
 
 local library = {}
@@ -529,10 +534,12 @@ function library:CreateWindow(Name)
 				end)
 			end
 		end
+        Tab_2.ChildAdded:Connect(function()
+            setsize(Tab_2)
+        end)
 
 		return TabsTable
 	end
-
 	return Windows
 end
 return library
