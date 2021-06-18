@@ -286,6 +286,7 @@ function Library:CreateWindow(Name)
 					TS:Create(SwitchBG, ColorChangeStyle, {BackgroundColor3 = Color3.fromRGB(59, 165, 93);}):Play()
 					TS:Create(SwitchHandle, ColorChangeStyle, {Position = UDim2.new(0.55,0, 0.062, 0);}):Play()
 				end
+				Library.Flags[Flag] = toggled
 				callback(toggled)
 			end)
 
