@@ -1,4 +1,4 @@
-local Main = loadstring(game:HttpGet('https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/DROCSID%20UI%20library.lua'))()
+local Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
 
 if _G.AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis ~= true then
 _G.AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis = true
@@ -83,20 +83,19 @@ end
 spawn(function()
 	while true do
 		if (_G.SpeedOn) then
-			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = _G.WalkSpeed
+			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Main.Flags.WalkSpeed
 		end
 		wait(0.5)
 	end
 end)
-
-local Window = Main:CreateWindow("Lifting Simulator")
-local AutoFarm = Window:CreateTab("AutoFarm")
-local AutoStrength = AutoFarm:CreateToggle("Auto Strength", AutoStrength, AutoStrength)
-local AutoLift = AutoFarm:CreateToggle("Auto Lift", AutoLift, AutoLift)
-local AutoSell = AutoFarm:CreateToggle("Auto Sell", AutoSell, AutoSell)
-
-local Misc = Window:CreateTab("Misc")
-local WalkSpeedText = Misc:CreateText("WalkSpeed")
-local WalkSpeedSlider = Misc:CreateSlider("WalkSpeedSlider", 5000, function(output) _G.WalkSpeed = output end)
-local WalkSpeedToggle = Misc:CreateToggle("Toggle Walkspeed", SpeedToggle, SpeedToggle)
+end
+local Window = Main:CreateWindow("Lifting Simulator - By SuperJumpMan63#3843")
+local MainTab = Window:AddTab("Main") do
+	MainTab:AddToggle({Name = "Auto Lift", Callback = AutoLift})
+	MainTab:AddToggle({Name = "Auto Strength", Callback = AutoStrength})
+	MainTab:AddToggle({Name = "Auto Sell", Callback = AutoSell})
+end
+local MiscTab = Window:AddTab("Misc") do
+	MiscTab:AddToggle({Name = "Toggle Speed", Callback = SpeedToggle})
+	MiscTab:AddSlider({Name = "WalkSpeed", Flag = "WalkSpeed", Min = 16, Max = 5000})
 end
