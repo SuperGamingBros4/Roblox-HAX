@@ -197,7 +197,7 @@ function Library:CreateWindow(Name)
 	DropDown.Size = UDim2.new(0, 590, 0, 0)
 
 	local Windows = {}
-	function Windows:CreateTab(Name)
+	function Windows:AddTab(Name)
 		local Tab = Instance.new("ScrollingFrame")
 		local TabButton = Instance.new("TextButton")
 		local UIListLayout = Instance.new("UIListLayout")
@@ -260,7 +260,8 @@ function Library:CreateWindow(Name)
 
 			local toggled = false
 			local Name = Flags["Name"] or "Toggle"
-			local callback = Flags["Flag"] or function()end
+			local Flag = Flags["Flag"] or ""
+			local callback = Flags["Callback"] or function()end
 
 			Toggle.Name = Name
 			Toggle.Parent = Tab
