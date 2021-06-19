@@ -5,9 +5,9 @@ _G.AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis = true
 --Metatable Hooks:
 local gmt = getrawmetatable(game)
 setreadonly(gmt, false)
-local oldindex = gmt.__index
-local oldnamecall = gmt.__namecall
-gmt.__namecall = newcclosure(function(self, ...)
+local oldindex
+local oldnamecall
+oldnamecall = hookfunction(gmt.__namecall, function(self, ...)
 	local method = getnamecallmethod()
 	if method == "Kick" then
 		wait(9e9)
@@ -15,7 +15,7 @@ gmt.__namecall = newcclosure(function(self, ...)
 	end
 	return oldnamecall(self, ...)
 end)
-gmt.__index = newcclosure(function(self, b)
+oldindex = hookfunction(gmt.__index, function(self, b)
 	if (_G.SpeedOn) then
 		if b == "WalkSpeed" then
 			if Player.Character ~= nil then
