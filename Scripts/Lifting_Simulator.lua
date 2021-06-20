@@ -1,12 +1,20 @@
-local Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
+--Locals:
 
-if _G.AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis ~= true then
-_G.AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis = true
---Metatable Hooks:
+local Player = game:GetService("Players").LocalPlayer
+
 local gmt = getrawmetatable(game)
-setreadonly(gmt, false)
 local oldindex
 local oldnamecall
+
+if not AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis then
+--Global Environment:
+
+getgenv().AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis = true
+getgenv().Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
+
+--Metatable Hooks:
+
+setreadonly(gmt, false)
 oldnamecall = hookfunction(gmt.__namecall, function(self, ...)
 	local method = getnamecallmethod()
 	if method == "Kick" then
@@ -16,7 +24,7 @@ oldnamecall = hookfunction(gmt.__namecall, function(self, ...)
 	return oldnamecall(self, ...)
 end)
 oldindex = hookfunction(gmt.__index, function(self, b)
-	if (_G.SpeedOn) then
+	if Main.Flags.SpeedOn then
 		if b == "WalkSpeed" then
 			if Player.Character ~= nil then
 				return Player.Character:WaitForChild("Humanoid").WalkSpeed
@@ -25,26 +33,27 @@ oldindex = hookfunction(gmt.__index, function(self, b)
 	end
 	return oldindex(self, b)
 end)
+setreadonly(gmt, true)
 
 local RemoteEvent = game:GetService("ReplicatedStorage").RemoteEvent
 coroutine.resume(coroutine.create(function()
 	while wait(0.5) do
-		if _G.AutoStrength == true then
+		if Main.Flags.AutoStrength then
 			RemoteEvent:FireServer({"GainMuscle"})
 		end
 	end
 end))
 coroutine.resume(coroutine.create(function()
 	while wait(0.5) do
-		if _G.AutoSell == true then
+		if Main.Flags.AutoSell then
 			RemoteEvent:FireServer({"SellMuscle"})
 		end
 	end
 end))
 
 game:GetService("RunService").RenderStepped:Connect(function()
-	if _G.AutoLift == true then
-		for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+	if Main.Flags.AutoLift then
+		for i,v in pairs(Player.Character:GetDescendants()) do
 			if v.Name == "Income_Tool_LocalScript" then
 				v.Parent:Activate()
 			end
@@ -52,50 +61,41 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	end
 end)
 
-function AutoStrength(On)
-	if (On) then
-		_G.AutoStrength = true
-	else
-		_G.AutoStrength = false
-	end
-end
-function AutoLift(On)
-	if (On) then
-		_G.AutoLift = true
-	else
-		_G.AutoLift = false
-	end
-end
-function AutoSell(On)
-	if (On) then
-		_G.AutoSell = true
-	else
-		_G.AutoSell = false
-	end
-end
-function SpeedToggle(On)
-	if (On) then
-		_G.SpeedOn = true
-	else
-		_G.SpeedOn = false
-	end
-end
 spawn(function()
 	while true do
-		if (_G.SpeedOn) then
+		if (SpeedOn) then
 			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Main.Flags.WalkSpeed
 		end
 		wait(0.5)
 	end
 end)
 end
+
+local function toggleinvincible()
+	if (Main.Flags.Invincible) then
+		while Main.Flags.Invincible do
+			firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark01.Detector, 0)
+			wait(0.1)
+		end
+	else	
+		firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark01.Detector, 1)
+	end
+end
+local function openshop()
+	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 0)
+	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 1)
+end
+s
 local Window = Main:CreateWindow("Lifting Simulator - By SuperJumpMan63#3843")
 local MainTab = Window:AddTab("Main") do
-	MainTab:AddToggle({Name = "Auto Lift", Callback = AutoLift})
-	MainTab:AddToggle({Name = "Auto Strength", Callback = AutoStrength})
-	MainTab:AddToggle({Name = "Auto Sell", Callback = AutoSell})
+	MainTab:AddToggle({Name = "Auto Lift", Flag = "AutoLift"})
+	MainTab:AddToggle({Name = "Auto Strength", Flag = "AutoStrength"})
+	MainTab:AddToggle({Name = "Auto Sell", Flag = "AutoSell"})
 end
 local MiscTab = Window:AddTab("Misc") do
-	MiscTab:AddToggle({Name = "Toggle Speed", Callback = SpeedToggle})
+	MiscTab:AddButton({Name = "Open Shop", Callback = openshop})
+	MiscTab:AddToggle({Name = "Toggle Invincibility", Flag = "Invincible", Callback = toggleinvincible})
+	MiscTab:AddText("Note: invincibility requires Sell Muscle in Settings off")
+	MiscTab:AddToggle({Name = "Toggle Speed", Flag = "SpeedToggle"})
 	MiscTab:AddSlider({Name = "WalkSpeed", Flag = "WalkSpeed", Min = 16, Max = 5000})
 end
