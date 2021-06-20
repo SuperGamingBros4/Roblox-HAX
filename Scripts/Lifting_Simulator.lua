@@ -85,7 +85,7 @@ local function openshop()
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 0)
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 1)
 end
-s
+
 local Window = Main:CreateWindow("Lifting Simulator - By SuperJumpMan63#3843")
 local MainTab = Window:AddTab("Main") do
 	MainTab:AddToggle({Name = "Auto Lift", Flag = "AutoLift"})
