@@ -1,3 +1,5 @@
+local Player = game:getService("Players").LocalPlayer
+local Events = game:GetService("ReplicatedStorage").Events
 local Library = {Flags = {}}
 
 --[[
@@ -88,20 +90,20 @@ function Library:CreateWindow(Name)
 	Minimize.MouseButton1Click:Connect(function()
 		if not (Minimized) then
 			Minimized = true
-			DropDown:TweenSize(UDim2.new(0, 590, 0, 319), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.7, true, function()
+			DropDown:TweenSize(UDim2.new(0, 590, 0, 319), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true, function()
 				if (Minimized) then
 					MainFrame.Visible = false
-					wait(0.1)
-					DropDown:TweenSize(UDim2.new(0, 590, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.7, true)
+					wait(0.05)
+					DropDown:TweenSize(UDim2.new(0, 590, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
 				end
 			end)
 		else
 			Minimized = false
-			DropDown:TweenSize(UDim2.new(0, 590, 0, 319), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.7, true, function()
+			DropDown:TweenSize(UDim2.new(0, 590, 0, 319), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true, function()
 				if not (Minimized) then
 					MainFrame.Visible = true
-					wait(0.1)
-					DropDown:TweenSize(UDim2.new(0, 590, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.7, true)
+					wait(0.05)
+					DropDown:TweenSize(UDim2.new(0, 590, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
 				end
 			end)
 		end
