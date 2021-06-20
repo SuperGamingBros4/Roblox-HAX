@@ -1,7 +1,7 @@
 local Library = {Flags = {}}
 
 --[[
-  for use of this library copy: local Main = loadstring(game:HttpGet("raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
+  for use of this library copy: local Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
 ]]
 
 
