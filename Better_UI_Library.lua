@@ -1,5 +1,3 @@
-local Player = game:getService("Players").LocalPlayer
-local Events = game:GetService("ReplicatedStorage").Events
 local Library = {Flags = {}}
 
 --[[
