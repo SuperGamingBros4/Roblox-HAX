@@ -317,7 +317,7 @@ function Library:CreateWindow(Name)
 			local Toggle = Instance.new("TextButton")
 
 			local Name = Flags["Name"] or "Button"
-			local callback = Flags["Flag"] or function()end
+			local callback = Flags["Callback"] or function()end
 
 			Toggle.Name = Name
 			Toggle.Parent = Tab
