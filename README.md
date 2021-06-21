@@ -11,9 +11,14 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Robl
 And Paste it into your exploit.
 
 # Currently Supported games
+Summer Event Weight Lifting simulator
 Lifting Simulator    
 Lifting Titans    
-Lifting Legends Simulator    
+Lifting Legends Simulator 
 Speed Legends Simulator    
+SuperNatural Simulator
+Minecraft
+Cash Grab Simulator
+Lock Picking Simulator
 
 If I didn't update this list. Then check game_list.lua for the game list
