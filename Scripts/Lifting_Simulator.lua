@@ -26,7 +26,7 @@ end)
 oldindex = hookfunction(gmt.__index, function(self, b)
 	if Main.Flags.SpeedOn then
 		if b == "WalkSpeed" then
-			if Player.Character ~= nil then
+			if Player.Character then
 				return Player.Character:WaitForChild("Humanoid").WalkSpeed
 			end
 		end
@@ -52,7 +52,7 @@ coroutine.resume(coroutine.create(function()
 end))
 
 game:GetService("RunService").RenderStepped:Connect(function()
-	if Main.Flags.AutoLift then
+	if Main.Flags.AutoLift and Player.Character then
 		for i,v in pairs(Player.Character:GetDescendants()) do
 			if v.Name == "Income_Tool_LocalScript" then
 				v.Parent:Activate()
@@ -63,8 +63,8 @@ end)
 
 spawn(function()
 	while true do
-		if (SpeedOn) then
-			game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Main.Flags.WalkSpeed
+		if SpeedOn and Player.Character then
+			Player.Character:WaitForChild("Humanoid").WalkSpeed = Main.Flags.WalkSpeed
 		end
 		wait(0.5)
 	end
