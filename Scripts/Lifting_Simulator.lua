@@ -63,7 +63,7 @@ end)
 
 spawn(function()
 	while true do
-		if SpeedOn and Player.Character then
+		if Main.Flags.SpeedOn and Player.Character then
 			Player.Character:WaitForChild("Humanoid").WalkSpeed = Main.Flags.WalkSpeed
 		end
 		wait(0.5)
