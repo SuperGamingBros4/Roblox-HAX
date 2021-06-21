@@ -3,8 +3,8 @@
 local Player = game:GetService("Players").LocalPlayer
 
 local gmt = getrawmetatable(game)
-local oldindex
-local oldnamecall
+local oldindex = gmt.__index
+local oldnamecall = gmt.__namecall
 
 if not AlreadyExecutedLiftingSimulatorThisIsSoLongSoNoOneWillUseThis then
 --Global Environment:
@@ -15,7 +15,7 @@ getgenv().Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/Supe
 --Metatable Hooks:
 
 setreadonly(gmt, false)
-oldnamecall = hookfunction(gmt.__namecall, function(self, ...)
+gmt.__namecall = newcclosure(function(self, ...)
 	local method = getnamecallmethod()
 	if method == "Kick" then
 		wait(9e9)
@@ -23,7 +23,7 @@ oldnamecall = hookfunction(gmt.__namecall, function(self, ...)
 	end
 	return oldnamecall(self, ...)
 end)
-oldindex = hookfunction(gmt.__index, function(self, b)
+gmt.__index = newcclosure(function(self, b)
 	if Main.Flags.SpeedToggle then
 		if b == "WalkSpeed" then
 			if Player.Character then
