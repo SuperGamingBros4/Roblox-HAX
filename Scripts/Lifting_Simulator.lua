@@ -71,16 +71,6 @@ spawn(function()
 end)
 end
 
-local function toggleinvincible()
-	if (Main.Flags.Invincible) then
-		while Main.Flags.Invincible do
-			firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark01.Detector, 0)
-			wait(0.1)
-		end
-	else	
-		firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark01.Detector, 1)
-	end
-end
 local function openshop()
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 0)
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 1)
@@ -94,8 +84,6 @@ local MainTab = Window:AddTab("Main") do
 end
 local MiscTab = Window:AddTab("Misc") do
 	MiscTab:AddButton({Name = "Open Shop", Callback = openshop})
-	MiscTab:AddToggle({Name = "Toggle Invincibility", Flag = "Invincible", Callback = toggleinvincible})
-	MiscTab:AddText("Note: invincibility requires Sell Muscle in Settings off")
 	MiscTab:AddToggle({Name = "Toggle Speed", Flag = "SpeedToggle"})
 	MiscTab:AddSlider({Name = "WalkSpeed", Flag = "WalkSpeed", Min = 16, Max = 5000})
 end
