@@ -24,7 +24,7 @@ oldnamecall = hookfunction(gmt.__namecall, function(self, ...)
 	return oldnamecall(self, ...)
 end)
 oldindex = hookfunction(gmt.__index, function(self, b)
-	if Main.Flags.SpeedOn then
+	if Main.Flags.SpeedToggle then
 		if b == "WalkSpeed" then
 			if Player.Character then
 				return Player.Character:WaitForChild("Humanoid").WalkSpeed
@@ -63,7 +63,7 @@ end)
 
 spawn(function()
 	while true do
-		if Main.Flags.SpeedOn and Player.Character then
+		if Main.Flags.SpeedToggle and Player.Character then
 			Player.Character:WaitForChild("Humanoid").WalkSpeed = Main.Flags.WalkSpeed
 		end
 		wait(0.5)
