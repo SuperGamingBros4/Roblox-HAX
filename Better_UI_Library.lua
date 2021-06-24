@@ -974,8 +974,9 @@ function Library:CreateWindow(Name)
 			local Flag = Flags["Flag"] or ""
 			local Min = Flags["Min"] or 0
 			local Max = Flags["Max"] or 100
+            local Default = Flags["Default"] or Min
 
-			Library.Flags[Flag] = Min
+			Library.Flags[Flag] = Default
 
 			local Held = false
 			local percentage = 0
