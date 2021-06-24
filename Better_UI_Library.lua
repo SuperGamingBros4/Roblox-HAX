@@ -974,12 +974,25 @@ function Library:CreateWindow(Name)
 			local Flag = Flags["Flag"] or ""
 			local Min = Flags["Min"] or 0
 			local Max = Flags["Max"] or 100
-            local Default = Flags["Default"] or Min
+            local Default = math.clamp(Flags["Default"], Min, Max) or Min
 
 			Library.Flags[Flag] = Default
 
+			local function snap(number, factor)
+				return math.floor(number/factor) * factor
+			end
+
 			local Held = false
 			local percentage = 0
+            
+
+			SliderBounds.Name = "SliderBounds"
+			SliderBounds.Parent = Slider
+			SliderBounds.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+			SliderBounds.BorderSizePixel = 0
+			SliderBounds.Position = UDim2.new(0, 0, 0.550649345, 0)
+			SliderBounds.Size = UDim2.new(0, 421, 0, 12)
+			SliderBounds.ZIndex = 8
 
 			Slider.Name = Name
 			Slider.Parent = Tab
@@ -991,9 +1004,6 @@ function Library:CreateWindow(Name)
 			Slider.MouseButton1Down:Connect(function()
 				Held = true
 			end)
-			local function snap(number, factor)
-				return math.floor(number/factor) * factor
-			end
 			UIS.InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
 					Held = false
@@ -1001,7 +1011,7 @@ function Library:CreateWindow(Name)
 			end)
 			RS.RenderStepped:Connect(function(input)
 				if (Held) then
-					local MousePos = game:GetService("UserInputService"):GetMouseLocation().X
+					local MousePos = UIS:GetMouseLocation().X
 					local sliderSize = SliderBounds.AbsoluteSize.X
 					local sliderPos = SliderBounds.AbsolutePosition.X
 					local snapped = snap((MousePos-sliderPos)/sliderSize, 1/Max)
@@ -1014,18 +1024,10 @@ function Library:CreateWindow(Name)
 				end
 			end)
 
-			SliderBounds.Name = "SliderBounds"
-			SliderBounds.Parent = Slider
-			SliderBounds.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-			SliderBounds.BorderSizePixel = 0
-			SliderBounds.Position = UDim2.new(0, 0, 0.550649345, 0)
-			SliderBounds.Size = UDim2.new(0, 421, 0, 12)
-			SliderBounds.ZIndex = 8
-
 			SliderPart.Name = "SliderPart"
 			SliderPart.Parent = SliderBounds
 			SliderPart.BackgroundColor3 = Color3.fromRGB(83, 83, 83)
-			SliderPart.Position = UDim2.new(-0.0250000004, 0, -0.916999996, 0)
+			SliderPart.Position = UDim2.new(snap(Default/Max, 1/Max) - 0.025, 0, -0.916999996, 0)
 			SliderPart.Size = UDim2.new(0, 20, 0, 33)
 			SliderPart.ZIndex = 10
 
