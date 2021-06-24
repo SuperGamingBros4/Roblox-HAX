@@ -1,4 +1,4 @@
-local Library = {Flags = {}}
+local Library = {Flags = {}} -- This is still being developed.
 
 --[[
   for use of this library copy: local Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
@@ -8,7 +8,7 @@ local Library = {Flags = {}}
 local GUILibrary = Instance.new("ScreenGui")
 
 GUILibrary.Name = "GUI Library"
-GUILibrary.Parent = game:GetService("CoreGui")
+GUILibrary.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 GUILibrary.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 local function resize(ScrollGui)
@@ -45,7 +45,7 @@ function Library:CreateWindow(Name)
 	local TabName = Instance.new("TextLabel")
 	local UIListLayout_2 = Instance.new("UIListLayout")
 	local UIPadding_2 = Instance.new("UIPadding")
-	
+
 	local Minimized = false
 
 	DragPart.Name = "DragPart"
@@ -500,7 +500,7 @@ function Library:CreateWindow(Name)
 			return DropDownParts
 		end
 
-		function Tabs:AddPlayerDropDown(Flags)
+		function Tabs:AddPlayerDropDownList(Flags)
 			local DropDown = Instance.new("Frame")
 			local DropDownActivator = Instance.new("TextButton")
 			local TextLabel = Instance.new("TextLabel")
@@ -562,12 +562,12 @@ function Library:CreateWindow(Name)
 			DropDownActivator.TextXAlignment = Enum.TextXAlignment.Left
 			DropDownActivator.MouseButton1Down:Connect(function()
 				if (Dropped) then
-                    DropDownPart.ScrollBarImageTransparency = 1
+					DropDownPart.ScrollBarImageTransparency = 1
 					Dropped = false
 					TextLabel.Text = "+"
 					DropDownPart:TweenSize(UDim2.new(0, 301, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
 				else
-                    DropDownPart.ScrollBarImageTransparency = 0
+					DropDownPart.ScrollBarImageTransparency = 0
 					Dropped = true
 					TextLabel.Text = "-"
 					DropDownPart:TweenSize(UDim2.new(0, 301, 0, 118), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
@@ -596,7 +596,7 @@ function Library:CreateWindow(Name)
 			DropDownPart.BorderColor3 = Color3.fromRGB(45, 45, 47)
 			DropDownPart.Position = UDim2.new(0.120734908, 0, 0.326530606, 0)
 			DropDownPart.ScrollBarThickness = 6
-            DropDownPart.ScrollBarImageTransparency = 1
+			DropDownPart.ScrollBarImageTransparency = 1
 			DropDownPart.AutomaticCanvasSize = Enum.AutomaticSize.Y
 			DropDownPart.Size = UDim2.new(0, 301, 0, 0)
 			DropDownPart.ZIndex = 6
@@ -608,77 +608,204 @@ function Library:CreateWindow(Name)
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			UIListLayout.Padding = UDim.new(0, 8)
 
-            local function AddPlayer(Name)
-                local DropDownSelection = Instance.new("TextButton")
-                local ToggleIndicator = Instance.new("Frame")
-                local UIPadding = Instance.new("UIPadding")
-                local UICorner = Instance.new("UICorner")
+			local function AddPlayer(Name)
+				local DropDownSelection = Instance.new("TextButton")
+				local ToggleIndicator = Instance.new("Frame")
+				local UIPadding = Instance.new("UIPadding")
+				local UICorner = Instance.new("UICorner")
 
-                local toggled
+				local toggled
 
-                if Library.Flags[Name] then
-                    toggled = true
-                else
-                    toggled = false
-                end
+				if Library.Flags[Name] then
+					toggled = true
+				else
+					toggled = false
+				end
 
-                DropDownSelection.Name = Name
-                DropDownSelection.Parent = DropDownPart
-                DropDownSelection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                DropDownSelection.BackgroundTransparency = 1.000
-                DropDownSelection.Position = UDim2.new(0.00332225906, 0, 0.0106382975, 0)
-                DropDownSelection.Size = UDim2.new(0, 300, 0, 50)
-                DropDownSelection.ZIndex = 10
-                DropDownSelection.Font = Enum.Font.SourceSans
-                DropDownSelection.Text = " " .. Name
-                DropDownSelection.TextColor3 = Color3.fromRGB(231, 231, 231)
-                DropDownSelection.TextScaled = true
-                DropDownSelection.TextSize = 14.000
-                DropDownSelection.TextWrapped = true
-                DropDownSelection.TextXAlignment = Enum.TextXAlignment.Left
-                DropDownSelection.MouseButton1Down:Connect(function()
-                    if (toggled) then
-                        remove(Name)
-                        toggled = false
-                        TS:Create(ToggleIndicator, ColorChangeStyle, {BackgroundColor3 = Color3.fromRGB(222, 0, 0);}):Play()
-                    else
-                        add(Name)
-                        toggled = true
-                        TS:Create(ToggleIndicator, ColorChangeStyle, {BackgroundColor3 = Color3.fromRGB(0, 222, 0);}):Play()
-                    end
-                end)
+				DropDownSelection.Name = Name
+				DropDownSelection.Parent = DropDownPart
+				DropDownSelection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropDownSelection.BackgroundTransparency = 1.000
+				DropDownSelection.Position = UDim2.new(0.00332225906, 0, 0.0106382975, 0)
+				DropDownSelection.Size = UDim2.new(0, 300, 0, 50)
+				DropDownSelection.ZIndex = 10
+				DropDownSelection.Font = Enum.Font.SourceSans
+				DropDownSelection.Text = " " .. Name
+				DropDownSelection.TextColor3 = Color3.fromRGB(231, 231, 231)
+				DropDownSelection.TextScaled = true
+				DropDownSelection.TextSize = 14.000
+				DropDownSelection.TextWrapped = true
+				DropDownSelection.TextXAlignment = Enum.TextXAlignment.Left
+				DropDownSelection.MouseButton1Down:Connect(function()
+					if (toggled) then
+						remove(Name)
+						toggled = false
+						TS:Create(ToggleIndicator, ColorChangeStyle, {BackgroundColor3 = Color3.fromRGB(222, 0, 0);}):Play()
+					else
+						add(Name)
+						toggled = true
+						TS:Create(ToggleIndicator, ColorChangeStyle, {BackgroundColor3 = Color3.fromRGB(0, 222, 0);}):Play()
+					end
+				end)
 
-                ToggleIndicator.Name = "ToggleIndicator"
-                ToggleIndicator.Parent = DropDownSelection
-                ToggleIndicator.BackgroundColor3 = Color3.fromRGB(222, 0, 0)
-                ToggleIndicator.Position = UDim2.new(0.853333354, 40, 0.200000048, 0)
-                ToggleIndicator.Size = UDim2.new(0, 30, 0, 30)
-                ToggleIndicator.ZIndex = 20
+				ToggleIndicator.Name = "ToggleIndicator"
+				ToggleIndicator.Parent = DropDownSelection
+				ToggleIndicator.BackgroundColor3 = Color3.fromRGB(222, 0, 0)
+				ToggleIndicator.Position = UDim2.new(0.853333354, 40, 0.200000048, 0)
+				ToggleIndicator.Size = UDim2.new(0, 30, 0, 30)
+				ToggleIndicator.ZIndex = 20
 
-                UICorner.CornerRadius = UDim.new(0, 10)
-                UICorner.Parent = ToggleIndicator
+				UICorner.CornerRadius = UDim.new(0, 10)
+				UICorner.Parent = ToggleIndicator
 
-                UIPadding.Parent = DropDownSelection
-                UIPadding.PaddingRight = UDim.new(0, 45)
+				UIPadding.Parent = DropDownSelection
+				UIPadding.PaddingRight = UDim.new(0, 45)
 
-            end
-            for i, Player in pairs(game:GetService("Players"):GetPlayers()) do
-                AddPlayer(Player.Name)
-            end
-            game:GetService("Players").ChildAdded:Connect(function(Player)
-                if Player:IsA("Player") then
-                    AddPlayer(Player.Name)
-                end
-            end)
-            game:GetService("Players").ChildRemoved:Connect(function(Player)
-                if Player:IsA("Player") then
-                    remove(Player.Name)
-                    Library.Flags[Selection][Player.Name] = nil
-                end
-            end)
-        end
+			end
+			for i, Player in pairs(game:GetService("Players"):GetPlayers()) do
+				AddPlayer(Player.Name)
+			end
+			game:GetService("Players").ChildAdded:Connect(function(Player)
+				if Player:IsA("Player") then
+					AddPlayer(Player.Name)
+				end
+			end)
+			game:GetService("Players").ChildRemoved:Connect(function(Player)
+				if Player:IsA("Player") then
+					remove(Player.Name)
+					Library.Flags[Selection][Player.Name] = nil
+				end
+			end)
+		end
 
-        function Tabs:AddDropDownList(Flags)
+		function Tabs:AddPlayerDropDown(Flags)
+			local DropDown = Instance.new("Frame")
+			local DropDownActivator = Instance.new("TextButton")
+			local TextLabel = Instance.new("TextLabel")
+			local UIPadding = Instance.new("UIPadding")
+			local DropDownPart = Instance.new("ScrollingFrame")
+			local UIListLayout = Instance.new("UIListLayout")
+
+			local Name = Flags["Name"] or "DropDown"
+			local Selection = Flags["Flag"] or ""
+			local Dropped = false
+
+			Library.Flags[Selection] = ""
+			
+			DropDown.Name = Name
+			DropDown.Parent = Tab
+			DropDown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			DropDown.BackgroundTransparency = 1.000
+			DropDown.BorderSizePixel = 0
+			DropDown.Position = UDim2.new(0.0894396529, 0, 0.319444448, 0)
+			DropDown.Size = UDim2.new(0, 381, 0, 196)
+			DropDown.ZIndex = 6
+
+			DropDownActivator.Name = "DropDownActivator"
+			DropDownActivator.Parent = DropDown
+			DropDownActivator.BackgroundColor3 = Color3.fromRGB(48, 48, 50)
+			DropDownActivator.BorderColor3 = Color3.fromRGB(45, 45, 47)
+			DropDownActivator.Position = UDim2.new(0.120734908, 0, 0.0754483268, 0)
+			DropDownActivator.Size = UDim2.new(0, 301, 0, 50)
+			DropDownActivator.ZIndex = 7
+			DropDownActivator.Font = Enum.Font.SourceSans
+			DropDownActivator.Text = Name
+			DropDownActivator.TextColor3 = Color3.fromRGB(231, 231, 231)
+			DropDownActivator.TextSize = 30.000
+			DropDownActivator.TextWrapped = true
+			DropDownActivator.TextXAlignment = Enum.TextXAlignment.Left
+			DropDownActivator.MouseButton1Down:Connect(function()
+				if (Dropped) then
+					DropDownPart.ScrollBarImageTransparency = 1
+					Dropped = false
+					TextLabel.Text = "+"
+					DropDownPart:TweenSize(UDim2.new(0, 301, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
+				else
+					DropDownPart.ScrollBarImageTransparency = 0
+					Dropped = true
+					TextLabel.Text = "-"
+					DropDownPart:TweenSize(UDim2.new(0, 301, 0, 118), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
+				end
+			end)
+
+			TextLabel.Parent = DropDownActivator
+			TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel.BackgroundTransparency = 1.000
+			TextLabel.Position = UDim2.new(0.911866307, 0, 0.0808001757, 0)
+			TextLabel.Size = UDim2.new(0, 45, 0, 39)
+			TextLabel.ZIndex = 10
+			TextLabel.Font = Enum.Font.SourceSans
+			TextLabel.Text = "+"
+			TextLabel.TextColor3 = Color3.fromRGB(231, 231, 231)
+			TextLabel.TextSize = 50.000
+
+			UIPadding.Parent = DropDownActivator
+			UIPadding.PaddingLeft = UDim.new(0, 5)
+			UIPadding.PaddingRight = UDim.new(0, 20)
+
+			DropDownPart.Name = "DropDownPart"
+			DropDownPart.Parent = DropDown
+			DropDownPart.Active = true
+			DropDownPart.BackgroundColor3 = Color3.fromRGB(48, 48, 50)
+			DropDownPart.BorderColor3 = Color3.fromRGB(45, 45, 47)
+			DropDownPart.Position = UDim2.new(0.120734908, 0, 0.326530606, 0)
+			DropDownPart.ScrollBarThickness = 6
+			DropDownPart.ScrollBarImageTransparency = 1
+			DropDownPart.AutomaticCanvasSize = Enum.AutomaticSize.Y
+			DropDownPart.Size = UDim2.new(0, 301, 0, 0)
+			DropDownPart.ZIndex = 6
+			DropDownPart.ChildAdded:Connect(function()
+				resize(DropDownPart)
+			end)
+
+			UIListLayout.Parent = DropDownPart
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIListLayout.Padding = UDim.new(0, 8)
+
+			local function AddPlayer(Name)
+				local DropDownSelection = Instance.new("TextButton")
+				local ToggleIndicator = Instance.new("Frame")
+				local UIPadding = Instance.new("UIPadding")
+				local UICorner = Instance.new("UICorner")
+
+				DropDownSelection.Name = Name
+				DropDownSelection.Parent = DropDownPart
+				DropDownSelection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				DropDownSelection.BackgroundTransparency = 1.000
+				DropDownSelection.Position = UDim2.new(0.00332225906, 0, 0.0106382975, 0)
+				DropDownSelection.Size = UDim2.new(0, 300, 0, 50)
+				DropDownSelection.ZIndex = 10
+				DropDownSelection.Font = Enum.Font.SourceSans
+				DropDownSelection.Text = " " .. Name
+				DropDownSelection.TextColor3 = Color3.fromRGB(231, 231, 231)
+				DropDownSelection.TextScaled = true
+				DropDownSelection.TextSize = 14.000
+				DropDownSelection.TextWrapped = true
+				DropDownSelection.TextXAlignment = Enum.TextXAlignment.Left
+				DropDownSelection.MouseButton1Down:Connect(function()
+					DropDownActivator.Text = Name
+					Library.Flags[Selection] = Name
+				end)
+			end
+			for i, Player in pairs(game:GetService("Players"):GetPlayers()) do
+				AddPlayer(Player.Name)
+			end
+			game:GetService("Players").ChildAdded:Connect(function(Player)
+				if Player:IsA("Player") then
+					AddPlayer(Player.Name)
+				end
+			end)
+			game:GetService("Players").ChildRemoved:Connect(function(Player)
+				if Player:IsA("Player") then
+					if Library.Flags[Selection] == Player.Name then
+						DropDownActivator.Text = nil
+						Library.Flags[Selection] = nil
+					end
+				end
+			end)
+		end
+
+		function Tabs:AddDropDownList(Flags)
 			local DropDown = Instance.new("Frame")
 			local DropDownActivator = Instance.new("TextButton")
 			local TextLabel = Instance.new("TextLabel")
@@ -740,12 +867,12 @@ function Library:CreateWindow(Name)
 			DropDownActivator.TextXAlignment = Enum.TextXAlignment.Left
 			DropDownActivator.MouseButton1Down:Connect(function()
 				if (Dropped) then
-                    DropDownPart.ScrollBarImageTransparency = 0
+					DropDownPart.ScrollBarImageTransparency = 0
 					Dropped = false
 					TextLabel.Text = "+"
 					DropDownPart:TweenSize(UDim2.new(0, 301, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
 				else
-                    DropDownPart.ScrollBarImageTransparency = 1
+					DropDownPart.ScrollBarImageTransparency = 1
 					Dropped = true
 					TextLabel.Text = "-"
 					DropDownPart:TweenSize(UDim2.new(0, 301, 0, 118), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
@@ -774,7 +901,7 @@ function Library:CreateWindow(Name)
 			DropDownPart.BorderColor3 = Color3.fromRGB(45, 45, 47)
 			DropDownPart.Position = UDim2.new(0.120734908, 0, 0.326530606, 0)
 			DropDownPart.ScrollBarThickness = 6
-            DropDownPart.ScrollBarImageTransparency = 1
+			DropDownPart.ScrollBarImageTransparency = 1
 			DropDownPart.AutomaticCanvasSize = Enum.AutomaticSize.Y
 			DropDownPart.Size = UDim2.new(0, 301, 0, 0)
 			DropDownPart.ZIndex = 6
@@ -834,7 +961,7 @@ function Library:CreateWindow(Name)
 			end
 			return DropDownParts
 		end
-		
+
 		function Tabs:AddSlider(Flags)
 			local Slider = Instance.new("TextButton")
 			local SliderBounds = Instance.new("Frame")
@@ -842,14 +969,14 @@ function Library:CreateWindow(Name)
 			local UICorner = Instance.new("UICorner")
 			local UICorner_2 = Instance.new("UICorner")
 			local TextLabel = Instance.new("TextLabel")
-			
+
 			local Name = Flags["Name"] or "Slider"
 			local Flag = Flags["Flag"] or ""
 			local Min = Flags["Min"] or 0
 			local Max = Flags["Max"] or 100
-			
+
 			Library.Flags[Flag] = Min
-			
+
 			local Held = false
 			local percentage = 0
 
