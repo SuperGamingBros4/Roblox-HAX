@@ -1036,7 +1036,7 @@ function Library:CreateWindow(Name)
 			TextLabel.Size = UDim2.new(0, 421, 0, 42)
 			TextLabel.ZIndex = 10
 			TextLabel.Font = Enum.Font.SourceSans
-			TextLabel.Text = Name..": "..tostring(Min)
+			TextLabel.Text = Name..": "..tostring(Default)
 			TextLabel.TextColor3 = Color3.fromRGB(231, 231, 231)
 			TextLabel.TextScaled = true
 			TextLabel.TextSize = 14.000
@@ -1051,4 +1051,4 @@ function Library:CreateWindow(Name)
 	end
 	return Windows
 end
-return Library
+return library
