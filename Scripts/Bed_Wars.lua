@@ -72,5 +72,6 @@ coroutine.wrap(function()
         if Main.Flags.Speed then
             pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
         end
+        wait()
     end
 end)()
