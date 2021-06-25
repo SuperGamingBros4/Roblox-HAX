@@ -58,6 +58,7 @@ local MainTab = Window:AddTab("Main") do
     MainTab:AddToggle({Name = "AimBot Circle", Flag = "FovCircle"})
     MainTab:AddToggle({Name = "VisCheck", Flag = "VisCheck"})
     MainTab:AddSlider({Name = "Aimbot Fov", Default = 50, Max = 500, Flag = "Size"})
+    MainTab:AddToggle({Name = "Toggle Sprint", Flag = "Speed"})
 end
 local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddText("Fov Circle Settings")
@@ -66,3 +67,10 @@ local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddSlider({Name = "Blue", Flag = "FovBlue", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Smoothness", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
 end
+coroutine.wrap(function()
+    while true do
+        if Main.Flags.Speed then
+            pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
+        end
+    end
+end)()
