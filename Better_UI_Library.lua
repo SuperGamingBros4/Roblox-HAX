@@ -974,7 +974,10 @@ function Library:CreateWindow(Name)
 			local Flag = Flags["Flag"] or ""
 			local Min = Flags["Min"] or 0
 			local Max = Flags["Max"] or 100
-            local Default = math.clamp(Flags["Default"], Min, Max) or Min
+            local Default = Flags["Default"] or Min
+            if Default ~= Min then
+                Default = math.clamp(Flags["Default"], Min, Max)
+            end
 
 			Library.Flags[Flag] = Default
 
