@@ -9,6 +9,6 @@ getgenv().GameIds = { --Structure {GameId, LuaFile}
   6245143799, "Minecraft.lua",
   1283960312, "Cash_Grab.lua",
   5733777811, "LockPicking_Simulator.lua",
-  6872265039, "Bed_Wars.lua"
+  6872265039, "Bed_Wars.lua",
   6872274481, "Bed_Wars.lua"
 }
