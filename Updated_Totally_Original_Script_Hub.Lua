@@ -11,9 +11,9 @@ local Market = game:GetService("MarketplaceService")
 
 -- Check if game is appart of library
 for i,v in pairs(GameIds) do
-	if GameList[game.PlaceId] then
+	if if game.PlaceId == v then
 		GameFound = true
-		GameScript = GameList[game.PlaceId]
+		GameScript = v
 		print("Detected: "..Market:GetProductInfo(game.PlaceId).Name)
 	end
 end
