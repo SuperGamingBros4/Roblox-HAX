@@ -4,9 +4,9 @@ local camera = game:GetService("Workspace").CurrentCamera
 local Plr = game:GetService("Players").LocalPlayer
 local RS = game:GetService("RunService")
 local mouse = Plr:GetMouse()
-local Target = nil
 
 function getclosestplayertomouse()
+    local Target = nil
     for i,v in pairs(game:GetService("Players"):GetPlayers()) do
         if v.Character then
             if v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Humanoid").Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") and v.TeamColor ~= Plr.TeamColor then
@@ -15,6 +15,7 @@ function getclosestplayertomouse()
                 if Main.Flags.VisCheck then
                     if Main.Flags.Size > dist and vis then
                         Target = v
+                        print(dist)
                     end
                 else
                     if Main.Flags.Size > dist then
@@ -29,7 +30,6 @@ end
 
 local circle = Drawing.new("Circle")
 circle.Thickness = 0.1
-
 RS.RenderStepped:Connect(function()
     local Settings = Main.Flags
     if Settings.Aimbot and Settings.FovCircle then
