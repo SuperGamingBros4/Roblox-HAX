@@ -8,7 +8,7 @@ local Library = {Flags = {}} -- This is still being developed.
 local GUILibrary = Instance.new("ScreenGui")
 
 GUILibrary.Name = "GUI Library"
-GUILibrary.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+GUILibrary.Parent = game:GetService("CoreGui")
 GUILibrary.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 local function resize(ScrollGui)
