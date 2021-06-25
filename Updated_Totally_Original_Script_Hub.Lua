@@ -1,7 +1,6 @@
 -- Variables:
 -- Grab Game List
-local GameList = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))()
 
 local GameFound = false
 
@@ -11,9 +10,9 @@ local Market = game:GetService("MarketplaceService")
 
 -- Check if game is appart of library
 for i,v in pairs(GameIds) do
-	if if game.PlaceId == v then
+	if game.PlaceId == v then
 		GameFound = true
-		GameScript = v
+		GameScript = GameIds[i+1]
 		print("Detected: "..Market:GetProductInfo(game.PlaceId).Name)
 	end
 end
@@ -41,12 +40,12 @@ local DetectedGame = Instance.new("TextLabel")
 
 function CheckFound()
 	if GameFound == true then
-		Load.Visible = true
+		LoadButton.Visible = true
 		DetectedGame.Text = "Detected: "..Market:GetProductInfo(game.PlaceId).Name
 	else
-		Load.Active = false
-		Load.Selectable = false
-		Load.Visible = false
+		LoadButton.Active = false
+		LoadButton.Selectable = false
+		LoadButton.Visible = false
 		DetectedGame.Text = "No Game Detected"
 	end
 end
@@ -60,7 +59,7 @@ function CloseHub()
 	TopLabel:TweenSize(UDim2.new(0, 591, 0, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.4, true)
 	wait(0.4)
 	Exit.Visible = false
-	Load.Visible = false
+	LoadButton.Visible = false
 	Executor.Visible = false
 	DetectedGame.Visible = false
 	TopLabel.Visible = false
