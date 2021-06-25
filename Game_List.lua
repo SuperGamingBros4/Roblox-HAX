@@ -1,4 +1,4 @@
-local GameIds = { --Structure {GameId, LuaFile}
+return { --Structure {GameId, LuaFile}
   4695094789 = "Summer_Event_Weight_Lifting_Simulator.lua",
   5709572883 = "Lifting_Legends_Simulator.lua",
   5817322596 = "Speed_Legends_Simulator.lua",
@@ -11,4 +11,3 @@ local GameIds = { --Structure {GameId, LuaFile}
   5733777811 = "LockPicking_Simulator.lua"
   6872265039 = "Bed_Wars.lua"
 }
-return GameIds
