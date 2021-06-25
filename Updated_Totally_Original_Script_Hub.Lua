@@ -1,7 +1,7 @@
 -- Variables:
 -- Grab Game List
-loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))()
-
+local Returned = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))()
+  
 local GameFound = false
 
 local GameScript = ""
@@ -9,12 +9,10 @@ local GameScript = ""
 local Market = game:GetService("MarketplaceService")
 
 -- Check if game is appart of library
-for i,v in pairs(GameIds) do
-	if game.PlaceId == v then
-		GameFound = true
-		GameScript = GameIds[i+1]
-		print("Detected: "..Market:GetProductInfo(game.PlaceId).Name)
-	end
+if Returned[game.PlaceId] then
+	GameFound = true
+	GameScript = Returned[game.PlaceId]
+	print("Detected: "..Market:GetProductInfo(game.PlaceId).Name)
 end
 if not GameFound then
 	print("No Game Detected")	
