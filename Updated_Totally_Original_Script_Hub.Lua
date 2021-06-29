@@ -1,23 +1,3 @@
--- Variables:
--- Grab Game List
-local Returned = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))()
-  
-local GameFound = false
-
-local GameScript = ""
-
-local Market = game:GetService("MarketplaceService")
-
--- Check if game is appart of library
-if Returned[game.PlaceId] then
-	GameFound = true
-	GameScript = Returned[game.PlaceId]
-	print("Detected: "..Market:GetProductInfo(game.PlaceId).Name)
-end
-if not GameFound then
-	print("No Game Detected")	
-end
-
 -- Instances:
 
 local NEWScriptHub = Instance.new("ScreenGui")
@@ -34,19 +14,30 @@ local DragIndicator = Instance.new("Frame")
 local UICorner_4 = Instance.new("UICorner")
 local DetectedGame = Instance.new("TextLabel")
 
--- Functions:
 
-function CheckFound()
-	if GameFound == true then
-		LoadButton.Visible = true
-		DetectedGame.Text = "Detected: "..Market:GetProductInfo(game.PlaceId).Name
-	else
-		LoadButton.Active = false
-		LoadButton.Selectable = false
-		LoadButton.Visible = false
-		DetectedGame.Text = "No Game Detected"
-	end
+-- Variables:
+local Returned = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))() -- Grab Game List
+
+local GameScript = ""
+
+local Market = game:GetService("MarketplaceService")
+
+-- Check if game is appart of library
+if Returned[game.PlaceId] then
+	local Name = Returned[game.PlaceId].Name
+	GameScript = Returned[game.PlaceId].Script
+	LoadButton.Visible = true
+	DetectedGame.Text = "Detected: " .. Name
+	print("Detected: " .. Name)
+else
+	LoadButton.Active = false
+	LoadButton.Selectable = false
+	LoadButton.Visible = false
+	DetectedGame.Text = "No Game Detected"
+	print("No Game Detected")	
 end
+
+-- Functions:
 
 function CloseHub()
 	Main:TweenSize(UDim2.new(0, 592,0, 15), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.8, true)
@@ -62,8 +53,8 @@ function CloseHub()
 	DetectedGame.Visible = false
 	TopLabel.Visible = false
 	wait(0.35)
-    Main:TweenSize(UDim2.new(0, 0,0, 15), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.625, true)
-    DragIndicator:TweenSize(UDim2.new(0, 0, 0, 10), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.55, true)
+    	Main:TweenSize(UDim2.new(0, 0,0, 15), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.625, true)
+    	DragIndicator:TweenSize(UDim2.new(0, 0, 0, 10), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.55, true)
 	delay(0.7, function() NEWScriptHub:ClearAllChildren() NEWScriptHub:Destroy() end)
 end
 
