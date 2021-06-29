@@ -17,7 +17,6 @@ local DetectedGame = Instance.new("TextLabel")
 
 -- Variables:
 local Returned = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Game_List.lua"))() -- Grab Game List
-
 local GameScript = ""
 
 local Market = game:GetService("MarketplaceService")
@@ -102,7 +101,6 @@ LoadButton.TextColor3 = Color3.fromRGB(85, 85, 85)
 LoadButton.TextScaled = true
 LoadButton.TextSize = 14.000
 LoadButton.TextWrapped = true
-LoadButton.Visible = false
 LoadButton.MouseButton1Down:Connect(function()
 	delay(0.1, function() loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/master/Scripts/"..GameScript))() end)
 	CloseHub()
@@ -184,7 +182,6 @@ Main:TweenSize(UDim2.new(0, 596,0, 15), Enum.EasingDirection.InOut, Enum.EasingS
 wait(0.0078625)
 DragIndicator:TweenSize(UDim2.new(0, 576, 0, 10), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, .55, true)
 wait(0.65)
-CheckFound()
 Exit.Visible = true
 Executor.Visible = true
 DetectedGame.Visible = true
