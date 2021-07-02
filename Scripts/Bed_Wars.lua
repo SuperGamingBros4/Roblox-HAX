@@ -45,12 +45,29 @@ RS.RenderStepped:Connect(function()
         for i,arrow in pairs(game:GetService("Workspace"):GetChildren()) do
             if arrow.Name == "arrow" or arrow.Name == "crossbow_arrow" then
                 pcall(function()
-                    arrow:WaitForChild("Handle").Position = getclosestplayertomouse().Character.HumanoidRootPart.position
+                    arrow:WaitForChild("Handle").Position = getclosestplayertomouse().Character.HumanoidRootPart.Position
                 end)
             end
         end
     end
+    if Main.Flags.Speed then
+        pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
+    end
 end)
+
+local function InvisPlayer()
+    getgenv().InvisRunning = false
+    wait(0.01)
+    getgenv().InvisRunning = true
+    pcall(function()
+        local CFrame = Plr.Character.UpperTorso.CFrame
+        Plr.Character.HumanoidRootPart:BreakJoints()
+        while InvisRunning do
+            Plr.Character.UpperTorso.CFrame = CFrame
+            wait(0.000001)
+        end
+    end)
+end
 
 local Window = Main:CreateWindow("BedWars")
 local MainTab = Window:AddTab("Main") do
@@ -59,6 +76,8 @@ local MainTab = Window:AddTab("Main") do
     MainTab:AddToggle({Name = "VisCheck", Flag = "VisCheck"})
     MainTab:AddSlider({Name = "Aimbot Fov", Default = 50, Max = 500, Flag = "Size"})
     MainTab:AddToggle({Name = "Toggle Sprint", Flag = "Speed"})
+    MainTab:AddText("To get out of invisibility, just reset.")
+    MainTab:AddButton({Name = "Invisibility", Callback = InvisPlayer})
 end
 local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddText("Fov Circle Settings")
@@ -67,11 +86,3 @@ local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddSlider({Name = "Blue", Flag = "FovBlue", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Smoothness", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
 end
-coroutine.wrap(function()
-    while true do
-        if Main.Flags.Speed then
-            pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
-        end
-        wait()
-    end
-end)()
