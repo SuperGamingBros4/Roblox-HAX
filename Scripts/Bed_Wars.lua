@@ -32,7 +32,8 @@ local circle = Drawing.new("Circle")
 circle.Thickness = 0.1
 RS.RenderStepped:Connect(function()
     local Settings = Main.Flags
-    if Settings.Aimbot and Settings.FovCircle then
+    
+    if Settings.Aimbot and Settings.FovCircle then -- FovCircle
         circle.Visible = true
         circle.Color = Color3.fromRGB(Settings.FovRed, Settings.FovGreen, Settings.FovBlue)
         circle.NumSides = Settings.Smoothing
@@ -41,7 +42,8 @@ RS.RenderStepped:Connect(function()
     else
         circle.Visible = false
     end
-    if Settings.Aimbot then
+    
+    if Settings.Aimbot then -- Aimbot
         for i,arrow in pairs(game:GetService("Workspace"):GetChildren()) do
             if arrow.Name == "arrow" or arrow.Name == "crossbow_arrow" then
                 pcall(function()
@@ -50,7 +52,7 @@ RS.RenderStepped:Connect(function()
             end
         end
     end
-    if Main.Flags.Speed then
+    if Main.Flags.Speed then -- Toggle Speed
         pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
     end
 end)
@@ -69,6 +71,16 @@ local function InvisPlayer()
     end)
 end
 
+coroutine.wrap(function()
+    while true do
+        wait(1)
+        if Main.Flags.InstantBreak then -- InstantBreak
+            for i,block in pairs(game:GetService("Workspace").Map.Blocks:GetChildren()) do
+                block:SetAttribute("Health", 1) 
+            end
+        end
+    end
+end)()
 local Window = Main:CreateWindow("BedWars")
 local MainTab = Window:AddTab("Main") do
     MainTab:AddToggle({Name = "Aimbot", Flag = "Aimbot"})
@@ -76,6 +88,7 @@ local MainTab = Window:AddTab("Main") do
     MainTab:AddToggle({Name = "VisCheck", Flag = "VisCheck"})
     MainTab:AddSlider({Name = "Aimbot Fov", Default = 50, Max = 500, Flag = "Size"})
     MainTab:AddToggle({Name = "Toggle Sprint", Flag = "Speed"})
+    MainTab:AddToggle({Name = "Instant Break", Flag = "InstantBreak"})
     MainTab:AddText("To get out of invisibility, just reset.")
     MainTab:AddButton({Name = "Invisibility", Callback = InvisPlayer})
 end
