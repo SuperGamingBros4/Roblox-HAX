@@ -2,6 +2,11 @@
 
 local Player = game:GetService("Players").LocalPlayer
 
+local VirtualUser = game:GetService("VirtualUser")
+
+local Camera = game:GetService("Workspace").CurrentCamera
+local ViewportSize = Camera.ViewportSize
+
 local gmt = getrawmetatable(game)
 local oldindex
 local oldnamecall
@@ -70,6 +75,15 @@ c = game:GetService("RunService").RenderStepped:Connect(function()
 	end
 end)
 
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    if Main.Flags.AfkKick then
+        VirtualUser:CaptureController()
+        VirtualUser:Button2Down(Vector2.new(0,0), Camera.CFrame)
+        wait(0.1)
+        VirtualUser:Button2Up(Vector2.new(0,0), Camera.CFrame)
+    end
+end)
+
 spawn(function()
 	while true do
 		if Main.Flags.SpeedToggle and Player.Character then
@@ -84,11 +98,15 @@ local function openshop()
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 0)
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 1)
 end
+
+
+
 local Window = Main:CreateWindow("Lifting Simulator - By SuperJumpMan63#3843")
 local MainTab = Window:AddTab("Main") do
 	MainTab:AddToggle({Name = "Auto Lift", Flag = "AutoLift"})
 	MainTab:AddToggle({Name = "Auto Strength", Flag = "AutoStrength"})
 	MainTab:AddToggle({Name = "Auto Sell", Flag = "AutoSell"})
+	MainTab:AddToggle({Name = "No Afk Kick", Flag = "AfkKick"})
 end
 local MiscTab = Window:AddTab("Misc") do
 	MiscTab:AddButton({Name = "Open Shop", Callback = openshop})
