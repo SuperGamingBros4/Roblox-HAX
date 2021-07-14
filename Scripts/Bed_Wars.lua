@@ -1,7 +1,3 @@
-if Start then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/BedWars_Diamond.lua"))()
-end
-
 getgenv().Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
 
 local camera = game:GetService("Workspace").CurrentCamera 
@@ -102,4 +98,8 @@ local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddSlider({Name = "Green", Flag = "FovGreen", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Blue", Flag = "FovBlue", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Smoothness", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
+end
+
+if Start then -- if run by the linkvertise link
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/BedWars_Diamond.lua"))()
 end
