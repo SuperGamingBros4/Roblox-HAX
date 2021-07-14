@@ -100,6 +100,4 @@ local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddSlider({Name = "Smoothness", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
 end
 
-if Start then -- if run by the linkvertise link
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/BedWars_Diamond.lua"))()
-end
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/BedWars_Diamond.lua"))()
