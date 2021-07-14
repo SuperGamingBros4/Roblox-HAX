@@ -1,3 +1,7 @@
+if Start then
+    loadstring(game:HttpGet("https://github.com/SuperGamingBros4/Roblox-HAX/blob/main/Scripts/BedWars_Diamond.lua"))()
+end
+
 getgenv().Main = loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Better_UI_Library.lua"))()
 
 local camera = game:GetService("Workspace").CurrentCamera 
