@@ -7,6 +7,7 @@ local mouse = Plr:GetMouse()
 
 function getclosestplayertomouse()
     local Target = nil
+    local maxdist = Main.Flags.Size
     for i,v in pairs(game:GetService("Players"):GetPlayers()) do
         if v.Character then
             if v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Humanoid").Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") and v.TeamColor ~= Plr.TeamColor then
@@ -14,8 +15,8 @@ function getclosestplayertomouse()
                 local dist = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(pos.X, pos.Y)).Magnitude
                 if Main.Flags.VisCheck then
                     if Main.Flags.Size > dist and vis then
+                        maxdist = dist
                         Target = v
-                        print(dist)
                     end
                 else
                     if Main.Flags.Size > dist then
@@ -55,9 +56,6 @@ RS.RenderStepped:Connect(function()
     if Settings.Speed then -- Toggle Speed
         pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
     end
-    if Settings.AntiKnockback then
-        pcall(function() Plr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity"):Destroy() end)
-    end
 end)
 
 local function InvisPlayer()
@@ -84,6 +82,15 @@ coroutine.wrap(function()
         end
     end
 end)()
+
+coroutine.wrap(function()
+    while true do
+        wait(0.000001)
+        if Settings.AntiKnockback then
+            pcall(function() Plr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity"):Destroy() end)
+        end 
+    end
+end)
 local Window = Main:CreateWindow("BedWars")
 local MainTab = Window:AddTab("Main") do
     MainTab:AddToggle({Name = "Aimbot", Flag = "Aimbot"})
