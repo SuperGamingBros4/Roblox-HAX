@@ -55,6 +55,15 @@ RS.RenderStepped:Connect(function()
     if Main.Flags.Speed then -- Toggle Speed
         pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
     end
+    if Main.Flags.AntiKnockback then
+        if Plr.Character then
+            if Plr.Character:FindFirstChild("HumanoidRootPart") then
+                if Plr.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity") then
+                    Plr.Character:WaitForChild("HumanoidRootPart").BodyVelocity:Destroy()
+                end
+            end
+        end
+    end
 end)
 
 local function InvisPlayer()
@@ -89,6 +98,7 @@ local MainTab = Window:AddTab("Main") do
     MainTab:AddSlider({Name = "Aimbot Fov", Default = 50, Max = 500, Flag = "Size"})
     MainTab:AddToggle({Name = "Toggle Sprint", Flag = "Speed"})
     MainTab:AddToggle({Name = "Instant Break", Flag = "InstantBreak"})
+    MainTab:AddToggle({Name = "Anti-Knockback", Flag = "AntiKnockback"})
     MainTab:AddText("To get out of invisibility, just reset.")
     MainTab:AddButton({Name = "Invisibility", Callback = InvisPlayer})
 end
@@ -99,5 +109,3 @@ local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddSlider({Name = "Blue", Flag = "FovBlue", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Smoothness", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
 end
-
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/BedWars_Diamond.lua"))()
