@@ -52,17 +52,11 @@ RS.RenderStepped:Connect(function()
             end
         end
     end
-    if Main.Flags.Speed then -- Toggle Speed
+    if Settings.Speed then -- Toggle Speed
         pcall(function() Plr.Character.Humanoid.WalkSpeed = 22 end)
     end
-    if Main.Flags.AntiKnockback then
-        if Plr.Character then
-            if Plr.Character:FindFirstChild("HumanoidRootPart") then
-                if Plr.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity") then
-                    Plr.Character:WaitForChild("HumanoidRootPart").BodyVelocity:Destroy()
-                end
-            end
-        end
+    if Settings.AntiKnockback then
+        pcall(function() Plr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity"):Destroy() end)
     end
 end)
 
