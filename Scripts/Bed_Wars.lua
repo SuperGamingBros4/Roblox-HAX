@@ -86,7 +86,7 @@ end)()
 coroutine.wrap(function()
     while true do
         wait(0.000001)
-        if Settings.AntiKnockback then
+        if Main.Flags.AntiKnockback then
             pcall(function() Plr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity"):Destroy() end)
         end 
     end
