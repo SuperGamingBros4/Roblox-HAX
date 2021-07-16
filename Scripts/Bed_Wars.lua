@@ -108,5 +108,10 @@ local SettingsTab = Window:AddTab("Settings") do
     SettingsTab:AddSlider({Name = "Red", Flag = "FovRed", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Green", Flag = "FovGreen", Default = 255, Max = 255})
     SettingsTab:AddSlider({Name = "Blue", Flag = "FovBlue", Default = 255, Max = 255})
-    SettingsTab:AddSlider({Name = "Smoothness", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
+    SettingsTab:AddSlider({Name = "Circle Smoothness or Sides", Flag = "Smoothing", Min = 12, Default = 40, Max = 75})
+end
+local credits = Window:AddTab("Credits") do
+    credits:AddText("Scripting by SuperGamingBros4 / SuperJumpMan63")
+    credits:AddText("UI Lib by SuperJumpMan63")
+    credits:AddText("Advertiser and Helper - Songs_Dev")
 end
