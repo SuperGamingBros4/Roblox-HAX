@@ -114,4 +114,5 @@ local credits = Window:AddTab("Credits") do
     credits:AddText("Scripting by SuperGamingBros4 / SuperJumpMan63")
     credits:AddText("UI Lib by SuperJumpMan63")
     credits:AddText("Advertiser and Helper - Songs_Dev")
+    credits:AddText("YT - ScriptFanUser")
 end
