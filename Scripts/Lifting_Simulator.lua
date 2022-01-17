@@ -46,10 +46,6 @@ coroutine.resume(coroutine.create(function()
 		if Main.Flags.AutoStrength then
 			RemoteEvent:FireServer({"GainMuscle"})
 		end
-	end
-end))
-coroutine.resume(coroutine.create(function()
-	while wait(0.5) do
 		if Main.Flags.AutoSell then
 			RemoteEvent:FireServer({"SellMuscle"})
 		end
