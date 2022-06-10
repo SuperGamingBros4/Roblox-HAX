@@ -46,18 +46,22 @@ if WhitelistedTeams[Player.Team] then return; end
 
 function PressButton()
     local Time = 0
-    repeat
+    while not Player.PlayerGui:WaitForChild("Popup").Button.MobileButton do
         wait(0.1)
         Time++
+        print(Time)
         if Time > 200 then warn("ButtonPrompt Timout"); break; end
-    until Player.PlayerGui:WaitForChild("Popup").Button.MobileButton
+    end
     repeat
         spawn(function()
             for i,v in pairs(getconnections(Player.PlayerGui:WaitForChild("Popup").Button.MobileButton.MouseButton1Down)) do
                 spawn(v.Function)
             end
         end)
-        wait()
+        wait(0.1)
+        Time++
+        print(Time)
+        if Time > 200 then warn("ButtonPrompt Timout"); break; end
     until Player.PlayerGui:FindFirstChild("Popup") == nil or Player.Character.Humanoid.Health == 0
     wait(0.5)
 end
@@ -238,6 +242,9 @@ function Heists.Club.Function()
     Robbing = false
     
 end
+
+CashOut()
+wait(5)
 
 getgenv().AutoRob = true
 local AuRob = coroutine.create(function()
