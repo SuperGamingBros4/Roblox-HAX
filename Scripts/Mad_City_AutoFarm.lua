@@ -48,7 +48,7 @@ function PressButton()
     local Time = 0
     while not Player.PlayerGui:WaitForChild("Popup").Button.MobileButton do
         wait(0.1)
-        Time++
+        Time = Time + 1
         print(Time)
         if Time > 200 then warn("ButtonPrompt Timout"); break; end
     end
@@ -59,7 +59,7 @@ function PressButton()
             end
         end)
         wait(0.1)
-        Time++
+        Time = Time + 1
         print(Time)
         if Time > 200 then warn("ButtonPrompt Timout"); break; end
     until Player.PlayerGui:FindFirstChild("Popup") == nil or Player.Character.Humanoid.Health == 0
