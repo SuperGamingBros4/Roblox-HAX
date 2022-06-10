@@ -85,7 +85,7 @@ function getObjectsbyName(Folder, name)
     
     for i,v in pairs(Folder:GetChildren()) do
         if v.Name == name then
-            Iteration++
+            Iteration = Iteration + 1
             Table[Iteration] = v
         end
     end
@@ -233,7 +233,7 @@ function Heists.Club.Function()
                 HRP.Anchored = true
                 PressButton()
                 HRP.Anchored = false
-                Iteration++
+                Iteration = Iteration + 1
             end
         end
     until Iteration > 10
