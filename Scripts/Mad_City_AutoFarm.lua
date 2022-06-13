@@ -3,8 +3,11 @@ local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character.HumanoidRootPart
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
+local Alert = getsenv(Player.Character.UI["UI_Main"]).Msg
 
+getgenv().NoVelocity = true
 getgenv().Robbing = false
+getgenv().Clip = true
 
 --[[+Anti-Afk+]]--
 --// Define locals //
@@ -21,7 +24,7 @@ end)
 --[[-Anti-Afk-]]--
 
 --Helper Variables
-local TravelSpeed = 300
+local TravelSpeed = 500
 
 local Heists = {
     ["Bank"] = {
@@ -31,6 +34,12 @@ local Heists = {
         ["Robbed"] = false
     },
     ["Club"] = {
+        ["Robbed"] = false
+    },
+    ["Pyramid"] = {
+        ["Robbed"] = false
+    },
+    ["Train"] = {
         ["Robbed"] = false
     },
     ["NonBuilding"] = function() end
@@ -44,39 +53,43 @@ local WhitelistedTeams = {
 
 if WhitelistedTeams[Player.Team] then return; end
 
-function PressButton()
-    local Time = 0
+function OneTimeFireTouch(TouchInterest)
+    if TouchInterest and HRP then
+        firetouchinterest(HRP, TouchInterest, 0)
+        firetouchinterest(HRP, TouchInterest, 1)
+    end
+end
+        
+
+function PressButton(WaitTime)
     while not Player.PlayerGui:WaitForChild("Popup").Button.MobileButton do
         wait(0.1)
         Time = Time + 1
-        print(Time)
-        if Time > 200 then warn("ButtonPrompt Timout"); break; end
+        print(Time, Finished)
+        if Time > 200 then warn("ButtonPress Timout"); break; end
     end
-    repeat
-        spawn(function()
-            for i,v in pairs(getconnections(Player.PlayerGui:WaitForChild("Popup").Button.MobileButton.MouseButton1Down)) do
-                spawn(v.Function)
-            end
-        end)
-        wait(0.1)
-        Time = Time + 1
-        print(Time)
-        if Time > 200 then warn("ButtonPrompt Timout"); break; end
-    until Player.PlayerGui:FindFirstChild("Popup") == nil or Player.Character.Humanoid.Health == 0
-    wait(0.5)
-end
-
-function CashOut()
-    HRP.Anchored = false
-    GoTo(CrimBase, TravelSpeed)
+    wait(0.25)
+    spawn(function()
+        for i,v in pairs(getconnections(Player.PlayerGui:WaitForChild("Popup").Button.MobileButton.MouseButton1Down)) do
+            v.Function()
+        end
+    end)
+    wait(WaitTime)
 end
 
 function GoTo(Pos, Speed)
+    HRP.Anchored = false
+    wait(0.1)
     local Distance = (HRP.Position-Pos).Magnitude or 0
     local TweenInfo = TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear)
     
     TS:Create(HRP, TweenInfo, {Position = Pos}):Play()
-    wait(Distance/Speed)
+    wait((Distance/Speed)+0.1)
+end
+
+function CashOut()
+    GoTo(CrimBase - Vector3.new(0,2,0), TravelSpeed)
+    wait(1)
 end
 
 function getObjectsbyName(Folder, name)
@@ -92,188 +105,265 @@ function getObjectsbyName(Folder, name)
     return Table
 end
 
+function StealObject(Name, PartName, Offset)
+    for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
+        if v:FindFirstChild(PartName) then
+            GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
+            wait(0.2)
+            v[PartName][PartName].Event:FireServer()
+        end
+    end
+end
+
 --Everything that isn't tied to a building
 function Heists.NonBuilding()
+    Robbing = true
 
-    --Rob Tech Store
-    for i,Laptop in pairs(getObjectsbyName(ObjectSelection, "Laptop")) do
-        if Laptop:FindFirstChild("Steal") then
-            GoTo(Laptop.Steal.Position + Vector3.new(0, 3, 0), TravelSpeed)
-            wait(0.1)
-            HRP.Anchored = true
-            PressButton()
-            HRP.Anchored = false
-        end
-    end
-    for i,Phone in pairs(getObjectsbyName(ObjectSelection, "Phone")) do
-        if Phone:FindFirstChild("Steal") then
-            GoTo(Phone.Steal.Position + Vector3.new(0, 3, 0), TravelSpeed)
-            wait(0.1)
-            HRP.Anchored = true
-            PressButton()
-            HRP.Anchored = false
-        end
-    end
+    --Tech Store
+    pcall(StealObject, "Laptop", "Steal", Vector3.new(0,3,0))
+    pcall(StealObject, "Phone", "Steal", Vector3.new(0,3,0))
 
-    --Rob ATMs
-    for i, v in pairs(getObjectsbyName(ObjectSelection, "ATM")) do
-        local ATM = v:FindFirstChild("ATM")
+    --ATMs
+    pcall(StealObject, "ATM", "ATM")
 
-        if not ATM then return; end
+    --Airport
+    pcall(StealObject, "Luggage", "SmashCash")
+    pcall(StealObject, "Cash", "Cash")
 
-        GoTo(ATM.Position, TravelSpeed)
-        wait(0.1)
-
-        HRP.Anchored = true
-        PressButton()
-        HRP.Anchored = false
-    end
-
-    --Rob Airport
-    for i,v in pairs(getObjectsbyName(ObjectSelection, "Cash")) do
-        local Cash = v:FindFirstChild("Cash")
-
-        if not Cash then return; end
-
-        GoTo(Cash.Position, TravelSpeed)
-        wait(0.1)
-
-        HRP.Anchored = true
-        PressButton()
-        HRP.Anchored = false
-    end
-    for i,v in pairs(getObjectsbyName(ObjectSelection, "Luggage")) do
-        local Luggage = v:FindFirstChild("SmashCash")
-
-        if not Luggage then return; end
-
-        GoTo(Luggage.Position, TravelSpeed)
-        wait(0.1)
-
-        HRP.Anchored = true
-        PressButton()
-        HRP.Anchored = false
-    end
+    --Other Buildings
+    pcall(StealObject, "CashRegister", "SmashCash")
+    pcall(StealObject, "TipJar", "SmashCash")
+    pcall(StealObject, "Safe", "SmashCash")
+    pcall(StealObject, "TV", "StealTV")
+    pcall(StealObject, "DiamondBox", "SmashCash")
 
     Robbing = false
 end
 
 --Rob Bank
-function Heists.Bank.Function()
+function Heists.Bank.Rob()
     --Set Robbed Variable
 
-    GoTo(Vector3.new(707.111, 107.951, 543.882), TravelSpeed)
+    if noFTI then 
+        GoTo(game:GetService("Workspace").Heists.Bank.EssentialParts.VaultDoor.Touch.Position, TravelSpeed)
+    else
+        OneTimeFireTouch(game:GetService("Workspace").Heists.Bank.EssentialParts.VaultDoor.Touch)
+    end
     wait(1)
     GoTo(Vector3.new(728.638, 109.763, 536.241), TravelSpeed)
     wait(22.5)
     CashOut()
-    wait(2)
     Heists.Bank.Robbed = true
     Robbing = false
 end
 
 --Rob Casino
-function Heists.Casino.Function()
+function Heists.Casino.Rob()
     --Set Robbed Variable
-
-    local Computer = ObjectSelection.HackComputer
-    
-    if Computer:FindFirstChild("HackComputer") then
-        GoTo(Computer.HackComputer.Position, TravelSpeed)
-        HRP.Anchored = true
-        PressButton()
-        wait(0.5)
-        HRP.Anchored = false
-    elseif not Computer:FindFirstChild("NoHack") then
-        warn("Casino: Computer Not Found")
-        return;
-    end
-
-    for i,Tray in pairs(getObjectsbyName(ObjectSelection, "Trayy")) do
-        if i == 12 or Tray.Open.Value then
-            CashOut()
-            break;
+    pcall(function()
+        local Computer = ObjectSelection.HackComputer
+        
+        if Computer:FindFirstChild("HackComputer") then
+            GoTo(Computer.HackComputer.Position, TravelSpeed)
+            wait(0.2)
+            Computer.HackComputer.HackComputer.Event:FireServer()
+        elseif not Computer:FindFirstChild("NoHack") then
+            warn("Casino: Computer Not Found")
+            return;
         end
-        repeat
-        GoTo(Tray.Trayy.Position, TravelSpeed)
-        until (HRP.Position-Tray.Trayy.Position).Magnitude < 5
-        HRP.Anchored = true
-        PressButton()
-        HRP.Anchored = false
-    end
+
+        for i,v in pairs(ObjectSelection:GetChildren()) do
+            if v:FindFirstChild("Lever") then
+                GoTo(v.Lever.Position, TravelSpeed)
+                wait(0.2)
+                v.Lever.Lever.Event:FireServer()
+            end
+        end
+
+        for i,Tray in pairs(getObjectsbyName(ObjectSelection, "Trayy")) do
+            if i == 12 or Tray.Open.Value then
+                CashOut()
+                break;
+            end
+            if Tray:FindFirstChild("Trayy") then
+                GoTo(Tray.Trayy.Position, TravelSpeed)
+                wait(0.2)
+                Tray.Trayy.Trayy.Event:FireServer()
+            end
+        end
+    end)
     Heists.Casino.Robbed = true
     Robbing = false
 end
 
 --Rob Club(a.k.a Disco place)
-function Heists.Club.Function()
+function Heists.Club.Rob()
     --Set Robbed Variable
-    local KeyPad
-    local Iteration = 0
+    pcall(function()
+        local KeyPad
+        local Iteration = 0
 
-    for i,v in pairs(getObjectsbyName(ObjectSelection, "HackKeyPad")) do -- Finds the Club Keypad
-        if v:FindFirstChild("HackKeyPad") then
-            if not v:FindFirstChild("LockedDoor") then
-                KeyPad = v
+        for i,v in pairs(getObjectsbyName(ObjectSelection, "HackKeyPad")) do -- Finds the Club Keypad
+            if v:FindFirstChild("HackKeyPad") then
+                if not v:FindFirstChild("LockedDoor") then
+                    KeyPad = v
+                end
             end
         end
-    end
-    if KeyPad then
-        GoTo(KeyPad.HackKeyPad.Position, TravelSpeed) -- Goes to the Keypad
-        HRP.Anchored = true
-        PressButton()
-        wait(0.25)
-        HRP.Anchored = false
-    end
-    --Go to and collect diamonds
-    repeat
-        for i,Diamond in pairs(getObjectsbyName(ObjectSelection, "ClubDiamond")) do
-            if Diamond:FindFirstChild("ClubDiamond") then
-                GoTo(Diamond.ClubDiamond.Position, TravelSpeed)
-                HRP.Anchored = true
-                PressButton()
-                HRP.Anchored = false
-                Iteration = Iteration + 1
-            end
+        if KeyPad then
+            GoTo(KeyPad.HackKeyPad.Position, TravelSpeed)
+            wait(0.2)
+            KeyPad.HackKeyPad.HackKeyPad.Event:FireServer() -- Hacks Keypad
         end
-    until Iteration > 10
-    CashOut()
+        --Go to and collect diamonds
+        repeat
+            for i,Diamond in pairs(getObjectsbyName(ObjectSelection, "ClubDiamond")) do
+                pcall(function()
+                    GoTo(Diamond.ClubDiamond.Position, TravelSpeed)
+                    wait(0.2)
+                    Diamond.ClubDiamond.ClubDiamond.Event:FireServer()
+                    Iteration = Iteration + 1
+                end)
+                wait()
+            end
+        until Iteration > 10
+        CashOut()
+    end)
     Heists.Club.Robbed = true
     Robbing = false
     
 end
 
+--Rob Pyramid
+function Heists.Pyramid.Rob()
+    local Iteration = 0
+
+    if noFTI then return; end
+
+    OneTimeFireTouch(game:GetService("Workspace").Pyramid.Tele.Core1)
+    repeat wait() until HRP.Position.Y > 30000
+    OneTimeFireTouch(game:GetService("Workspace").Pyramid.TouchStart)
+
+    for i,v in pairs(getObjectsbyName(ObjectSelection, "TreasurePyramid")) do
+        local Treasure = v:FindFirstChild("TreasurePyramid")
+        if Treasure then
+            GoTo(Treasure.Position, TravelSpeed)
+            wait(0.2)
+            Treasure.TreasurePyramid.Event:FireServer()
+            Iteration = Iteration + 1
+        end
+        if Iteration > 16 then break; end
+    end
+
+    Alert("Waiting to bypass kick.")
+    wait(15)
+    
+    OneTimeFireTouch(game:GetService("Workspace").Pyramid.Tele.Core2)
+    repeat wait() until HRP.Position.Y < 30000
+
+    CashOut()
+    Heists.Pyramid.Robbed = true
+    Robbing = false
+
+end
+
+--Robs Train
+function Heists.Train.Rob()
+    Robbing = true
+    if game:GetService("Workspace"):FindFirstChild("Train") then
+        if not Heists.Train.Robbed then
+            Alert("Robbing Train.")
+            for i = 0, 20 do 
+                game:GetService("ReplicatedStorage").RemoteEvent:FireServer("DiamondTrain")
+                wait()
+            end
+            CashOut()
+            Heists.Train.Robbed = true
+        end
+    else
+        Heists.Train.Robbed = false
+    end
+    Robbing = false
+end
+
+if not firetouchinterest then
+    getgenv().noFTI = true
+    Alert('WARNING, function: "firetouchinterest" was not found, Auto Rob will skip pyramid to prevent error.')
+end
+
+--No clip
+getgenv().Noclipping1 = nil
+if Noclipping1 then
+    Noclipping1:Disconnect()
+end
+Clip = false
+wait(0.1)
+local function LoopNoclip()
+    if Clip == false and Player.Character ~= nil then
+        for _, child in pairs(Player.Character:GetDescendants()) do
+            if child:IsA("BasePart") and child.CanCollide == true then
+                child.CanCollide = false
+            end
+        end
+    end
+end
+Noclipping1 = game:GetService('RunService').Stepped:Connect(LoopNoclip)
+
+local NoVelo = game:GetService('RunService').Stepped:Connect(function()
+    if NoVelocity then
+        HRP.Velocity = Vector3.new(0,2,0)
+    end
+end)
+
 CashOut()
-wait(5)
+wait(20)
+TravelSpeed = 1000
 
 getgenv().AutoRob = true
 local AuRob = coroutine.create(function()
-    pcall(function()
-        while AutoRob do
-            if Player.Character and Player.Character.Humanoid.Health > 0 then
-                
-                --Rob Buidlings
-                if not Robbing == true then
-                    for i,v in pairs(game:GetService("ReplicatedStorage").HeistStatus:GetChildren()) do
-                        local Heist = Heists[v.Name]
-                        wait()
-                        if Heist then
-                            if v.Locked.Value then
-                                Heist.Robbed = false
-                            elseif not Heist.Robbed then
-                                Robbing = true
-                                wait(1)
-                                Heist.Function()
-                            end
+    while AutoRob do
+        pcall(function()
+            HRP.Anchored = true
+            Player.Character.LowerTorso.Anchored = true
+            Player.Character.Humanoid.PlatformStand = true
+            if Player.Character.LowerTorso:FindFirstChild("Root") then
+                Player.Character.LowerTorso.Root:Destroy()
+            end
+            
+            --Rob Buidlings
+            if not Robbing == true then
+                Heists.NonBuilding()
+                Heists.Train.Rob()
+                for i,v in pairs(game:GetService("ReplicatedStorage").HeistStatus:GetChildren()) do
+                    local Heist = Heists[v.Name]
+                    wait()
+                    if Heist then
+                        if v.Locked.Value then
+                            Heist.Robbed = false
+                        elseif not Heist.Robbed then
+                            Alert("Robbing " .. v.Name)
+                            Robbing = true
+                            wait(1)
+                            Heist.Rob()
                         end
                     end
-                Heists.NonBuilding()
                 end
-
             end
-            wait()
-        end
-    end)
+
+            if not AutoRob then
+                if Noclipping1 then
+                    Noclipping1:Disconnect()
+                end
+                Clip = true
+                if NoVelo then
+                    NoVelo:Disconnect()
+                end
+                NoVelocity = false
+            end
+        end)
+        wait()
+    end
 end)
 
 coroutine.resume(AuRob)()
+--]]
