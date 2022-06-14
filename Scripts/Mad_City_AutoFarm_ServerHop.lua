@@ -1,5 +1,17 @@
 repeat wait() until game:IsLoaded()
 
+while true do 
+    local success, returned = pcall(function()
+        if game:GetService("Players").LocalPlayer.Character.Humanoid and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
+            return true;
+        end
+    end)
+    if success and returned then
+        break;
+    end
+    wait()
+end
+
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character:WaitForChild("HumanoidRootPart")
