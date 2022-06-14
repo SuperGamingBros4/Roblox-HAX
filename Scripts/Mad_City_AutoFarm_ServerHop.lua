@@ -1,30 +1,14 @@
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
-wait(5)
-
-while true do 
-    local success, returned = pcall(function()
-        if game:GetService("Players").LocalPlayer.Character.Humanoid and game:GetService("Players").LocalPlayer.Character.HumanoidRootPart then
-            return true;
-        end
-    end)
-    print(success, returned)
-    if success and returned then
-        break;
-    end
-    wait()
-end
+wait(20)
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character:WaitForChild("HumanoidRootPart")
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
-local Alert = getsenv(Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
---[[if Player.Character:FindFirstCHild("HumanoidRootPart") then
-    local HRP = Player.Character.HumanoidRootPart
-end]]
+local Alert
 
 getgenv().NoVelocity = true
 getgenv().Robbing = false
@@ -227,7 +211,6 @@ local Finished = false
 getgenv().AutoRob = true
 spawn(function()
     repeat wait() until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or Finished
-    print(game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt"), Finished)
     ServerHop()
 end)
 
