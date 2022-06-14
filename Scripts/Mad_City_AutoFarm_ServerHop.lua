@@ -1,11 +1,35 @@
-wait(5)
 while wait() do
     if game:IsLoaded() then
         break;
     end
 end
 
---repeat wait() until game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("SpawnGUI")
+local LoadList = {
+    'game:GetService("TweenService")',
+    'game:GetService("Players").LocalPlayer',
+    'Player.Character:WaitForChild("HumanoidRootPart")',
+    'Vector3.new(2080.06, 24.8274, 429.209)',
+    'game:GetService("Workspace").ObjectSelection',
+    'getsenv(Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg;'
+}
+
+function checkloaded()
+    local loaded = true
+    for i,v in pairs(LoadList) do
+        local success, returned = pcall(function()
+            local s, returned = loadstring([[local s = ]] .. v .. [[; return s]])()
+            if s and not returned == nil then
+                return true;
+            end
+        end)
+        if not success and not returned == true then
+            loaded = false
+        end
+    end
+    return loaded
+end
+
+repeat wait() print("waiting till load") until checkloaded()
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
