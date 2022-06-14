@@ -10,6 +10,8 @@ local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character:WaitForChild("HumanoidRootPart")
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
+repeat wait()
+until Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")
 local Alert = getsenv(Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
 
 getgenv().NoVelocity = true
@@ -114,7 +116,7 @@ function StealObject(Name, PartName, Offset)
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
-            wait(0.2)
+            wait(0.1)
             v[PartName][PartName].Event:FireServer()
         end
     end
@@ -208,7 +210,7 @@ function ServerHop()
     end
 end
 
-TravelSpeed = 1000
+TravelSpeed = 1500
 
 local Finished = false
 
