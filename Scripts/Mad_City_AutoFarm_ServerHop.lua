@@ -1,6 +1,4 @@
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
+repeat wait() until game:IsLoaded()
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
