@@ -7,7 +7,7 @@ local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character:WaitForChild("HumanoidRootPart")
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
-local Alert = getsenv(Player.Character.UI["UI_Main"]).Msg
+local Alert = getsenv(Player.Character:WaitForChild("UI")["UI_Main"]).Msg
 --[[if Player.Character:FindFirstCHild("HumanoidRootPart") then
     local HRP = Player.Character.HumanoidRootPart
 end]]
