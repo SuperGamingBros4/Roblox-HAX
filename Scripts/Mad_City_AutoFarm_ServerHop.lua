@@ -1,3 +1,4 @@
+wait(5)
 while wait() do
     if game:IsLoaded() then
         break;
@@ -5,7 +6,6 @@ while wait() do
 end
 
 --repeat wait() until game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("SpawnGUI")
-wait(5)
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
