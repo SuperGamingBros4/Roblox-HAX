@@ -1,9 +1,3 @@
-while wait() do
-    if game:IsLoaded() then
-        break;
-    end
-end
-
 local LoadList = {
     'game:GetService("TweenService")',
     'game:GetService("Players").LocalPlayer',
