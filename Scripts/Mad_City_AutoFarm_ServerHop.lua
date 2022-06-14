@@ -1,4 +1,6 @@
-repeat wait() until game:IsLoaded()
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
 
 while true do 
     local success, returned = pcall(function()
@@ -6,6 +8,7 @@ while true do
             return true;
         end
     end)
+    print(success, returned)
     if success and returned then
         break;
     end
