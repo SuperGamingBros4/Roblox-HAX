@@ -1,14 +1,16 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-print("D")
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
-local HRP = Player.Character.HumanoidRootPart
+local HRP = Player.Character:WaitForChild("HumanoidRootPart")
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
 local Alert = getsenv(Player.Character.UI["UI_Main"]).Msg
+--[[if Player.Character:FindFirstCHild("HumanoidRootPart") then
+    local HRP = Player.Character.HumanoidRootPart
+end]]
 
 getgenv().NoVelocity = true
 getgenv().Robbing = false
@@ -64,7 +66,6 @@ function OneTimeFireTouch(TouchInterest)
     end
 end
         
-
 function PressButton(WaitTime)
     while not Player.PlayerGui:WaitForChild("Popup").Button.MobileButton do
         wait(0.1)
@@ -88,7 +89,7 @@ function GoTo(Pos, Speed)
     local TweenInfo = TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear)
     
     TS:Create(HRP, TweenInfo, {Position = Pos}):Play()
-    wait((Distance/Speed)+0.1)
+    wait(Distance/Speed)
 end
 
 function CashOut()
