@@ -4,16 +4,14 @@ while wait() do
     end
 end
 
---[[repeat wait() until game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("SpawnGUI")
-wait(5)]]
+--repeat wait() until game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("SpawnGUI")
+wait(5)
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character:WaitForChild("HumanoidRootPart")
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
-repeat wait()
-until Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")
 local Alert = getsenv(Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
 
 getgenv().NoVelocity = true
