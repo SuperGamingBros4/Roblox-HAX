@@ -116,7 +116,7 @@ function StealObject(Name, PartName, Offset)
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
-            wait(0.1)
+            wait(0.15)
             v[PartName][PartName].Event:FireServer()
         end
     end
