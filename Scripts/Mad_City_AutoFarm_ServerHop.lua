@@ -71,22 +71,6 @@ function OneTimeFireTouch(TouchInterest)
         firetouchinterest(HRP, TouchInterest, 1)
     end
 end
-        
-function PressButton(WaitTime)
-    while not Player.PlayerGui:WaitForChild("Popup").Button.MobileButton do
-        wait(0.1)
-        Time = Time + 1
-        print(Time, Finished)
-        if Time > 200 then warn("ButtonPress Timout"); break; end
-    end
-    wait(0.25)
-    spawn(function()
-        for i,v in pairs(getconnections(Player.PlayerGui:WaitForChild("Popup").Button.MobileButton.MouseButton1Down)) do
-            v.Function()
-        end
-    end)
-    wait(WaitTime)
-end
 
 function GoTo(Pos, Speed)
     HRP.Anchored = false
@@ -99,7 +83,11 @@ function GoTo(Pos, Speed)
 end
 
 function CashOut()
-    GoTo(CrimBase - Vector3.new(0,2,0), TravelSpeed)
+    if firetouchinterest then
+        OneTimeFireTouch(game:GetService("Workspace").CriminalBase2.TouchEnd)
+    else
+        GoTo(CrimBase - Vector3.new(0,2,0), TravelSpeed)
+    end
     wait(1)
 end
 
@@ -232,6 +220,7 @@ if Player.Character.LowerTorso:FindFirstChild("Root") then
 end
 
 Heists.NonBuilding()
+Heists.Train.Rob()
 
 if not AutoRob then
     if Noclipping1 then
