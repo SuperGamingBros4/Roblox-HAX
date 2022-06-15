@@ -73,8 +73,6 @@ function OneTimeFireTouch(TouchInterest)
 end
 
 function GoTo(Pos, Speed)
-    HRP.Anchored = false
-    wait(0.1)
     local Distance = (HRP.Position-Pos).Magnitude or 0
     local TweenInfo = TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear)
     
@@ -208,7 +206,11 @@ local Finished = false
 
 getgenv().AutoRob = true
 spawn(function()
-    repeat wait() until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or Finished
+    local Time = 0
+    repeat
+        wait(0.1)
+        Time = Time + 1
+    until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or Finished or Time > 900
     ServerHop()
 end)
 
