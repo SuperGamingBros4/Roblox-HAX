@@ -216,7 +216,6 @@ spawn(function()
     ServerHop()
 end)
 
-HRP.Anchored = true
 Player.Character.LowerTorso.Anchored = true
 Player.Character.Humanoid.PlatformStand = true
 if Player.Character.LowerTorso:FindFirstChild("Root") then
