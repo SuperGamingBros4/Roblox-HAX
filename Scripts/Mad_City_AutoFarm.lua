@@ -2,6 +2,7 @@ local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character.HumanoidRootPart
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
+local CrimBaseWait = Vector3.new(2152.34, 40.4033, 380.813)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
 local Alert = getsenv(Player.Character.UI["UI_Main"]).Msg
 
@@ -25,6 +26,7 @@ end)
 
 --Helper Variables
 local TravelSpeed = 500
+local WaitTime = 0.15
 
 local Heists = {
     ["Bank"] = {
@@ -110,7 +112,7 @@ function StealObject(Name, PartName, Offset)
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
-            wait(0.3)
+            wait(0.15)
             v[PartName][PartName].Event:FireServer()
         end
     end
@@ -166,7 +168,7 @@ function Heists.Casino.Rob()
         
         if Computer:FindFirstChild("HackComputer") then
             GoTo(Computer.HackComputer.Position, TravelSpeed)
-            wait(0.3)
+            wait(WaitTime)
             Computer.HackComputer.HackComputer.Event:FireServer()
         elseif not Computer:FindFirstChild("NoHack") then
             warn("Casino: Computer Not Found")
@@ -176,7 +178,7 @@ function Heists.Casino.Rob()
         for i,v in pairs(ObjectSelection:GetChildren()) do
             if v:FindFirstChild("Lever") then
                 GoTo(v.Lever.Position, TravelSpeed)
-                wait(0.3)
+                wait(WaitTime)
                 v.Lever.Lever.Event:FireServer()
             end
         end
@@ -188,7 +190,7 @@ function Heists.Casino.Rob()
             end
             if Tray:FindFirstChild("Trayy") then
                 GoTo(Tray.Trayy.Position, TravelSpeed)
-                wait(0.3)
+                wait(WaitTime)
                 Tray.Trayy.Trayy.Event:FireServer()
             end
         end
@@ -213,7 +215,7 @@ function Heists.Club.Rob()
         end
         if KeyPad then
             GoTo(KeyPad.HackKeyPad.Position, TravelSpeed)
-            wait(0.3)
+            wait(WaitTime)
             KeyPad.HackKeyPad.HackKeyPad.Event:FireServer() -- Hacks Keypad
         end
         --Go to and collect diamonds
@@ -221,7 +223,7 @@ function Heists.Club.Rob()
             for i,Diamond in pairs(getObjectsbyName(ObjectSelection, "ClubDiamond")) do
                 pcall(function()
                     GoTo(Diamond.ClubDiamond.Position, TravelSpeed)
-                    wait(0.3)
+                    wait(WaitTime)
                     Diamond.ClubDiamond.ClubDiamond.Event:FireServer()
                     Iteration = Iteration + 1
                 end)
@@ -255,7 +257,7 @@ function Heists.Pyramid.Rob()
         local Treasure = v:FindFirstChild("TreasurePyramid")
         if Treasure then
             GoTo(Treasure.Position, TravelSpeed)
-            wait(0.3)
+            wait(WaitTime)
             Treasure.TreasurePyramid.Event:FireServer()
             Iteration = Iteration + 1
         end
@@ -327,7 +329,7 @@ local NoVelo = game:GetService('RunService').Stepped:Connect(function()
     end
 end)
 
-CashOut()
+GoTo(CrimBaseWait, TravelSpeed)
 wait(20)
 TravelSpeed = 1500
 
