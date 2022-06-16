@@ -78,17 +78,18 @@ function PressButton(WaitTime)
 end
 
 function GoTo(Pos, Speed)
-    HRP.Anchored = false
-    wait(0.1)
     local Distance = (HRP.Position-Pos).Magnitude or 0
     local TweenInfo = TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear)
     
     TS:Create(HRP, TweenInfo, {Position = Pos}):Play()
-    wait((Distance/Speed)+0.1)
+    wait(Distance/Speed)
 end
 
 function CashOut()
     GoTo(CrimBase - Vector3.new(0,2,0), TravelSpeed)
+    if not noFTI then
+        OneTimeFireTouch(game:GetService("Workspace").CriminalBase2.TouchEnd)
+    end
     wait(1)
 end
 
@@ -109,7 +110,7 @@ function StealObject(Name, PartName, Offset)
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
-            wait(0.2)
+            wait(0.3)
             v[PartName][PartName].Event:FireServer()
         end
     end
@@ -165,7 +166,7 @@ function Heists.Casino.Rob()
         
         if Computer:FindFirstChild("HackComputer") then
             GoTo(Computer.HackComputer.Position, TravelSpeed)
-            wait(0.2)
+            wait(0.3)
             Computer.HackComputer.HackComputer.Event:FireServer()
         elseif not Computer:FindFirstChild("NoHack") then
             warn("Casino: Computer Not Found")
@@ -175,7 +176,7 @@ function Heists.Casino.Rob()
         for i,v in pairs(ObjectSelection:GetChildren()) do
             if v:FindFirstChild("Lever") then
                 GoTo(v.Lever.Position, TravelSpeed)
-                wait(0.2)
+                wait(0.3)
                 v.Lever.Lever.Event:FireServer()
             end
         end
@@ -187,7 +188,7 @@ function Heists.Casino.Rob()
             end
             if Tray:FindFirstChild("Trayy") then
                 GoTo(Tray.Trayy.Position, TravelSpeed)
-                wait(0.2)
+                wait(0.3)
                 Tray.Trayy.Trayy.Event:FireServer()
             end
         end
@@ -212,7 +213,7 @@ function Heists.Club.Rob()
         end
         if KeyPad then
             GoTo(KeyPad.HackKeyPad.Position, TravelSpeed)
-            wait(0.2)
+            wait(0.3)
             KeyPad.HackKeyPad.HackKeyPad.Event:FireServer() -- Hacks Keypad
         end
         --Go to and collect diamonds
@@ -220,7 +221,7 @@ function Heists.Club.Rob()
             for i,Diamond in pairs(getObjectsbyName(ObjectSelection, "ClubDiamond")) do
                 pcall(function()
                     GoTo(Diamond.ClubDiamond.Position, TravelSpeed)
-                    wait(0.2)
+                    wait(0.3)
                     Diamond.ClubDiamond.ClubDiamond.Event:FireServer()
                     Iteration = Iteration + 1
                 end)
@@ -238,9 +239,15 @@ end
 function Heists.Pyramid.Rob()
     local Iteration = 0
 
-    if noFTI then return; end
-
-    OneTimeFireTouch(game:GetService("Workspace").Pyramid.Tele.Core1)
+    if noFTI then
+        GoTo(game:GetService("Workspace").Pyramid.Tele.Core1.Position, TravelSpeed)
+        repeat wait() until HRP.Position.Y > 30000
+        GoTo(game:GetService("Workspace").Pyramid.TouchStart.Position, TravelSpeed)
+    else
+        OneTimeFireTouch(game:GetService("Workspace").Pyramid.Tele.Core1)
+        repeat wait() until HRP.Position.Y > 30000
+        OneTimeFireTouch(game:GetService("Workspace").Pyramid.TouchStart)
+    end
     repeat wait() until HRP.Position.Y > 30000
     OneTimeFireTouch(game:GetService("Workspace").Pyramid.TouchStart)
 
@@ -248,7 +255,7 @@ function Heists.Pyramid.Rob()
         local Treasure = v:FindFirstChild("TreasurePyramid")
         if Treasure then
             GoTo(Treasure.Position, TravelSpeed)
-            wait(0.2)
+            wait(0.3)
             Treasure.TreasurePyramid.Event:FireServer()
             Iteration = Iteration + 1
         end
@@ -258,8 +265,13 @@ function Heists.Pyramid.Rob()
     Alert("Waiting to bypass kick.")
     wait(15)
     
-    OneTimeFireTouch(game:GetService("Workspace").Pyramid.Tele.Core2)
-    repeat wait() until HRP.Position.Y < 30000
+    if noFTI then
+        GoTo(game:GetService("Workspace").Pyramid.Tele.Core2.Position, TravelSpeed)
+        repeat wait() until HRP.Position.Y < 30000
+    else
+        OneTimeFireTouch(game:GetService("Workspace").Pyramid.Tele.Core2)
+        repeat wait() until HRP.Position.Y < 30000
+    end
 
     CashOut()
     Heists.Pyramid.Robbed = true
@@ -288,7 +300,7 @@ end
 
 if not firetouchinterest then
     getgenv().noFTI = true
-    Alert('WARNING, function: "firetouchinterest" was not found, Auto Rob will skip pyramid to prevent error.')
+    Alert('WARNING, function: "firetouchinterest" was not found, completing heists may not be as reliable, and the pyramid will not be robbed as fast.')
 end
 
 --No clip
@@ -317,13 +329,12 @@ end)
 
 CashOut()
 wait(20)
-TravelSpeed = 1000
+TravelSpeed = 1500
 
 getgenv().AutoRob = true
 local AuRob = coroutine.create(function()
     while AutoRob do
         pcall(function()
-            HRP.Anchored = true
             Player.Character.LowerTorso.Anchored = true
             Player.Character.Humanoid.PlatformStand = true
             if Player.Character.LowerTorso:FindFirstChild("Root") then
