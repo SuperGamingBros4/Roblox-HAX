@@ -25,10 +25,10 @@ getgenv().Robbing = false
 getgenv().Clip = true
 
 if syn then
-    getgenv().Teleport = syn.queue_on_teleport
+    getgenv().QueTeleport = syn.queue_on_teleport
     Alert("Supported Exploit Detected.")
 elseif queue_on_teleport then
-    getgenv().Teleport = queue_on_teleport
+    getgenv().QueTeleport = queue_on_teleport
     Alert("Supported Exploit Detected.")
 else
     Alert("Unsupported Exploit Detected.")
@@ -187,8 +187,14 @@ local NoVelo = game:GetService('RunService').Stepped:Connect(function()
     end
 end)
 
+--Server Hopping stuff
+
+local TpResultBlacklist = {
+    [Enum.TeleportResult.Success] = true,
+}
+
 function ServerHop()
-    Teleport([[loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Mad_City_AutoFarm_ServerHop.lua"))()]])
+    QueTeleport([[loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Mad_City_AutoFarm_ServerHop.lua"))()]])
 	local x = {}
 	for _, v in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
         pcall(function()
@@ -201,6 +207,13 @@ function ServerHop()
 		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, x[math.random(1, #x)])
     end
 end
+
+game:GetService("TeleportService").TeleportInitFailed:Connect(function(Result)
+    if not TpResultBlacklist[Result] then
+        ServerHop()
+    end
+end)
+
 
 TravelSpeed = 1500
 
