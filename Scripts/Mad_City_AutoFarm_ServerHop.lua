@@ -108,14 +108,13 @@ end
 local StuffToRob = false
 
 function StealObject(Name, PartName, Offset)
+    StuffToRob = false
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
             StuffToRob = true
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
             wait(0.15)
             v[PartName][PartName].Event:FireServer()
-        else
-            StuffToRob = false
         end
     end
 end
