@@ -105,13 +105,17 @@ function getObjectsbyName(Folder, name)
     return Table
 end
 
+local StuffToRob = false
+
 function StealObject(Name, PartName, Offset)
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
-            if not StuffToRob then StuffToRob = true; end
+            StuffToRob = true
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
             wait(0.15)
             v[PartName][PartName].Event:FireServer()
+        else
+            StuffToRob = false
         end
     end
 end
@@ -119,7 +123,6 @@ end
 --Everything that isn't tied to a building
 function Heists.NonBuilding()
     Robbing = true
-    local StuffToRob = false
 
     --Tech Store
     pcall(StealObject, "Laptop", "Steal", Vector3.new(0,3,0))
@@ -140,7 +143,6 @@ function Heists.NonBuilding()
     pcall(StealObject, "DiamondBox", "SmashCash")
 
     Robbing = false
-    return StuffToRob
 end
 
 --Robs Train
@@ -217,13 +219,13 @@ game:GetService("TeleportService").TeleportInitFailed:Connect(function(Result)
     end
 end)
 
-
 TravelSpeed = 3500
 
 getgenv().AutoRob = true
 spawn(function()
     local Time = 0
     repeat
+        repeat wait() print("No Character") until Player.Character:FindFirstChild("UpperTorso")
         Player.Character:WaitForChild("LowerTorso").Anchored = true
         Player.Character:WaitForChild("Humanoid").PlatformStand = true
         if Player.Character:WaitForChild("LowerTorso"):FindFirstChild("Root") then
@@ -232,8 +234,8 @@ spawn(function()
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
-        local StuffToRob = Heists.NonBuilding()
-    until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or StuffToRob == false or Time > 600
+        Heists.NonBuilding()
+    until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or StuffToRob == false or Time > 300
     Heists.Train.Rob()
     ServerHop()
 end)
