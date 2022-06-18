@@ -75,11 +75,12 @@ function OneTimeFireTouch(TouchInterest)
 end
 
 function GoTo(Pos, Speed)
-    local Distance = (HRP.Position-Pos).Magnitude or 0
-    local TweenInfo = TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear)
+    --local Distance = (HRP.Position-Pos).Magnitude or 0
+    --local TweenInfo = TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear)
     
-    TS:Create(HRP, TweenInfo, {Position = Pos}):Play()
-    wait(Distance/Speed)
+    --TS:Create(HRP, TweenInfo, {Position = Pos}):Play()
+    --wait(Distance/Speed)
+    HRP.Position = Pos
 end
 
 function CashOut()
@@ -107,6 +108,7 @@ end
 function StealObject(Name, PartName, Offset)
     for i,v in pairs(getObjectsbyName(ObjectSelection, Name)) do
         if v:FindFirstChild(PartName) then
+            if not StuffToRob then StuffToRob = true; end
             GoTo(v[PartName].Position + Vector3.new(0, 3, 0), TravelSpeed)
             wait(0.15)
             v[PartName][PartName].Event:FireServer()
@@ -117,6 +119,7 @@ end
 --Everything that isn't tied to a building
 function Heists.NonBuilding()
     Robbing = true
+    local StuffToRob = false
 
     --Tech Store
     pcall(StealObject, "Laptop", "Steal", Vector3.new(0,3,0))
@@ -137,6 +140,7 @@ function Heists.NonBuilding()
     pcall(StealObject, "DiamondBox", "SmashCash")
 
     Robbing = false
+    return StuffToRob
 end
 
 --Robs Train
@@ -144,7 +148,6 @@ function Heists.Train.Rob()
     Robbing = true
     if game:GetService("Workspace"):FindFirstChild("Train") then
         if not Heists.Train.Robbed then
-            Alert("Robbing Train.")
             for i = 0, 20 do 
                 game:GetService("ReplicatedStorage").RemoteEvent:FireServer("DiamondTrain")
                 wait()
@@ -215,28 +218,26 @@ game:GetService("TeleportService").TeleportInitFailed:Connect(function(Result)
 end)
 
 
-TravelSpeed = 1500
-
-local Finished = false
+TravelSpeed = 3500
 
 getgenv().AutoRob = true
 spawn(function()
     local Time = 0
     repeat
+        Player.Character:WaitForChild("LowerTorso").Anchored = true
+        Player.Character:WaitForChild("Humanoid").PlatformStand = true
+        if Player.Character:WaitForChild("LowerTorso"):FindFirstChild("Root") then
+            Player.Character.LowerTorso.Root:Destroy()
+        end
+        Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
-    until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or Finished or Time > 900
+        local StuffToRob = Heists.NonBuilding()
+    until game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") or StuffToRob == false or Time > 600
+    Heists.Train.Rob()
     ServerHop()
 end)
 
-Player.Character.LowerTorso.Anchored = true
-Player.Character.Humanoid.PlatformStand = true
-if Player.Character.LowerTorso:FindFirstChild("Root") then
-    Player.Character.LowerTorso.Root:Destroy()
-end
-
-Heists.NonBuilding()
-Heists.Train.Rob()
 
 if not AutoRob then
     if Noclipping1 then
@@ -248,6 +249,5 @@ if not AutoRob then
     end
     NoVelocity = false
 end
-Finished = true
 
 --]]
