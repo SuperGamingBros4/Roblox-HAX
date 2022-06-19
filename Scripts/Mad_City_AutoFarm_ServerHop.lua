@@ -228,11 +228,6 @@ spawn(function()
             wait()
             print("No Character")
         end
-        Player.Character:WaitForChild("LowerTorso").Anchored = true
-        Player.Character:WaitForChild("Humanoid").PlatformStand = true
-        if Player.Character:WaitForChild("LowerTorso"):FindFirstChild("Root") then
-            Player.Character.LowerTorso.Root:Destroy()
-        end
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
