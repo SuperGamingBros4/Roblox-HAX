@@ -224,7 +224,10 @@ getgenv().AutoRob = true
 spawn(function()
     local Time = 0
     repeat
-        repeat wait() print("No Character") until Player.Character:FindFirstChild("UpperTorso")
+        while not Player.Character:FindFirstChild("UpperTorso") do
+            wait()
+            print("No Character")
+        end
         Player.Character:WaitForChild("LowerTorso").Anchored = true
         Player.Character:WaitForChild("Humanoid").PlatformStand = true
         if Player.Character:WaitForChild("LowerTorso"):FindFirstChild("Root") then
