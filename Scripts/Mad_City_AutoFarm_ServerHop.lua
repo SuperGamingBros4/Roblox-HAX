@@ -11,7 +11,7 @@ repeat wait() until game:GetService("Players").LocalPlayer.Character:WaitForChil
 repeat wait() until game:GetService("Workspace").ObjectSelection
 repeat wait() until getsenv(game:GetService("Players").LocalPlayer.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
 
-wait(1)
+wait(5)
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
