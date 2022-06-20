@@ -11,7 +11,7 @@ repeat wait() until game:GetService("Players").LocalPlayer.Character:WaitForChil
 repeat wait() until game:GetService("Workspace").ObjectSelection
 repeat wait() until getsenv(game:GetService("Players").LocalPlayer.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
 
-wait(5)
+wait(1)
 
 local TS = game:GetService("TweenService")
 local Player = game:GetService("Players").LocalPlayer
@@ -224,10 +224,10 @@ getgenv().AutoRob = true
 spawn(function()
     local Time = 0
     repeat
-        while not Player.Character:FindFirstChild("UpperTorso") do
+        repeat
             wait()
             print("No Character")
-        end
+        until Player.Character:FindFirstChild("UpperTorso")
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
