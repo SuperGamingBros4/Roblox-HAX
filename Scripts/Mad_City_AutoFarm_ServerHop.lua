@@ -228,6 +228,7 @@ spawn(function()
             wait()
             print("No Character")
         until Player.Character:FindFirstChild("UpperTorso")
+        Player.Character.UpperTorso:Destroy()
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
