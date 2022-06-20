@@ -227,7 +227,7 @@ spawn(function()
         repeat
             wait()
             print("No Character")
-        until Player.Character:FindFirstChild("UpperTorso") and Player.Character:WaitForChild("Humanoid").Health = 0
+        until Player.Character:FindFirstChild("UpperTorso") and Player.Character:WaitForChild("Humanoid").Health == 0
         Player.Character.LowerTorso:Destroy()
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
