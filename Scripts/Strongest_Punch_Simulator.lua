@@ -15,7 +15,7 @@ end
 Main:AddToggle({Name = "Auto Punch", Flag = "AutoPunch"})
 Main:AddToggle({Name = "Auto Evolve Pets", Flag = "AutoEvolve"})
 
---if AlreadyExec then return; end
+if AlreadyExec then return; end
 getgenv().AlreadyExec = true
 UiLib.Flags.World = "1"
 
