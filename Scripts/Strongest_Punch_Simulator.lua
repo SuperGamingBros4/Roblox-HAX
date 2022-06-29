@@ -42,7 +42,8 @@ spawn(function()
         if UiLib.Flags.AutoPunch then
             print("Punch")
             game:GetService("ReplicatedStorage").RemoteEvent:FireServer({"Activate_Punch"})
-        elseif UiLib.Flags.AutoEvolve then
+        end
+        if UiLib.Flags.AutoEvolve then
             game:GetService("ReplicatedStorage").RemoteEvent:FireServer({"UpgradeCurrentPet"})
         end
         wait()
