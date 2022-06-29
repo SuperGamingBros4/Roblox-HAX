@@ -26,6 +26,6 @@ return {
     					Name = "Bed Wars Lobby"},
     [6872274481] = { Script = "Bed_Wars.lua",
     					Name = "Bed Wars Game"}
-    [6875469709] = {Script = "Strongest_Punch_Simulator.lua",
-                        Name = "Strongest Pucnh Simulator"}
+    [6875469709] = { Script = "Strongest_Punch_Simulator.lua",
+                        Name = "Strongest Punch Simulator"}
 }
