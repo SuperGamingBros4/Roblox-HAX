@@ -21,14 +21,15 @@ local ObjectSelection = game:GetService("Workspace").ObjectSelection
 local Alert = getsenv(Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
 local DataFile = "Mad_City_Servers.json"
 
-if not isfile(DataFile) then
-    writefile(DataFile, HttpService:JSONEncode({}))
+if not isfile(DataFile) then --Checks if the file doesn't exist
+    writefile(DataFile, HttpService:JSONEncode({})) --creates a new file
 end
 
 getgenv().NoVelocity = true
 getgenv().Robbing = false
 getgenv().Clip = true
 
+--Checks for specific exploits and sets the variable "QueTeleport", to their "queue_on_teleport" function
 if syn then
     getgenv().QueTeleport = syn.queue_on_teleport
     Alert("Supported Exploit Detected.")
@@ -242,6 +243,7 @@ spawn(function()
         repeat
             wait()
         until Player.Character:WaitForChild("Humanoid"):GetState() ~= Enum.HumanoidStateType.Dead
+        wait(1)
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
