@@ -240,7 +240,7 @@ spawn(function()
     repeat
         repeat
             wait()
-        until Player.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Dead
+        until Player.Character:WaitForChild("Humanoid"):GetState() ~= Enum.HumanoidStateType.Dead
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
