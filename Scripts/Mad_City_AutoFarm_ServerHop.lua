@@ -211,14 +211,14 @@ function ServerHop()
 
     for i,v in pairs(Servers) do
         if os.time()-v > 600 then
-            table.remove(Servers, i)
+            table[i] = nil
         end
     end
 
 	local x = {}
 	for _, v in ipairs(HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
         pcall(function()
-            if type(v) == "table" and v.maxPlayers > v.playing and not Servers[v.id] then
+            if type(v) == "table" and v.maxPlayers > v.playing and Servers[v.id] ~= nil then
                 x[#x + 1] = v.id
             end
         end)
