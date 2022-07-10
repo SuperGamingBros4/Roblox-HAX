@@ -207,13 +207,13 @@ function ServerHop()
     QueTeleport([[loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Mad_City_AutoFarm_ServerHop.lua"))()]])
     local Servers = HttpService:JSONDecode(readfile(DataFile))
     Servers[game.JobId] = os.time()
-    writefile(DataFile, HttpService:JSONEncode(Servers))
-
     for i,v in pairs(Servers) do
         if os.time()-v > 600 then
             Servers[i] = nil
         end
     end
+
+    writefile(DataFile, HttpService:JSONEncode(Servers))
 
 	local x = {}
 	for _, v in ipairs(HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
