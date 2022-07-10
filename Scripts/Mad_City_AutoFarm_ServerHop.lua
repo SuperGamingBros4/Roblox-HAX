@@ -211,7 +211,7 @@ function ServerHop()
 
     for i,v in pairs(Servers) do
         if os.time()-v > 600 then
-            table[i] = nil
+            Servers[i] = nil
         end
     end
 
