@@ -12,13 +12,18 @@ repeat wait() until game:GetService("Workspace").ObjectSelection
 repeat wait() until getsenv(game:GetService("Players").LocalPlayer.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
 
 wait(1)
-
 local TS = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
 local Player = game:GetService("Players").LocalPlayer
 local HRP = Player.Character:WaitForChild("HumanoidRootPart")
 local CrimBase = Vector3.new(2080.06, 24.8274, 429.209)
 local ObjectSelection = game:GetService("Workspace").ObjectSelection
 local Alert = getsenv(Player.Character:WaitForChild("UI"):WaitForChild("UI_Main")).Msg
+local DataFile = "Mad_City_Servers.json"
+
+if not isfile(DataFile) then
+    writefile(DataFile, HttpService:JSONEncode({}))
+end
 
 getgenv().NoVelocity = true
 getgenv().Robbing = false
@@ -199,10 +204,19 @@ local TpResultBlacklist = {
 
 function ServerHop()
     QueTeleport([[loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Mad_City_AutoFarm_ServerHop.lua"))()]])
+    local Servers = HttpService:JSONDecode(readfile(DataFile))
+    Servers[game.JobId] = os.time()
+
+    for i,v in pairs(Servers) do
+        if os.time()-v > 600 then
+            table.remove(Servers, i)
+        end
+    end
+
 	local x = {}
-	for _, v in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
+	for _, v in ipairs(HttpService:JSONDecode(game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")).data) do
         pcall(function()
-            if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+            if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId and not Servers[game.JobId] then
                 x[#x + 1] = v.id
             end
         end)
@@ -226,9 +240,7 @@ spawn(function()
     repeat
         repeat
             wait()
-            print("No Character")
-        until Player.Character:FindFirstChild("UpperTorso") and Player.Character:WaitForChild("Humanoid").Health >= 0
-        Player.Character:WaitForChild("Humanoid").Health = 100
+        until Player.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Dead
         Player.Character:WaitForChild("Humanoid").Health = 0
         wait(0.1)
         Time = Time + 1
