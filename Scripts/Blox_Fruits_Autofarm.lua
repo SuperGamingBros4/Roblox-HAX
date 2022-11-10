@@ -19,7 +19,7 @@ local CurrentSea = Seas[game.PlaceId]
 local speed = 512
 
 function TpIfTooFarAway(TpPos, GoalPos)
-    local PlrPos = LocalPlayer.Character.HumanoidRootPart.Position
+    local PlrPos = LocalPlayer.Character.PrimaryPart.Position
     if (GoalPos - PlrPos).Magnitude > (GoalPos - TpPos).Magnitude then
         CommF:InvokeServer("requestEntrance", TpPos)
         wait(1)
@@ -707,11 +707,55 @@ function EXPAND(v)
     end
 end
 
+function CheckNetworkOwnership(Part)
+    local pArTs = {
+        ["Part"] = true,
+        ["MeshPart"] = true,
+    }
+    if not pArTs[Part.ClassName] and not isnetworkowner(Part) then
+        return;
+    end
+    
+    local PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
+    local IsClosestPlayer = true
+    local Dist = (PlayerPos - Part.Position).Magnitude
+
+    --Check if you are the closest player
+    for i,Player in pairs(game:GetService("Players"):GetPlayers()) do
+        if Player ~= game:GetService("Players").LocalPlayer and Player.Character and Player.Character.PrimaryPart then
+            if (Player.Character.PrimaryPart.Position - Part.Position).Magnitude < Dist then
+                if gethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius") > Dist then
+                    IsClosestPlayer = false
+                end
+            end
+        end
+    end
+
+    return IsClosestPlayer
+
+end
+
 getgenv().AUTOCLICK = false
 
 local d
 d = game:GetService("RunService").Stepped:Connect(function()
-    LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+    if not EEEE then
+        d:Disconnect()
+    end
+
+    if not LocalPlayer or not LocalPlayer.Character or not LocalPlayer.Character.PrimaryPart then
+        return;
+    end
+
+    if not LocalPlayer.Character.PrimaryPart:FindFirstChild("MINING_AWAY") then
+        local LinearVelocity = Instance.new("LinearVelocity")
+        LinearVelocity.Name = "MINING_AWAY"
+        LinearVelocity.Parent = LocalPlayer.Character.PrimaryPart
+        LinearVelocity.MaxForce = math.huge
+        LinearVelocity.VectorVelocity = Vector3.new(0,0,0)
+        LinearVelocity.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
+    end
+
     for _, v in pairs(LocalPlayer.Character:GetDescendants()) do
         if v:IsA("BasePart") and v.CanCollide == true then
             v.CanCollide = false
@@ -729,28 +773,22 @@ d = game:GetService("RunService").Stepped:Connect(function()
     for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
         EXPAND(v)
     end
-
-    if not EEEE then
-        d:Disconnect()
-    end
 end)
 
 function GoTo(Position)
-    LocalPlayer.Character.HumanoidRootPart.Anchored = false
-    local Dist = (LocalPlayer.Character.HumanoidRootPart.Position - Position).Magnitude
+    local Dist = (LocalPlayer.Character.PrimaryPart.Position - Position).Magnitude
     local Speed = speed
     
     if Dist > 1000 then
         Speed = math.clamp(speed, 0, 256)
     end
     TS:Create(
-        LocalPlayer.Character.HumanoidRootPart,
+        LocalPlayer.Character.PrimaryPart,
         TweenInfo.new(Dist/Speed, Enum.EasingStyle.Linear),
         {["CFrame"] = CFrame.new(Position)}
     ):Play()
     wait(Dist/Speed)
     wait(0.1)
-    LocalPlayer.Character.HumanoidRootPart.Anchored = true
 end
 function GetCurrentQuestData()
     local output
@@ -768,9 +806,24 @@ end
 function IsQuestActive()
     return LocalPlayer.PlayerGui.Main.Quest.Visible
 end
+function PlayerCheck()
+    if LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid.Health > 0 then
+        return true
+    else
+        return false
+    end
+end
 
 while EEEE do
+    if not PlayerCheck() then
+        wait()
+        return;
+    end
     sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
+
+    if not LocalPlayer.Character:FindFirstChild("HasBuso") then
+        CommF:InvokeServer("Buso")
+    end
 
     local QuestData = GetCurrentQuestData()
     local EnemyName = QuestData.Enemy
@@ -788,51 +841,40 @@ while EEEE do
     while DoingQuest and EEEE do
         if QuestData.WaitingPos then -- Head to a waiting Position
             if typeof(QuestData.WaitingPos) == "table" then
-                GoTo(QuestData.WaitingPos[WaitPosIndex])
+                GoTo(QuestData.WaitingPos[WaitPosIndex] + Vector3.new(0,10,0))
                 
                 WaitPosIndex += 1
                 if WaitPosIndex > #QuestData.WaitingPos then
                     WaitPosIndex = 1
                 end
             else
-                GoTo(QuestData.WaitingPos)
+                GoTo(QuestData.WaitingPos + Vector3.new(0,10,0))
             end
             wait(1.5)
         end
 
         for i,Enemy in pairs(Enemies:GetChildren()) do
-            if Enemy.Name == EnemyName and Enemy:FindFirstChild("Humanoid") and Enemy.Humanoid.Health > 0 and Enemy:FindFirstChild("HumanoidRootPart") and DoingQuest and EEEE then
+            if Enemy.Name == EnemyName and Enemy:FindFirstChild("Humanoid") and Enemy.Humanoid.Health > 0 and Enemy.PrimaryPart and DoingQuest and EEEE and PlayerCheck() then
                 local Timeout = 5
                 local Health = Enemy.Humanoid.Health
-                GoTo(Enemy.HumanoidRootPart.Position + Vector3.new(0,20,0))
+                GoTo(Enemy.PrimaryPart.Position + Vector3.new(0,20,0))
                 
                 AUTOCLICK = true
                 Timeout *= 100
-                while DoingQuest and EEEE do
+                while DoingQuest and EEEE and PlayerCheck() do
                     if not IsQuestActive() then
                         DoingQuest = false
                     end
                     if not Enemy:FindFirstChild("Humanoid") or not Enemy:FindFirstChild("Humanoid") or Enemy.Humanoid.Health <= 0 or not EEEE or Timeout <= 0 then
                         break;
                     end
-                    if Enemy:FindFirstChild("HumanoidRootPart") and (LocalPlayer.Character.HumanoidRootPart.Position - Enemy.HumanoidRootPart.Position).Magnitude <= 30 then
+                    if Enemy.PrimaryPart and (LocalPlayer.Character.PrimaryPart.Position - Enemy.PrimaryPart.Position).Magnitude <= 30 then
+                        local PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
                         --Bring Enemies to underneath the player in accordance to roblox's network ownership system
                         for i,v in pairs(Enemies:GetChildren()) do
                             if v.Name == EnemyName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-                                local PlayerPos = LocalPlayer.Character.HumanoidRootPart.Position
-                                local ClosestPlayer = true
-
-                                --Check if you are the closest player
-                                for i,Player in pairs(game:GetService("Players"):GetPlayers()) do
-                                    if Player ~= LocalPlayer and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
-                                        if (Player.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude < (v.HumanoidRootPart.Position - PlayerPos).Magnitude then
-                                            ClosestPlayer = false
-                                        end
-                                    end
-                                end
-
-                                if (v.HumanoidRootPart.Position - PlayerPos).Magnitude < 384 and ClosestPlayer then
-                                    v.HumanoidRootPart.CFrame = CFrame.new(PlayerPos - Vector3.new(0,20,0))
+                                if (v.PrimaryPart.Position - PlayerPos).Magnitude < 384 and CheckNetworkOwnership(v.PrimaryPart) then
+                                    v.PrimaryPart.CFrame = CFrame.new(PlayerPos - Vector3.new(0,20,0))
                                 end
                             end
                         end
@@ -847,4 +889,6 @@ while EEEE do
     end
     wait()
 end
-LocalPlayer.Character.HumanoidRootPart.Anchored = false
+if LocalPlayer.Character.PrimaryPart:FindFirstChild("MINING_AWAY") then
+    LocalPlayer.Character.PrimaryPart.MINING_AWAY:Destroy()
+end
