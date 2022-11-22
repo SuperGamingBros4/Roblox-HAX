@@ -1,15 +1,15 @@
-repeat task.wait() until game:IsLoaded()
-repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
-task.wait(1)
+repeat wait() until game:IsLoaded()
+repeat wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
+repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
+wait(1)
 if not game:GetService("Players").LocalPlayer.Character.Parent == game:GetService("Workspace").Characters then
     for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
         v.Function()
     end
 end
-repeat task.wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterReady")
+repeat wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterReady")
 
 getgenv().EEEE = true
 local level = nil
