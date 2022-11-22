@@ -869,6 +869,21 @@ while EEEE do
     if LocalPlayer.Data.Level.Value >= 50 then
         game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Cousin", "Buy")
     end
+    for i,obj in pairs(LocalPlayer.Backpack:GetChildren()) do
+        local IndexPos = string.find(string.lower(obj.Name), "fruit")
+        if IndexPos then
+            StoringFruit = true
+            LocalPlayer.Character.Humanoid:EquipTool(obj)
+    
+            local FruitName = string.sub(obj.Name, 0, IndexPos-2)
+            local FormattedFruitName = FruitName .. "-" .. FruitName
+            local Return = CommF_:InvokeServer("StoreFruit", FormattedFruitName, obj)
+            if Return == false then
+                LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+            end
+            StoringFruit = false
+        end
+    end
     StartQuest(QuestData.GiverID, QuestData.Option)
     wait(0.1)
 
