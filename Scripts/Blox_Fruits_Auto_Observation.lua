@@ -4,7 +4,7 @@ repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstCh
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
 wait(1)
-for i,v in pairs(getconnections(game:GetService("Players").LGBTQFurryCommunity.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
     v.Function()
 end
 
@@ -50,5 +50,5 @@ repeat
     MaxTime -= 1
 until LocalPlayer.Character.Humanoid.Health < LocalPlayer.Character.Humanoid.MaxHealth or MaxTime <= 0
 
-syn.queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Blox_Fruits_Auto_Observation.lua"))
+syn.queue_on_teleport(readfile("Blox_Fruits_Auto_Observation.lua"))
 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
