@@ -1,10 +1,10 @@
 repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
 repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
 task.wait(1)
-if not game:GetService("Players").LocalPlayer.Character.Parent == game:GetService("Workspace").Characters then
+if game:GetService("Players").LocalPlayer.Character.Parent ~= game:GetService("Workspace").Characters then
+    repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
+    repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
     for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
         v.Function()
     end
@@ -12,7 +12,6 @@ end
 repeat task.wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterReady")
 
 getgenv().EEEE = true
-local level = nil
 
 
 local Seas = {
@@ -710,47 +709,6 @@ local Quests = {
     },
 }
 
--- Functions:
-
-local MouseOver = false
-local Dragging = false
-local Difference = nil
-
-DragBar.MouseEnter:Connect(function()
-	MouseOver = true
-end)
-DragBar.MouseLeave:Connect(function()
-	MouseOver = false
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(input, _)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 and MouseOver then
-		local MousePos = game:GetService("UserInputService"):GetMouseLocation()
-		Difference = Vector2.new(Main.AbsolutePosition.X - MousePos.X, Main.AbsolutePosition.Y - MousePos.Y)
-		Dragging = true
-	end
-end)
-game:GetService("UserInputService").InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		Dragging = false
-	end
-end)
-local DragLoop
-DragLoop = game:GetService("RunService").RenderStepped:Connect(function()
-	if Main == nil then
-		DragLoop:Disconnect()
-	elseif Dragging then
-		local MousePos = game:GetService("UserInputService"):GetMouseLocation()
-		Main.Position = UDim2.new(0, MousePos.X + Difference.X, 0, MousePos.Y + Difference.Y)
-	end
-end)
-
-EXIT.MouseButton1Down:Connect(function()
-	ScreenGui:Destroy()
-    EEEE = false
-    DragLoop:Disconnect()
-end)
-
 local Melees = {
     ["combat"] = true,
     ["black leg"] = true,
@@ -759,14 +717,6 @@ local Melees = {
     ["death step"] = true,
     ["sharkman karate"] = true,
 }
-
-for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-    if v.ClassName ~= "Tool" then
-        print("WTF?")
-    elseif Melees[string.lower(v.Name)]
-
-    end
-end
 
 function EXPAND(v)
     if v:FindFirstChild("HumanoidRootPart") then 
@@ -784,38 +734,10 @@ function CheckWeaponAndHaki()
     for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
         if v.ClassName ~= "Tool" then
             print("WTF?")
-        elseif Melees[string.lower(v.Name)]
+        elseif Melees[string.lower(v.Name)] then
             LocalPlayer.Character.Humanoid:EquipTool(v)
         end
     end
-end
-
-function CheckNetworkOwnership(Part)
-    local pArTs = {
-        ["Part"] = true,
-        ["MeshPart"] = true,
-    }
-    if not pArTs[Part.ClassName] and not isnetworkowner(Part) then
-        return;
-    end
-    
-    local PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
-    local IsClosestPlayer = true
-    local Dist = (PlayerPos - Part.Position).Magnitude
-
-    --Check if you are the closest player
-    for i,Player in pairs(game:GetService("Players"):GetPlayers()) do
-        if Player ~= game:GetService("Players").LocalPlayer and Player.Character and Player.Character.PrimaryPart then
-            if (Player.Character.PrimaryPart.Position - Part.Position).Magnitude < Dist then
-                if gethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius") > Dist then
-                    IsClosestPlayer = false
-                end
-            end
-        end
-    end
-
-    return IsClosestPlayer
-
 end
 
 getgenv().AUTOCLICK = false
