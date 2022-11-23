@@ -851,6 +851,13 @@ while EEEE do
     local DoingQuest = true
     local WaitPosIndex = 1
 
+    --Buy some stuff
+    if Seas[game.PlaceId] == 1 then
+        for i,v in pairs({"Geppo", "Buso", "Soru"}) do
+            CommF_:InvokeServer("BuyHaki", v)
+        end
+    end
+
     --Upgrade Stats
     local StatPoints = Data.Points.Value
     local MeleeStat = Stats.Melee.Level.Value
