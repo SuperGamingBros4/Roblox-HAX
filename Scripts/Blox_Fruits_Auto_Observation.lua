@@ -30,7 +30,7 @@ syn.queue_on_teleport(loadstring(game:HttpGet("https://raw.githubusercontent.com
 if #game:GetService("Players"):GetPlayers() <= 1 then
     LocalPlayer:Kick("\nRejoining...")
     wait()
-    TeleportService:Teleport(game.PlaceId, LocalPlayer)
+    game:GetService("TeleportService"):Teleport(game.PlaceId, LocalPlayer)
 else
-    TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
 end
