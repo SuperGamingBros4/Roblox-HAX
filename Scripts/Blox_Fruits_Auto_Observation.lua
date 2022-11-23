@@ -50,7 +50,7 @@ repeat
     MaxTime -= 1
 until LocalPlayer.Character.Humanoid.Health < LocalPlayer.Character.Humanoid.MaxHealth or MaxTime <= 0
 
-syn.queue_on_teleport(loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Blox_Fruits_Auto_Observation.lua")))
+syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Blox_Fruits_Auto_Observation.lua'))()")
 if #game:GetService("Players"):GetPlayers() <= 1 then
     LocalPlayer:Kick("\nRejoining...")
     wait()
