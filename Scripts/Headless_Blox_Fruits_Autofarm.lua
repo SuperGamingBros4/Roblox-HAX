@@ -716,6 +716,8 @@ local Melees = {
     ["fishman karate"] = true,
     ["death step"] = true,
     ["sharkman karate"] = true,
+    ["dragon talon"] = true,
+    ["godhuman"] = true,
 }
 
 function EXPAND(v)
