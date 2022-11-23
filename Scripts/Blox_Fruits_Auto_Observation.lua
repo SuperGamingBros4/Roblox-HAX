@@ -1,4 +1,28 @@
-wait()
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
+task.wait(1)
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
+    v.Function()
+end
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+function GoTo(Position)
+    if LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS") then
+        LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS"):Destroy()
+    end
+    local SSSS = Instance.new("AlignPosition", LocalPlayer.Character.PrimaryPart)
+    SSSS.Name = "SSSS"
+    SSSS.MaxForce = math.huge
+    SSSS.MaxVelocity = speed
+    SSSS.Mode = Enum.PositionAlignmentMode.OneAttachment
+    SSSS.Position = Position
+    SSSS.Responsiveness = 200
+    SSSS.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
+    while EEEE and PlayerCheck() and (LocalPlayer.Character.PrimaryPart.Position - Position).Magnitude > 128 do
+        task.wait()
     end
     LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Position)
 end
