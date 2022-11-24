@@ -716,6 +716,7 @@ local Melees = {
     ["fishman karate"] = true,
     ["death step"] = true,
     ["sharkman karate"] = true,
+    ["electric claw"] = true
     ["dragon talon"] = true,
     ["godhuman"] = true,
 }
