@@ -812,7 +812,7 @@ function GoTo(Position)
     SSSS.Responsiveness = 200
     SSSS.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
     while EEEE and PlayerCheck() and (LocalPlayer.Character.PrimaryPart.Position - Position).Magnitude > 128 do
-        wait()
+        task.wait()
     end
     LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Position)
 end
@@ -883,6 +883,7 @@ while EEEE do
         local IndexPos = string.find(string.lower(obj.Name), "fruit")
         if IndexPos then
             StoringFruit = true
+            task.wait(0.1)
             LocalPlayer.Character.Humanoid:EquipTool(obj)
     
             local FruitName = string.sub(obj.Name, 0, IndexPos-2)
@@ -891,11 +892,12 @@ while EEEE do
             if Return == false then
                 LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
             end
+            task.wait(0.1)
             StoringFruit = false
         end
     end
     StartQuest(QuestData.GiverID, QuestData.Option)
-    wait(0.1)
+    task.wait(0.1)
 
     while DoingQuest and EEEE do
         if QuestData.WaitingPos then -- Head to a waiting Position
@@ -909,7 +911,7 @@ while EEEE do
             else
                 GoTo(QuestData.WaitingPos + Vector3.new(0,10,0))
             end
-            wait(1.5)
+            task.wait(1.5)
         end
 
         for i,Enemy in pairs(Enemies:GetChildren()) do
@@ -956,15 +958,15 @@ while EEEE do
                             end
                         end
                     end
-                    wait(0.01)
+                    task.wait(0.01)
                     Timeout -= 1
                 end
                 AUTOCLICK = false
             end
         end
-        wait()
+        task.wait()
     end
-    wait()
+    task.wait()
 end
 if LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS") then
     LocalPlayer.Character.PrimaryPart.SSSS:Destroy()
