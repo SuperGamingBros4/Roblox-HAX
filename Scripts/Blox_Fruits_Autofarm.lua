@@ -12,18 +12,18 @@ local Seas = {
 
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Enemies = game:GetService("Workspace").Enemies
-local CommF = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+local CommF_ = game:GetService("ReplicatedStorage").Remotes["CommF_"]
 local VirUser = game:GetService("VirtualUser")
 local Data = LocalPlayer:WaitForChild("Data")
+local Stats = Data:WaitForChild("Stats")
 local TS = game:GetService("TweenService")
 local CurrentSea = Seas[game.PlaceId]
-local speed = 512
+local speed = 320
 
 function TpIfTooFarAway(TpPos, GoalPos)
     local PlrPos = LocalPlayer.Character.PrimaryPart.Position
     if (GoalPos - PlrPos).Magnitude > (GoalPos - TpPos).Magnitude then
-        CommF:InvokeServer("requestEntrance", TpPos)
-        wait(1)
+        CommF_:InvokeServer("requestEntrance", TpPos)
     end
 end
 
@@ -844,7 +844,6 @@ for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
 end
 
 
-
 function EXPAND(v)
     if v:FindFirstChild("HumanoidRootPart") then 
         if v.Name ~= game.Players.LocalPlayer.Name then
@@ -856,42 +855,41 @@ end
 
 function CheckWeaponAndHaki()
     if not LocalPlayer.Character:FindFirstChild("HasBuso") then
-        CommF:InvokeServer("Buso")
+        CommF_:InvokeServer("Buso")
     end
     if LocalPlayer.Backpack:FindFirstChild(Weapon) then
         LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack[Weapon])
     end
 end
 
-function CheckNetworkOwnership(Part)
-    local pArTs = {
-        ["Part"] = true,
-        ["MeshPart"] = true,
-    }
-    if not pArTs[Part.ClassName] and not isnetworkowner(Part) then
-        return;
-    end
-    
-    local PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
-    local IsClosestPlayer = true
-    local Dist = (PlayerPos - Part.Position).Magnitude
+function StoreFruit(fruit)
+    local IndexPos = string.find(string.lower(fruit.Name), "fruit")
+    if IndexPos then
+        StoringFruit = true
+        task.wait(0.1)
+        LocalPlayer.Character.Humanoid:EquipTool(fruit)
 
-    --Check if you are the closest player
-    for i,Player in pairs(game:GetService("Players"):GetPlayers()) do
-        if Player ~= game:GetService("Players").LocalPlayer and Player.Character and Player.Character.PrimaryPart then
-            if (Player.Character.PrimaryPart.Position - Part.Position).Magnitude < Dist then
-                if gethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius") > Dist then
-                    IsClosestPlayer = false
-                end
-            end
+        local FruitName = string.sub(fruit.Name, 0, IndexPos-2)
+        local ColonIndex = string.find(FruitName, ":")
+        local FormattedFruitName
+        if ColonIndex then
+            local Part1 = string.sub(FruitName, 0, ColonIndex-1)
+            FormattedFruitName = Part1 .. "-" .. FruitName
+        else
+            FormattedFruitName = FruitName .. "-" .. FruitName
         end
+
+        local Return = CommF_:InvokeServer("StoreFruit", FormattedFruitName, fruit)
+        if Return == false then
+            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+        end
+        task.wait(0.1)
+        StoringFruit = false
     end
-
-    return IsClosestPlayer
-
 end
 
 getgenv().AUTOCLICK = false
+getgenv().StoringFruit = false
 
 local d
 d = game:GetService("RunService").Stepped:Connect(function()
@@ -902,16 +900,7 @@ d = game:GetService("RunService").Stepped:Connect(function()
     if not LocalPlayer or not LocalPlayer.Character or not LocalPlayer.Character.PrimaryPart then
         return;
     end
-
-    if not LocalPlayer.Character.PrimaryPart:FindFirstChild("MINING_AWAY") then
-        local LinearVelocity = Instance.new("LinearVelocity")
-        LinearVelocity.Name = "MINING_AWAY"
-        LinearVelocity.Parent = LocalPlayer.Character.PrimaryPart
-        LinearVelocity.MaxForce = math.huge
-        LinearVelocity.VectorVelocity = Vector3.new(0,0,0)
-        LinearVelocity.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
-    end
-
+    --Noclip the player
     for _, v in pairs(LocalPlayer.Character:GetDescendants()) do
         if v:IsA("BasePart") and v.CanCollide == true then
             v.CanCollide = false
@@ -923,7 +912,9 @@ d = game:GetService("RunService").Stepped:Connect(function()
         VirUser:Button1Up(Vector2.new(0,0), game:GetService("Workspace").CurrentCamera.CFrame)
     end
     --Turn haki on and equip weapon
-    CheckWeaponAndHaki()
+    if not StoringFruit then
+        CheckWeaponAndHaki()
+    end
     --Expand Hitboxes
     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
         EXPAND(v)
@@ -933,20 +924,27 @@ d = game:GetService("RunService").Stepped:Connect(function()
     end
 end)
 
+local fruitloop
+fruitloop = LocalPlayer.Backpack.ChildAdded:Connect(function(obj)
+    StoreFruit(obj)
+end)
+
 function GoTo(Position)
-    local Dist = (LocalPlayer.Character.PrimaryPart.Position - Position).Magnitude
-    local Speed = speed
-    
-    if Dist > 1000 then
-        Speed = math.clamp(speed, 0, 256)
+    if LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS") then
+        LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS"):Destroy()
     end
-    TS:Create(
-        LocalPlayer.Character.PrimaryPart,
-        TweenInfo.new(Dist/Speed, Enum.EasingStyle.Linear),
-        {["CFrame"] = CFrame.new(Position)}
-    ):Play()
-    wait(Dist/Speed)
-    wait(0.1)
+    local SSSS = Instance.new("AlignPosition", LocalPlayer.Character.PrimaryPart)
+    SSSS.Name = "SSSS"
+    SSSS.MaxForce = math.huge
+    SSSS.MaxVelocity = speed
+    SSSS.Mode = Enum.PositionAlignmentMode.OneAttachment
+    SSSS.Position = Position
+    SSSS.Responsiveness = 200
+    SSSS.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
+    while EEEE and PlayerCheck() and (LocalPlayer.Character.PrimaryPart.Position - Position).Magnitude > 128 do
+        wait()
+    end
+    LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Position)
 end
 function GetCurrentQuestData()
     local output
@@ -959,7 +957,7 @@ function GetCurrentQuestData()
     return Quests[output]
 end
 function StartQuest(Npc, Quest)
-    CommF:InvokeServer("StartQuest", Npc, Quest)
+    CommF_:InvokeServer("StartQuest", Npc, Quest)
 end
 function IsQuestActive()
     return LocalPlayer.PlayerGui.Main.Quest.Visible
@@ -974,12 +972,12 @@ end
 
 while EEEE do
     if not PlayerCheck() then
-        repeat wait() until PlayerCheck()
+        repeat task.wait() until PlayerCheck()
     end
     sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
 
     if Weapon == "" then
-        repeat wait() until Weapon ~= ""
+        repeat task.wait() until Weapon ~= ""
     end
     CheckWeaponAndHaki()
 
@@ -987,12 +985,30 @@ while EEEE do
     local EnemyName = QuestData.Enemy
     local DoingQuest = true
     local WaitPosIndex = 1
-    
+
+    --Upgrade Stats
+    local StatPoints = Data.Points.Value
+    local MeleeStat = Stats.Melee.Level.Value
+    local DefenseStat = Stats.Defense.Level.Value
+    if StatPoints > 0 then
+        if DefenseStat >= MeleeStat then
+            CommF_:InvokeServer("AddPoint", "Melee", StatPoints)
+        else
+            CommF_:InvokeServer("AddPoint", "Defense", StatPoints)
+        end
+    end
+
     if QuestData.Func then
         QuestData.Func()
     end
 
     GoTo(QuestData.GiverPos + Vector3.new(0,10,0))
+    if LocalPlayer.Data.Level.Value >= 50 then
+        game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Cousin", "Buy")
+    end
+    for i,obj in pairs(LocalPlayer.Backpack:GetChildren()) do
+        StoreFruit(obj)
+    end
     StartQuest(QuestData.GiverID, QuestData.Option)
     wait(0.1)
 
@@ -1013,13 +1029,14 @@ while EEEE do
 
         for i,Enemy in pairs(Enemies:GetChildren()) do
             if Enemy.Name == EnemyName and Enemy:FindFirstChild("Humanoid") and Enemy.Humanoid.Health > 0 and Enemy.PrimaryPart and DoingQuest and EEEE and PlayerCheck() then
-                local Timeout = 5
+                local Timeout = 2
                 local Health = Enemy.Humanoid.Health
-                GoTo(Enemy.PrimaryPart.Position + Vector3.new(0,20,0))
                 CheckWeaponAndHaki()
                 
                 AUTOCLICK = true
                 Timeout *= 100
+                local GotoPosition = Enemy.PrimaryPart.Position + Vector3.new(0,20,0)
+                local PlayerPos
                 while DoingQuest and EEEE and PlayerCheck() do
                     if not IsQuestActive() then
                         DoingQuest = false
@@ -1027,14 +1044,30 @@ while EEEE do
                     if not Enemy:FindFirstChild("Humanoid") or not Enemy:FindFirstChild("Humanoid") or Enemy.Humanoid.Health <= 0 or not EEEE or Timeout <= 0 then
                         break;
                     end
+                    GoTo(GotoPosition)
+                    if PlayerPos == nil then
+                        PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
+                    end
                     if Enemy.PrimaryPart and (LocalPlayer.Character.PrimaryPart.Position - Enemy.PrimaryPart.Position).Magnitude <= 30 then
-                        local PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
                         --Bring Enemies to underneath the player in accordance to roblox's network ownership system
                         for i,v in pairs(Enemies:GetChildren()) do
                             if v.Name == EnemyName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-                                if (v.PrimaryPart.Position - PlayerPos).Magnitude < 384 and CheckNetworkOwnership(v.PrimaryPart) then
-                                    v.PrimaryPart.CFrame = CFrame.new(PlayerPos - Vector3.new(0,20,0))
+                                if v.PrimaryPart:FindFirstChild("SSSS") then
+                                    v.PrimaryPart.SSSS:Destroy()
                                 end
+                                if not v.PrimaryPart:FindFirstChild("RootRigAttachment") then
+                                    local RootRigAttachment = Instance.new("Attachment", v.PrimaryPart)
+                                    RootRigAttachment.Name = "RootRigAttachment"
+                                    RootRigAttachment.Position = Vector3.new(0, -1, 0)
+                                end
+                                local AlignPosition = Instance.new("AlignPosition", v.PrimaryPart)
+                                AlignPosition.Name = "SSSS"
+                                AlignPosition.Mode = 0
+                                AlignPosition.Attachment0 = v.PrimaryPart.RootRigAttachment
+                                AlignPosition.MaxVelocity = math.huge
+                                AlignPosition.MaxForce = math.huge
+                                AlignPosition.Responsiveness = 200
+                                AlignPosition.Position = PlayerPos - Vector3.new(0,19,0)
                             end
                         end
                     end
@@ -1048,6 +1081,7 @@ while EEEE do
     end
     wait()
 end
-if LocalPlayer.Character.PrimaryPart:FindFirstChild("MINING_AWAY") then
-    LocalPlayer.Character.PrimaryPart.MINING_AWAY:Destroy()
+if LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS") then
+    LocalPlayer.Character.PrimaryPart.SSSS:Destroy()
 end
+fruitloop:Disconnect()
