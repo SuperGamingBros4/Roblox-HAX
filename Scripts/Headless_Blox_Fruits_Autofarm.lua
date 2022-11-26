@@ -743,6 +743,32 @@ function CheckWeaponAndHaki()
     end
 end
 
+function StoreFruit(fruit)
+    local IndexPos = string.find(string.lower(fruit.Name), "fruit")
+    if IndexPos then
+        StoringFruit = true
+        task.wait(0.1)
+        LocalPlayer.Character.Humanoid:EquipTool(fruit)
+
+        local FruitName = string.sub(fruit.Name, 0, IndexPos-2)
+        local ColonIndex = string.find(FruitName, ":")
+        local FormattedFruitName
+        if ColonIndex then
+            local Part1 = string.sub(FruitName, 0, ColonIndex-1)
+            FormattedFruitName = Part1 .. "-" .. FruitName
+        else
+            FormattedFruitName = FruitName .. "-" .. FruitName
+        end
+
+        local Return = CommF_:InvokeServer("StoreFruit", FormattedFruitName, fruit)
+        if Return == false then
+            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
+        end
+        task.wait(0.1)
+        StoringFruit = false
+    end
+end
+
 getgenv().AUTOCLICK = false
 getgenv().StoringFruit = false
 
@@ -781,22 +807,7 @@ end)
 
 local fruitloop
 fruitloop = LocalPlayer.Backpack.ChildAdded:Connect(function(obj)
-    if not EEEE then
-        fruitloop:Disconnect()
-    end
-    local IndexPos = string.find(string.lower(obj.Name), "fruit")
-    if IndexPos then
-        StoringFruit = true
-        LocalPlayer.Character.Humanoid:EquipTool(obj)
-
-        local FruitName = string.sub(obj.Name, 0, IndexPos-2)
-        local FormattedFruitName = FruitName .. "-" .. FruitName
-        local Return = CommF_:InvokeServer("StoreFruit", FormattedFruitName, obj)
-        if Return == false then
-            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-        end
-        StoringFruit = false
-    end
+    StoreFruit(obj)
 end)
 
 function GoTo(Position)
@@ -880,21 +891,7 @@ while EEEE do
         game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("Cousin", "Buy")
     end
     for i,obj in pairs(LocalPlayer.Backpack:GetChildren()) do
-        local IndexPos = string.find(string.lower(obj.Name), "fruit")
-        if IndexPos then
-            StoringFruit = true
-            task.wait(0.1)
-            LocalPlayer.Character.Humanoid:EquipTool(obj)
-    
-            local FruitName = string.sub(obj.Name, 0, IndexPos-2)
-            local FormattedFruitName = FruitName .. "-" .. FruitName
-            local Return = CommF_:InvokeServer("StoreFruit", FormattedFruitName, obj)
-            if Return == false then
-                LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-            end
-            task.wait(0.1)
-            StoringFruit = false
-        end
+        StoreFruit(obj)
     end
     StartQuest(QuestData.GiverID, QuestData.Option)
     task.wait(0.1)
