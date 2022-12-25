@@ -913,7 +913,7 @@ while EEEE do
 
         for i,Enemy in pairs(Enemies:GetChildren()) do
             if Enemy.Name == EnemyName and Enemy:FindFirstChild("Humanoid") and Enemy.Humanoid.Health > 0 and Enemy.PrimaryPart and DoingQuest and EEEE and PlayerCheck() then
-                local Timeout = 2
+                local Timeout = 4
                 local Health = Enemy.Humanoid.Health
                 CheckWeaponAndHaki()
                 
