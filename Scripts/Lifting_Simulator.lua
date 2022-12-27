@@ -95,6 +95,23 @@ local function openshop()
 	firetouchinterest(Player.Character.HumanoidRootPart, game:GetService("Workspace").EffectStorage.Mark02.Detector, 1)
 end
 
+local function addButton(button, signal, reversed)
+	for i,v in pairs(getconnections(button.Activated)) do
+		hookfunction(v.Function, function()
+			if button:FindFirstChild("Negative_Img").Visible then
+				button:FindFirstChild("Negative_Img").Visible = false
+				game:GetService("ReplicatedStorage").RemoteEvent:FireServer({"ChangeSetting", signal, reversed})
+			else
+				button:FindFirstChild("Negative_Img").Visible = true
+				game:GetService("ReplicatedStorage").RemoteEvent:FireServer({"ChangeSetting", signal, not reversed})
+			end
+		end)
+	end
+end
+
+addButton(game:GetService("Players").LocalPlayer.PlayerGui["Main_Gui"]["Setting_Frame"].Detail.ShowSelfIncome.button, "ShowSelfIncome", true)
+addButton(game:GetService("Players").LocalPlayer.PlayerGui["Main_Gui"]["Setting_Frame"].Detail.ShowOnLeaderboard.button, "ShowOnLeaderboard", true)
+
 
 
 local Window = Main:CreateWindow("Lifting Simulator - By SuperJumpMan63#3843")
