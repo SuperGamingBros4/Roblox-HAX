@@ -707,6 +707,20 @@ local Quests = {
         Enemy = "Candy Rebel [Lv. 2375]",
         Sea = 3,
     },
+    [2400] = {
+        GiverPos = Vector3.new(-1149.33, 13.5759, -14445.6),
+        GiverID = "CandyQuest1",
+        Option = 1, 
+        Enemy = "Candy Pirate [Lv. 2400]",
+        Sea = 3,
+    },
+    [2425] = {
+        GiverPos = Vector3.new(-1149.33, 13.5759, -14445.6),
+        GiverID = "CandyQuest1",
+        Option = 2, 
+        Enemy = "Snow Demon [Lv. 2425]",
+        Sea = 3,
+    },
 }
 
 local Melees = {
@@ -933,7 +947,6 @@ while EEEE do
                         PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
                     end
                     if Enemy.PrimaryPart and (LocalPlayer.Character.PrimaryPart.Position - Enemy.PrimaryPart.Position).Magnitude <= 30 then
-                        --Bring Enemies to underneath the player in accordance to roblox's network ownership system
                         for i,v in pairs(Enemies:GetChildren()) do
                             if v.Name == EnemyName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                                 if v.PrimaryPart:FindFirstChild("SSSS") then
