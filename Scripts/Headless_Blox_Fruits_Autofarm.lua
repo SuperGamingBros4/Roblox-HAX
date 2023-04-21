@@ -1,12 +1,14 @@
 repeat task.wait() until game:IsLoaded()
-repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
-task.wait(1)
-if game:GetService("Players").LocalPlayer.Character.Parent ~= game:GetService("Workspace").Characters then
-    repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
-    repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
-    for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
-        v.Function()
+if not game:GetService("Players").LocalPlayer.Character.Parent == game:GetService("Workspace").Characters then
+    repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+    repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
+    task.wait(1)
+    if game:GetService("Players").LocalPlayer.Character.Parent ~= game:GetService("Workspace").Characters then
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
+        for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
+            v.Function()
+        end
     end
 end
 repeat task.wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterReady")
@@ -728,6 +730,7 @@ local Melees = {
     ["black leg"] = true,
     ["electro"] = true,
     ["fishman karate"] = true,
+    ["dragon claw"] = true,
     ["death step"] = true,
     ["sharkman karate"] = true,
     ["electric claw"] = true,
