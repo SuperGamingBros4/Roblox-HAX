@@ -1,5 +1,5 @@
 repeat task.wait() until game:IsLoaded()
-if not game:GetService("Players").LocalPlayer.Character.Parent == game:GetService("Workspace").Characters then
+if game:GetService("Players").LocalPlayer.Character.Parent ~= game:GetService("Workspace").Characters then
     repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
     repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
     task.wait(1)
