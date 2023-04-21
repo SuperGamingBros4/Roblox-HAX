@@ -697,6 +697,20 @@ local Quests = {
         Enemy = "Candy Rebel [Lv. 2375]",
         Sea = 3,
     },
+    [2400] = {
+        GiverPos = Vector3.new(-1149.33, 13.5759, -14445.6),
+        GiverID = "CandyQuest1",
+        Option = 1, 
+        Enemy = "Candy Pirate [Lv. 2400]",
+        Sea = 3,
+    },
+    [2425] = {
+        GiverPos = Vector3.new(-1149.33, 13.5759, -14445.6),
+        GiverID = "CandyQuest1",
+        Option = 2, 
+        Enemy = "Snow Demon [Lv. 2425]",
+        Sea = 3,
+    },
 }
 -- Instances:
 
