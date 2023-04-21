@@ -29,6 +29,8 @@ end
 
 repeat task.wait() until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("CharacterReady")
 
+task.wait(2)
+
 local ClosestEnemy = nil
 repeat
     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
