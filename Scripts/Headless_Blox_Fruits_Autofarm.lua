@@ -1,7 +1,19 @@
+repeat task.wait() until game:IsLoaded()
+if game:GetService("Players").LocalPlayer.Character.Parent ~= game:GetService("Workspace").Characters then
+    repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+    repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
+    task.wait(1)
+    if game:GetService("Players").LocalPlayer.Character.Parent ~= game:GetService("Workspace").Characters then
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")
+        repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam:FindFirstChild("Container")
+        for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
+            v.Function()
+        end
+    end
+end
+repeat task.wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterReady")
 
 getgenv().EEEE = true
-local level = nil
-local Weapon = ""
 
 
 local Seas = {
@@ -712,158 +724,30 @@ local Quests = {
         Sea = 3,
     },
 }
--- Instances:
 
-local ScreenGui = Instance.new("ScreenGui")
-local Main = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local Fade = Instance.new("Frame")
-local UICorner_2 = Instance.new("UICorner")
-local ScrollingFrame = Instance.new("ScrollingFrame")
-local UIListLayout = Instance.new("UIListLayout")
-local UIPadding = Instance.new("UIPadding")
-local EXIT = Instance.new("TextButton")
-local UICorner_3 = Instance.new("UICorner")
-local UIPadding_2 = Instance.new("UIPadding")
-local DragBar = Instance.new("Frame")
-local UICorner_4 = Instance.new("UICorner")
-
---Properties:
-
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-Main.Name = "Main"
-Main.Parent = ScreenGui
-Main.BackgroundColor3 = Color3.fromRGB(54, 54, 54)
-Main.Position = UDim2.new(0.5, -162, 0.5, -92)
-Main.Size = UDim2.new(0, 324, 0, 185)
-
-UICorner.Parent = Main
-
-Fade.Name = "Fade"
-Fade.Parent = Main
-Fade.BackgroundColor3 = Color3.fromRGB(98, 98, 98)
-Fade.Position = UDim2.new(0, 2, 0, 2)
-Fade.Size = UDim2.new(1, -4, 1, -4)
-Fade.ZIndex = -1
-
-UICorner_2.Parent = Fade
-
-ScrollingFrame.Parent = Fade
-ScrollingFrame.Active = true
-ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ScrollingFrame.BackgroundTransparency = 1.000
-ScrollingFrame.Size = UDim2.new(1, 0, 1, -50)
-ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-
-UIListLayout.Parent = ScrollingFrame
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 2)
-
-UIPadding.Parent = ScrollingFrame
-UIPadding.PaddingBottom = UDim.new(0, 2)
-UIPadding.PaddingLeft = UDim.new(0, 2)
-UIPadding.PaddingRight = UDim.new(0, 2)
-UIPadding.PaddingTop = UDim.new(0, 2)
-
-EXIT.Name = "EXIT"
-EXIT.Parent = Fade
-EXIT.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-EXIT.BackgroundTransparency = 0.900
-EXIT.Position = UDim2.new(0.1875, 0, 0.723756909, 0)
-EXIT.Size = UDim2.new(0, 200, 0, 50)
-EXIT.Font = Enum.Font.SourceSans
-EXIT.Text = "EXIT"
-EXIT.TextColor3 = Color3.fromRGB(222, 0, 0)
-EXIT.TextScaled = true
-EXIT.TextSize = 14.000
-EXIT.TextWrapped = true
-
-UICorner_3.Parent = EXIT
-
-UIPadding_2.Parent = Fade
-UIPadding_2.PaddingTop = UDim.new(0, 5)
-
-DragBar.Name = "DragBar"
-DragBar.Parent = Main
-DragBar.BackgroundColor3 = Color3.fromRGB(58, 52, 81)
-DragBar.Size = UDim2.new(1, 0, 0, 7)
-
-UICorner_4.Parent = DragBar
-
--- Functions:
-
-local MouseOver = false
-local Dragging = false
-local Difference = nil
-
-DragBar.MouseEnter:Connect(function()
-	MouseOver = true
-end)
-DragBar.MouseLeave:Connect(function()
-	MouseOver = false
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(input, _)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 and MouseOver then
-		local MousePos = game:GetService("UserInputService"):GetMouseLocation()
-		Difference = Vector2.new(Main.AbsolutePosition.X - MousePos.X, Main.AbsolutePosition.Y - MousePos.Y)
-		Dragging = true
-	end
-end)
-game:GetService("UserInputService").InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		Dragging = false
-	end
-end)
-local DragLoop
-DragLoop = game:GetService("RunService").RenderStepped:Connect(function()
-	if Main == nil then
-		DragLoop:Disconnect()
-	elseif Dragging then
-		local MousePos = game:GetService("UserInputService"):GetMouseLocation()
-		Main.Position = UDim2.new(0, MousePos.X + Difference.X, 0, MousePos.Y + Difference.Y)
-	end
-end)
-
-EXIT.MouseButton1Down:Connect(function()
-	ScreenGui:Destroy()
-    EEEE = false
-    AUTOCLICK = false
-    DragLoop:Disconnect()
-end)
-
-for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-    if v.ClassName ~= "Tool" then
-        print("WTF?")
-        return
-    end
-    local WeaponButton = Instance.new("TextButton")
-    WeaponButton.Name = "Weapon"
-    WeaponButton.Parent = ScrollingFrame
-    WeaponButton.BackgroundColor3 = Color3.fromRGB(63, 63, 63)
-    WeaponButton.BorderSizePixel = 0
-    WeaponButton.Position = UDim2.new(-0.00625000009, 0, 0, 0)
-    WeaponButton.Size = UDim2.new(1, 0, 0, 50)
-    WeaponButton.Font = Enum.Font.SourceSans
-    WeaponButton.Text = v.Name
-    WeaponButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-    WeaponButton.TextScaled = true
-    WeaponButton.TextSize = 14.000
-    WeaponButton.TextWrapped = true
-    WeaponButton.MouseButton1Down:Connect(function()
-        Weapon = WeaponButton.Text
-    end)
-end
+local Melees = {
+    ["combat"] = true,
+    ["black leg"] = true,
+    ["electro"] = true,
+    ["fishman karate"] = true,
+    ["dragon claw"] = true,
+    ["death step"] = true,
+    ["sharkman karate"] = true,
+    ["electric claw"] = true,
+    ["dragon talon"] = true,
+    ["godhuman"] = true,
+}
 
 function CheckWeaponAndHaki()
     if not LocalPlayer.Character:FindFirstChild("HasBuso") then
         CommF_:InvokeServer("Buso")
     end
-    if LocalPlayer.Backpack:FindFirstChild(Weapon) then
-        LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack[Weapon])
+    for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+        if v.ClassName ~= "Tool" then
+            print("WTF?")
+        elseif Melees[string.lower(v.Name)] then
+            LocalPlayer.Character.Humanoid:EquipTool(v)
+        end
     end
 end
 
@@ -930,6 +814,8 @@ d = game:GetService("RunService").Stepped:Connect(function()
             local func = getconnections(Tool.Equipped)[1].Function
             local activeController = debug.getupvalue(func, 1).activeController
     
+            --Reset Cooldown and increase hitbox size.
+            activeController.increment = 1
             activeController.timeToNextAttack = 0
             activeController.hitboxMagnitude = 2.040199961471558 * 20
             debug.getupvalue(activeController.attack, 2).Shake = function() return true; end
@@ -958,7 +844,7 @@ function GoTo(Position)
     SSSS.Responsiveness = 200
     SSSS.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
     while EEEE and PlayerCheck() and (LocalPlayer.Character.PrimaryPart.Position - Position).Magnitude > 128 do
-        wait()
+        task.wait()
     end
     LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Position)
 end
@@ -991,16 +877,19 @@ while EEEE do
         repeat task.wait() until PlayerCheck()
     end
     sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
-
-    if Weapon == "" then
-        repeat task.wait() until Weapon ~= ""
-    end
     CheckWeaponAndHaki()
 
     local QuestData = GetCurrentQuestData()
     local EnemyName = QuestData.Enemy
     local DoingQuest = true
     local WaitPosIndex = 1
+
+    --Buy some stuff
+    if Seas[game.PlaceId] == 1 then
+        for i,v in pairs({"Geppo", "Buso", "Soru"}) do
+            CommF_:InvokeServer("BuyHaki", v)
+        end
+    end
 
     --Upgrade Stats
     local StatPoints = Data.Points.Value
@@ -1026,7 +915,7 @@ while EEEE do
         StoreFruit(obj)
     end
     StartQuest(QuestData.GiverID, QuestData.Option)
-    wait(0.1)
+    task.wait(0.1)
 
     while DoingQuest and EEEE do
         if QuestData.WaitingPos then -- Head to a waiting Position
@@ -1040,12 +929,12 @@ while EEEE do
             else
                 GoTo(QuestData.WaitingPos + Vector3.new(0,10,0))
             end
-            wait(1.5)
+            task.wait(1.5)
         end
 
         for i,Enemy in pairs(Enemies:GetChildren()) do
             if Enemy.Name == EnemyName and Enemy:FindFirstChild("Humanoid") and Enemy.Humanoid.Health > 0 and Enemy.PrimaryPart and DoingQuest and EEEE and PlayerCheck() then
-                local Timeout = 2
+                local Timeout = 4
                 local Health = Enemy.Humanoid.Health
                 CheckWeaponAndHaki()
                 
@@ -1065,7 +954,6 @@ while EEEE do
                         PlayerPos = game:GetService("Players").LocalPlayer.Character.PrimaryPart.Position
                     end
                     if Enemy.PrimaryPart and (LocalPlayer.Character.PrimaryPart.Position - Enemy.PrimaryPart.Position).Magnitude <= 30 then
-                        --Bring Enemies to underneath the player in accordance to roblox's network ownership system
                         for i,v in pairs(Enemies:GetChildren()) do
                             if v.Name == EnemyName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                                 if v.PrimaryPart:FindFirstChild("SSSS") then
@@ -1087,15 +975,15 @@ while EEEE do
                             end
                         end
                     end
-                    wait(0.01)
+                    task.wait(0.01)
                     Timeout -= 1
                 end
                 AUTOCLICK = false
             end
         end
-        wait()
+        task.wait()
     end
-    wait()
+    task.wait()
 end
 if LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS") then
     LocalPlayer.Character.PrimaryPart.SSSS:Destroy()
