@@ -738,15 +738,6 @@ local Melees = {
     ["godhuman"] = true,
 }
 
-function EXPAND(v)
-    if v:FindFirstChild("HumanoidRootPart") then 
-        if v.Name ~= game.Players.LocalPlayer.Name then
-            v.HumanoidRootPart.CanCollide = false
-            v.HumanoidRootPart.Size = Vector3.new(50*2,v.HumanoidRootPart.Size.Y,50*2)
-        end
-    end
-end
-
 function CheckWeaponAndHaki()
     if not LocalPlayer.Character:FindFirstChild("HasBuso") then
         CommF_:InvokeServer("Buso")
@@ -804,21 +795,32 @@ d = game:GetService("RunService").Stepped:Connect(function()
             v.CanCollide = false
         end
     end
-    --AutoClicker
-    if AUTOCLICK then
-        VirUser:Button1Down(Vector2.new(0,0), game:GetService("Workspace").CurrentCamera.CFrame)
-        VirUser:Button1Up(Vector2.new(0,0), game:GetService("Workspace").CurrentCamera.CFrame)
-    end
     --Turn haki on and equip weapon
     if not StoringFruit then
         CheckWeaponAndHaki()
     end
-    --Expand Hitboxes
-    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-        EXPAND(v)
-    end
-    for i,v in pairs(game:GetService("Workspace").Characters:GetChildren()) do
-        EXPAND(v)
+    --AutoClicker
+    if AUTOCLICK then
+        task.wait(0.05)
+        --Find the tool.
+        local Tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    
+        --Check if it found a tool.
+        if Tool == nil then
+            return;
+        --Check if it is a melee or sword.
+        elseif Tool.ToolTip == "Melee" or Tool.ToolTip == "Sword" then
+            --Get the environment from the tool with getconnections.
+            local func = getconnections(Tool.Equipped)[1].Function
+            local activeController = debug.getupvalue(func, 1).activeController
+    
+            activeController.timeToNextAttack = 0
+            activeController.hitboxMagnitude = 2.040199961471558 * 20
+            debug.getupvalue(activeController.attack, 2).Shake = function() return true; end
+            coroutine.resume(coroutine.create(function()
+                activeController:attack()
+            end))
+        end
     end
 end)
 
