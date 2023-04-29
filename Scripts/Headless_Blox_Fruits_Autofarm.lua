@@ -780,6 +780,13 @@ end
 getgenv().AUTOCLICK = false
 getgenv().StoringFruit = false
 
+LocalPlayer.Idled:Connect(function()
+    VirUser:CaptureController()
+    VirUser:Button2Down(Vector2.new(0,0), cam.CFrame)
+    wait(1)
+    VirUser:Button2Up(Vector2.new(0,0), cam.CFrame)
+end)
+
 local d
 d = game:GetService("RunService").Stepped:Connect(function()
     if not EEEE then
@@ -801,7 +808,6 @@ d = game:GetService("RunService").Stepped:Connect(function()
     end
     --AutoClicker
     if AUTOCLICK then
-        task.wait(0.05)
         --Find the tool.
         local Tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
     
