@@ -1,6 +1,8 @@
 getgenv().Farm = true
 
 local Player = game:GetService("Players").LocalPlayer
+local cam = game:GetService("Workspace").CurrentCamera
+local vu = game:GetService("VirtualUser")
 local MainGui = Player.PlayerGui.MainGui
 local buttonContainers = {
     "Ascend",
@@ -8,6 +10,13 @@ local buttonContainers = {
     "Shuriken",
     "Sword"
 }
+
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    vu:CaptureController()
+    vu:Button2Down(Vector2.new(0,0), cam.CFrame)
+    wait(1)
+    vu:Button2Up(Vector2.new(0,0), cam.CFrame)
+end)
 
 local mainLoop
 mainLoop = game:GetService("RunService").Stepped:Connect(function()
