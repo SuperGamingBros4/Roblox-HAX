@@ -2,7 +2,6 @@ getgenv().Farm = true
 
 local Player = game:GetService("Players").LocalPlayer
 local MainGui = Player.PlayerGui.MainGui
-local respawnButton = MainGui.SpawnF.SpawnImgBtn
 local buttonContainers = {
     "Ascend",
     "Class",
@@ -12,8 +11,9 @@ local buttonContainers = {
 
 local mainLoop
 mainLoop = game:GetService("RunService").Stepped:Connect(function()
-    if respawnButton.Visible then
-        getconnections(respawnButton.MouseButton1Down)[1].Function()
+    if MainGui.SpawnF.Visible then
+        print("Respawning.")
+        getconnections(MainGui.SpawnF.SpawnImgBtn.MouseButton1Down)[1].Function()
         return
     elseif not MainGui.UpgradeF.Visible then
         return
