@@ -8,7 +8,10 @@ for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui
     v.Function()
 end
 
+local TpQueue = (syn and syn.queue_on_teleport) or queue_on_teleport
 local LocalPlayer = game:GetService("Players").LocalPlayer
+
+
 function GoTo(Position)
     if LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS") then
         LocalPlayer.Character.PrimaryPart:FindFirstChild("SSSS"):Destroy()
@@ -28,8 +31,8 @@ function GoTo(Position)
 end
 
 repeat task.wait() until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("CharacterReady")
-
 task.wait(2)
+
 
 local ClosestEnemy = nil
 repeat
@@ -46,13 +49,15 @@ until ClosestEnemy ~= nil
 GoTo(ClosestEnemy.PrimaryPart.Position + Vector3.new(1,1,1))
 game:GetService("ReplicatedStorage").Remotes.CommE:FireServer("Ken", true)
 
+
 local MaxTime = 2000
 repeat
     task.wait(0.01)
     MaxTime -= 1
 until LocalPlayer.Character.Humanoid.Health < LocalPlayer.Character.Humanoid.MaxHealth or MaxTime <= 0
 
-syn.queue_on_teleport(game:HttpGet('https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Blox_Fruits_Auto_Observation.lua'))
+
+TpQueue(game:HttpGet('https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Blox_Fruits_Auto_Observation.lua'))
 if #game:GetService("Players"):GetPlayers() <= 1 then
     LocalPlayer:Kick("\nRejoining...")
     wait()
