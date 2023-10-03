@@ -13,7 +13,6 @@ local Seas = {
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Enemies = game:GetService("Workspace").Enemies
 local CommF_ = game:GetService("ReplicatedStorage").Remotes["CommF_"]
-local VirUser = game:GetService("VirtualUser")
 local Data = LocalPlayer:WaitForChild("Data")
 local Stats = Data:WaitForChild("Stats")
 local TS = game:GetService("TweenService")
@@ -896,12 +895,13 @@ end
 getgenv().AUTOCLICK = false
 getgenv().StoringFruit = false
 
-LocalPlayer.Idled:Connect(function()
-    VirUser:CaptureController()
-    VirUser:Button2Down(Vector2.new(0,0), cam.CFrame)
-    wait(1)
-    VirUser:Button2Up(Vector2.new(0,0), cam.CFrame)
-end)
+for i,v in pairs(getconnections(LocalPlayer.Idled)) do
+    if v["Disable"] then
+        v["Disable"](v)
+    elseif v["Disconnect"] then
+        v["Disconnect"](v)
+    end
+end
 
 local d
 d = game:GetService("RunService").Stepped:Connect(function()
