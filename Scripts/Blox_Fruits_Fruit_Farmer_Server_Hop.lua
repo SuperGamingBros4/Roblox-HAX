@@ -232,7 +232,7 @@ getgenv().loops.C = workspace.ChildRemoved:Connect(function(fruit)
 end)
 getgenv().loops.D = LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
---REALLY, REALLY HIERARCHY
+--REALLY, REALLY LONG HIERARCHY
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local Main = PlayerGui:WaitForChild("Main")
 local ChooseTeamGui = Main:WaitForChild("ChooseTeam")
