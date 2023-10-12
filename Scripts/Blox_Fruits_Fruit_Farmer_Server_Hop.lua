@@ -232,7 +232,17 @@ getgenv().loops.C = workspace.ChildRemoved:Connect(function(fruit)
 end)
 getgenv().loops.D = LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
-for i,v in pairs(getconnections(LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do
+--REALLY, REALLY HIERARCHY
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Main = PlayerGui:WaitForChild("Main")
+local ChooseTeamGui = Main:WaitForChild("ChooseTeam")
+local ChooseTeamContainer = ChooseTeamGui:WaitForChild("Container")
+local ChooseTeamPirates = ChooseTeamContainer:WaitForChild("Pirates")
+local ChooseTeamPiratesFrame = ChooseTeamPirates:WaitForChild("Frame")
+local ChooseTeamPiratesViewportFrame = ChooseTeamPiratesFrame:WaitForChild("ViewportFrame")
+local ChooseTeamPiratesButton = ChooseTeamPiratesViewportFrame:WaitForChild("TextButton")
+
+for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
     v.Function()
 end
 
