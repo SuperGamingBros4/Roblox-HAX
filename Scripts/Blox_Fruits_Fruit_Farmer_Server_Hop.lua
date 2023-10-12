@@ -168,7 +168,7 @@ function onCharacterAdded(character)
     end)
 end
 function ServerHop()
-    TpQueue([[loadstring(game:HttpGet("https://github.com/SuperGamingBros4/Roblox-HAX/raw/main/Scripts/Blox_Fruits_Fruit_Farmer_Server_Hop.lua"))()]])
+    TpQueue([[loadstring(game:HttpGet("https://raw.githubusercontent.com/SuperGamingBros4/Roblox-HAX/main/Scripts/Blox_Fruits_Fruit_Farmer_Server_Hop.lua"))()]])
     local Servers = HttpService:JSONDecode(readfile(DataFile))
     Servers[game.JobId] = os.time()
     for i,v in pairs(Servers) do
