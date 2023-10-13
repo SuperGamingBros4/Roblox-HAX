@@ -40,15 +40,6 @@ local TpLocations = {
 	}
 }
 
-if not loops then
-    getgenv().loops = {}
-end
-
-for i,loop in pairs(loops) do
-    loop:Disconnect()
-    loop = nil
-end
-
 function getDistance(point1, point2)
 	return (point1 - point2).Magnitude
 end
@@ -202,7 +193,7 @@ function ServerHop()
 end
 
 
-getgenv().loops.A = game:GetService("RunService").Stepped:Connect(function()
+game:GetService("RunService").Stepped:Connect(function()
 	if noclipLocalPlayer == false then
 		return
 	end
@@ -214,7 +205,7 @@ getgenv().loops.A = game:GetService("RunService").Stepped:Connect(function()
 	end
 end)
 
-getgenv().loops.B = workspace.ChildAdded:Connect(function(fruit)
+workspace.ChildAdded:Connect(function(fruit)
     --Filter out anything that is not a fruit.
     if not (fruit:FindFirstChild("Fruit") and fruit:FindFirstChild("Handle")) then
         return
@@ -222,7 +213,7 @@ getgenv().loops.B = workspace.ChildAdded:Connect(function(fruit)
     print("Found fruit")
     table.insert(fruits, fruit)
 end)
-getgenv().loops.C = workspace.ChildRemoved:Connect(function(fruit)
+workspace.ChildRemoved:Connect(function(fruit)
     --Do nothing if this is not apart of {fruits}.
     local index = table.find(fruits, fruit)
     if not index then
@@ -231,7 +222,7 @@ getgenv().loops.C = workspace.ChildRemoved:Connect(function(fruit)
     print("Fruit removed")
     table.remove(fruits, index)
 end)
-getgenv().loops.D = LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 --REALLY, REALLY LONG HIERARCHY
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
