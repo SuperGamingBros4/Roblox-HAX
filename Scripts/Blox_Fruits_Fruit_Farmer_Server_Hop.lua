@@ -1,5 +1,4 @@
 repeat task.wait() until game:IsLoaded()
-task.wait(1)
 
 local TpQueue = (syn and syn.queue_on_teleport) or queue_on_teleport
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
@@ -233,6 +232,7 @@ local ChooseTeamPirates = ChooseTeamContainer:WaitForChild("Pirates")
 local ChooseTeamPiratesFrame = ChooseTeamPirates:WaitForChild("Frame")
 local ChooseTeamPiratesViewportFrame = ChooseTeamPiratesFrame:WaitForChild("ViewportFrame")
 local ChooseTeamPiratesButton = ChooseTeamPiratesViewportFrame:WaitForChild("TextButton")
+task.wait(1)
 
 for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
     v.Function()
