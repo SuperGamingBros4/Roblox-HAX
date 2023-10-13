@@ -262,7 +262,7 @@ for i, fruit in pairs(fruits) do
         if not isFruit(fruit) then
             continue
         end
-        StoreFruit(fruit)
+        StoreFruit(fruit2)
     end
 end
 task.wait(0.1)
