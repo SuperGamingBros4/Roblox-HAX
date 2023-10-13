@@ -1,5 +1,5 @@
 repeat task.wait() until game:IsLoaded()
-print("Game Loaded")
+task.wait(1)
 
 local TpQueue = (syn and syn.queue_on_teleport) or queue_on_teleport
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
