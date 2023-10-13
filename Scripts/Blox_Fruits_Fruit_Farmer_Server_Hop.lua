@@ -9,6 +9,9 @@ local noclipLocalPlayer = false
 local fruits = {}
 local speed = 320
 local DataFile = "Blox_Fruits_Fruit_Farmer_Servers.json"
+local TpResultBlacklist = {
+    [Enum.TeleportResult.Success] = true,
+}
 
 if not isfile(DataFile) then --Checks if the file doesn't exist
     writefile(DataFile, HttpService:JSONEncode({})) --creates a new file
@@ -184,6 +187,12 @@ function ServerHop()
     end
 end
 
+
+game:GetService("TeleportService").TeleportInitFailed:Connect(function(Result)
+    if not TpResultBlacklist[Result] then
+        ServerHop()
+    end
+end)
 
 game:GetService("RunService").Stepped:Connect(function()
 	if noclipLocalPlayer == false then
