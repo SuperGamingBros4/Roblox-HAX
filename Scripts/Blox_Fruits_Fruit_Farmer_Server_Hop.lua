@@ -15,7 +15,6 @@ if not isfile(DataFile) then --Checks if the file doesn't exist
 end
 
 local webhookurl = 'https://discord.com/api/webhooks/1162068142244233226/LRyE1QxQ8p-wp5NE0ttWB4PFuLlS7aXij3N1SPIrAaUOmNX0ylKk05cQ3-RmA8y-1P0w'
-getgenv().storeFruits = true
 
 local TpLocations = {
 	--First Sea
@@ -62,9 +61,6 @@ function GoTo(Position)
 end
 
 function StoreFruit(fruit)
-    if not getgenv().storeFruits then
-        return
-    end
     local IndexPos = string.find(string.lower(fruit.Name), "fruit")
     if IndexPos then
         task.wait(0.1)
@@ -87,10 +83,7 @@ function StoreFruit(fruit)
             table.remove(fruits, index)
         end
         print("Storing fruit")
-        local Return = CommF_:InvokeServer("StoreFruit", FormattedFruitName, fruit)
-        if Return == false then
-            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
-        end
+        CommF_:InvokeServer("StoreFruit", FormattedFruitName, fruit)
         task.wait(0.1)
     end
 end
