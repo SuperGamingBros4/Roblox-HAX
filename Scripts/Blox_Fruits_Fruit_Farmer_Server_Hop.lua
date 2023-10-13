@@ -63,6 +63,10 @@ function GoTo(Position)
     LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Position)
 end
 
+function isFruit(instance)
+    return (instance:FindFirstChild("Fruit") and instance:FindFirstChild("Handle"))
+end
+
 function StoreFruit(fruit)
     local IndexPos = string.find(string.lower(fruit.Name), "fruit")
     if IndexPos then
@@ -208,7 +212,7 @@ end)
 
 workspace.ChildAdded:Connect(function(fruit)
     --Filter out anything that is not a fruit.
-    if not (fruit:FindFirstChild("Fruit") and fruit:FindFirstChild("Handle")) then
+    if not isFruit(fruit) then
         return
     end
     print("Found fruit")
@@ -244,30 +248,22 @@ repeat
     task.wait()
 until LocalPlayer.Character:FindFirstChild("CharacterReady")
 
-for i,fruit in pairs(workspace:GetChildren()) do
-    if not (fruit:FindFirstChild("Fruit") and fruit:FindFirstChild("Handle")) then
+for i,instance in pairs(workspace:GetChildren()) do
+    if not isFruit(instance) then
         continue
     end
-    table.insert(fruits, fruit)
+    table.insert(fruits, instance)
 end
 for i, fruit in pairs(fruits) do
     repeat
         getFruit(fruit)
     until not table.find(fruits, fruit)
-end
-if LocalPlayer.Character then
-    for i,fruit in pairs(LocalPlayer.Character:GetChildren()) do
-        if not (fruit:FindFirstChild("Fruit") and fruit:FindFirstChild("Handle")) then
+    for i2,fruit2 in pairs(LocalPlayer.Character:GetChildren()) do
+        if not isFruit(fruit) then
             continue
         end
         StoreFruit(fruit)
     end
-end
-for i,fruit in pairs(LocalPlayer.Backpack:GetChildren()) do
-    if not (fruit:FindFirstChild("Fruit") and fruit:FindFirstChild("Handle")) then
-        continue
-    end
-    StoreFruit(fruit)
 end
 task.wait(0.1)
 ServerHop()
