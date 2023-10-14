@@ -239,7 +239,6 @@ local ChooseTeamPirates = ChooseTeamContainer:WaitForChild("Pirates")
 local ChooseTeamPiratesFrame = ChooseTeamPirates:WaitForChild("Frame")
 local ChooseTeamPiratesViewportFrame = ChooseTeamPiratesFrame:WaitForChild("ViewportFrame")
 local ChooseTeamPiratesButton = ChooseTeamPiratesViewportFrame:WaitForChild("TextButton")
-task.wait(1)
 
 repeat
     for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
