@@ -24,8 +24,8 @@ local TpLocations = {
 	[2753915549] = {
 		Vector3.new(3864.68, 6.73, -1926.21),
 		Vector3.new(-4955.88, 30.6778, 4009.56),
-        	Vector3.new(-4657.86, 872.568, -1764.68),
-        	Vector3.new(-4607.82, 874.39, -1667.56),
+        Vector3.new(-4657.86, 872.568, -1764.68),
+        Vector3.new(-4607.82, 874.39, -1667.56),
 		Vector3.new(61163.85, 11.67, 1819.78),
 		Vector3.new(-7894.61, 5547.14, -380.29)
 	},
@@ -241,11 +241,10 @@ local ChooseTeamPiratesViewportFrame = ChooseTeamPiratesFrame:WaitForChild("View
 local ChooseTeamPiratesButton = ChooseTeamPiratesViewportFrame:WaitForChild("TextButton")
 task.wait(1)
 
-for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
-    v.Function()
-end
-
 repeat
+    for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
+        v.Function()
+    end
     task.wait()
 until LocalPlayer.Character:FindFirstChild("CharacterReady")
 
