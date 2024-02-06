@@ -13,7 +13,7 @@ if not asdjlasdkghkfjgh then
 		
 			if Flags.AutoSell then
 				pcall(function()
-					local text = game:GetService("Players").SuperJumpMan63.PlayerGui.CoreUI1.Absolute.Backpack.Background.Base.TextLabel1.Text
+					local text = game:GetService("Players").LocalPlayer.PlayerGui.CoreUI1.Absolute.Backpack.Background.Base.TextLabel1.Text
 					local number = tonumber(text:split(" / ")[1])
 					if not (number == 0) then
 						firetouchinterest(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, game:GetService("Workspace").BackPackSell, 0)
