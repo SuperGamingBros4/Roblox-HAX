@@ -240,15 +240,11 @@ local ChooseTeamPiratesFrame = ChooseTeamPirates:WaitForChild("Frame")
 local ChooseTeamPiratesButton = ChooseTeamPiratesFrame:WaitForChild("TextButton")
 
 repeat
-    task.wait()
-until LocalPlayer.Character
-
-repeat
     for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
         v.Function()
     end
     task.wait()
-until LocalPlayer.Character:FindFirstChild("CharacterReady")
+until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("CharacterReady")
 
 for i,instance in pairs(workspace:GetChildren()) do
     if not isFruit(instance) then
