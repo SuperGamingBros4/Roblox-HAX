@@ -171,9 +171,10 @@ function ServerHop()
 
     writefile(DataFile, HttpService:JSONEncode(Servers))
 
-    local result, serverData = pcall(game.HttpGetAsync, "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+    local result, serverData = pcall(game.HttpGetAsync, game, "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
     while result ~= true do
-        pcall(game.HttpGetAsync, "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+        result, serverData = pcall(game.HttpGetAsync, game, "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+        print(result, serverData)
         task.wait(5)
     end
 
