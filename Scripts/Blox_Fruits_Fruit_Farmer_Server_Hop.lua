@@ -17,7 +17,7 @@ if not isfile(DataFile) then --Checks if the file doesn't exist
     writefile(DataFile, HttpService:JSONEncode({})) --creates a new file
 end
 
-local webhookurl = 'https://discord.com/api/webhooks/1329259617565540422/SCcgDUF-uEMmcNZXFOuf5uwi7u58MBSt8iVTsQVpjrb7Mu-iANS8G7_W1lcA8YYqxNlN'
+local webhookurl = 'https://discord.com/api/webhooks/1162068142244233226/LRyE1QxQ8p-wp5NE0ttWB4PFuLlS7aXij3N1SPIrAaUOmNX0ylKk05cQ3-RmA8y-1P0w'
 
 local TpLocations = {
 	--First Sea
@@ -232,13 +232,12 @@ LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 --REALLY, REALLY LONG HIERARCHY
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-local Main = PlayerGui:WaitForChild("Main")
+local Main = PlayerGui:WaitForChild("Main (minimal)")
 local ChooseTeamGui = Main:WaitForChild("ChooseTeam")
 local ChooseTeamContainer = ChooseTeamGui:WaitForChild("Container")
 local ChooseTeamPirates = ChooseTeamContainer:WaitForChild("Pirates")
 local ChooseTeamPiratesFrame = ChooseTeamPirates:WaitForChild("Frame")
-local ChooseTeamPiratesViewportFrame = ChooseTeamPiratesFrame:WaitForChild("ViewportFrame")
-local ChooseTeamPiratesButton = ChooseTeamPiratesViewportFrame:WaitForChild("TextButton")
+local ChooseTeamPiratesButton = ChooseTeamPiratesFrame:WaitForChild("TextButton")
 
 repeat
     for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
