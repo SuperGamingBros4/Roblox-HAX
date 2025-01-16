@@ -171,7 +171,11 @@ function ServerHop()
 
     writefile(DataFile, HttpService:JSONEncode(Servers))
 
-    local serverData = game:HttpGetAsync("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+    local result, serverData = pcall(game.HttpGetAsync, "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+    while result ~= true do
+        pcall(game.HttpGetAsync, "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100")
+        task.wait(5)
+    end
 
     while true do
         local x = {}
@@ -241,9 +245,9 @@ local ChooseTeamPiratesButton = ChooseTeamPiratesFrame:WaitForChild("TextButton"
 
 repeat
     for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
-	if v ~= nil and v.Function ~= nil then
-	   v.Function()
-	end
+        if v ~= nil and v.Function ~= nil then
+            v.Function()
+        end
     end
     task.wait()
 until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("CharacterReady")
