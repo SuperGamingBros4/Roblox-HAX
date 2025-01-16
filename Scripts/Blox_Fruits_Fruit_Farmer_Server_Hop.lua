@@ -240,6 +240,10 @@ local ChooseTeamPiratesFrame = ChooseTeamPirates:WaitForChild("Frame")
 local ChooseTeamPiratesButton = ChooseTeamPiratesFrame:WaitForChild("TextButton")
 
 repeat
+    task.wait()
+until LocalPlayer.Character
+
+repeat
     for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
         v.Function()
     end
