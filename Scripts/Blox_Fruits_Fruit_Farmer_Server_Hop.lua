@@ -164,7 +164,7 @@ function ServerHop()
     local Servers = HttpService:JSONDecode(readfile(DataFile))
     Servers[game.JobId] = os.time()
     for i,v in pairs(Servers) do
-        if os.time()-v > 900 then
+        if os.time()-v > 2700 then
             Servers[i] = nil
         end
     end
