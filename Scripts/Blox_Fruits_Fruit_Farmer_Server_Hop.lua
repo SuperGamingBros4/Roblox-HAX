@@ -241,7 +241,9 @@ local ChooseTeamPiratesButton = ChooseTeamPiratesFrame:WaitForChild("TextButton"
 
 repeat
     for i,v in pairs(getconnections(ChooseTeamPiratesButton.Activated)) do
-        v.Function()
+	if v ~= nil and v.Function ~= nil then
+	   v.Function()
+	end
     end
     task.wait()
 until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("CharacterReady")
