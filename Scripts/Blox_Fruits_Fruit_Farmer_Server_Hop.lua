@@ -65,10 +65,10 @@ function GoTo(Position)
         task.wait()
 
         --Extra checks to makes sure that it does not error if the player respawns
-        if not LocalPlayer.Character and nod LocalPlayer.Character.PrimaryPart then
+        if not LocalPlayer.Character and not LocalPlayer.Character.PrimaryPart then
             return
         end
-        if getDistance(LocalPlayer.Character.PrimaryPart.Position, Position) > 128 then
+        if getDistance(LocalPlayer.Character.PrimaryPart.Position, Position) < 128 then
             break
         end
     end
