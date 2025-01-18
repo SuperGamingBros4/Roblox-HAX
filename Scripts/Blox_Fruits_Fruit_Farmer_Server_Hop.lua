@@ -61,8 +61,16 @@ function GoTo(Position)
     SSSS.Position = Position
     SSSS.Responsiveness = 200
     SSSS.Attachment0 = LocalPlayer.Character.PrimaryPart:FindFirstChild("RootRigAttachment")
-    while SSSS and getDistance(LocalPlayer.Character.PrimaryPart.Position, Position) > 128 do
+    while SSSS do
         task.wait()
+
+        --Extra checks to makes sure that it does not error if the player respawns
+        if not LocalPlayer.Character and nod LocalPlayer.Character.PrimaryPart then
+            return
+        end
+        if getDistance(LocalPlayer.Character.PrimaryPart.Position, Position) > 128 then
+            break
+        end
     end
     LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(Position)
 end
